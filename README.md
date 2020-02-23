@@ -62,6 +62,8 @@ Piecharts, plotted dots, barcharts...
 Python3. Une partie du taff est déjà fait dans parse_accounting.py 
 (voir [SGE toolbox](https://github.com/ltaulell/sge_toolbox)).
 
+Voir aussi les outils d'analyse de log. Malgré sa structure chelou,
+l'accounting EST un fichier de log.
 
 ### Glossaire
 
