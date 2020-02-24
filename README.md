@@ -10,11 +10,14 @@ d'accounting SGE.
 ## Cahier des charges
 
 Proposer un outil d'analyse 'graphique' (charts) aux admins et utilisateurs de
-nos clusters. Multiples possibilités de filtres. Inspiré de S-GAE2.
+nos clusters. Multiples possibilités de filtres (voir § Charts). Inspiré de S-GAE2.
 
 ### Frontend
 
-Web (python). No authentication. Select, display.
+* Web (for reasons),
+* No authentication, at least, not related to accounting: Un DR peut regarder l'accounting de ses thésards ou de son groupe, un Correspondant doit pouvoir regarder l'accounting du/des labo(s) dont il a la charge.
+* Easy to use : Select, display, Boom!.
+* Fast...
 
 
 ### Charts
@@ -28,7 +31,7 @@ Piecharts, plotted dots, barcharts...
     * average job execution time
     * average job queued time
 
-* par utilisateur (login), groupe, métagroupe (groupe de groupes) :
+* par utilisateur, groupe, métagroupe (groupe de groupes) :
     * nb de jobs
     * durées (min, max, med, moy)
     * cpu vs système (I/O ? ratio % ?)
@@ -44,8 +47,8 @@ Piecharts, plotted dots, barcharts...
     * job execution time
     * job queued time
 
-* Top 10 : (les + utilisés)
-    * users
+* Top 10 : (les + gros/utilisés)
+    * utilisateurs
     * métagroups
 
 * Inverted Top 10 : (les - utilisés)
@@ -55,15 +58,31 @@ Piecharts, plotted dots, barcharts...
 * Autres :
     * par projets (SGE projects ou groupes)
     * Queue slots-per-job usage (nb de slots/job)
+    * d'effroyables possibilités de mélanges.
 
 
 ### Backend
 
-Python3. Une partie du taff est déjà fait dans parse_accounting.py 
-(voir [SGE toolbox](https://github.com/ltaulell/sge_toolbox)).
+Python3 (for reasons, aussi). Une partie du taff est déjà fait dans `parse_accounting.py` 
+(voir aussi [SGE toolbox](https://github.com/ltaulell/sge_toolbox)).
 
-Voir aussi les outils d'analyse de log. Malgré sa structure chelou,
-l'accounting EST un fichier de log.
+Regarder aussi les outils d'analyse de log ? Malgré sa structure chelou, 
+l'accounting *EST* un fichier de log. Voir `accounting_file_format.md`.
+
+Pandas ? (csv, delimiter=':')
+
+SQL ? (S-GAE2 mouline tout dans du SQL)
+
+NoSQL ?
+
+
+## Biais
+
+À part les dates (*_time), rien n'est unique :
+
+* un même $JOB_ID (job_number) peut être présent plusieurs fois dans le fichier (SGE est limité à max_jobs, rotation)
+* un même login (owner) peut être présent dans plusieurs groupes (et variation au cours du temps)
+
 
 ### Glossaire
 
@@ -76,5 +95,12 @@ l'accounting EST un fichier de log.
     - physiciens, astro-physiciens, géo-physiciens, bio-physiciens,
     - mécaflu, multiphysique, thermie/acoustique,
     - workflow génomiques (fonctionnelle, cellulaire, plantes, virus/bactéries),
-    - HeeYa!^W, apprentissage(s) profond, accélération GPU,
+    - HeeYa!^W IA, apprentissage(s) profond, accélération GPU,
     - etc.
+
+
+### Vrac
+
+* https://www.dataquest.io/blog/how-to-analyze-survey-data-python-beginner/
+* https://github.com/PBSPro/pbspro/blob/master/test/fw/bin/pbs_loganalyzer
+* https://github.com/NCAR/PBS_Optimization/blob/master/README.md
