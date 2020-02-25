@@ -35,8 +35,8 @@ extract examples
     # 
     E5-2667v2h6deb128:c8220node216:psmn:ltaulell:envtestmpi:1:sge:0:0:0:0:9:0:0:0.000000:0.000000:0.000000:0:0:0:0:0:0:0:0.000000:0:0:0:0:0:0:NONE:defaultdepartment:NONE:0:0:0.000000:0.000000:0.000000:-U STAFF -q E5-2667v2h6deb128 -pe mpi_debian 2:0.000000:NONE:0.000000:0:0
     E5-2667v2h6deb128:c8220node218:psmn:ltaulell:envtestmpi:1:sge:0:0:0:0:9:0:0:0.000000:0.000000:0.000000:0:0:0:0:0:0:0:0.000000:0:0:0:0:0:0:NONE:defaultdepartment:NONE:0:0:0.000000:0.000000:0.000000:-U STAFF -q E5-2667v2h6deb128 -pe mpi_debian 2:0.000000:NONE:0.000000:0:0
-    E5-2667v2h6deb128:c8220node211:psmn:ltaulell:envtest:2:sge:0:1514123433:1514123473:1514123473:0:0:0:0.000000:0.004000:4044.000000:0:0:0:0:824:3:0:504.000000:16:0:0:0:106:12:NONE:defaultdepartment:NONE:1:0:0.004000:0.000000:0.000000:-U STAFF -q E5-2667v2h6deb128:0.000000:NONE:0.000000:0:0
-    E5-2667v2h6deb128:c8220node213:psmn:ltaulell:envtest:3:sge:0:1514125071:1514125093:1514125792:100:152:699:0.000000:0.144000:3972.000000:0:0:0:0:709:3:0:504.000000:808:0:0:0:45215:27:NONE:defaultdepartment:NONE:1:0:21540.800000:2567485.677115:1.884987:-U STAFF -q E5-2667v2h6deb128:0.000000:NONE:128215048192.000000:0:0
+    E5-2667v2h6deb128:c8220node211:psmn:gilquin:envtest:2:sge:0:1514123433:1514123473:1514123473:0:0:0:0.000000:0.004000:4044.000000:0:0:0:0:824:3:0:504.000000:16:0:0:0:106:12:NONE:defaultdepartment:NONE:1:0:0.004000:0.000000:0.000000:-U STAFF -q E5-2667v2h6deb128:0.000000:NONE:0.000000:0:0
+    E5-2667v2h6deb128:c8220node213:psmn:gilquin:envtest:3:sge:0:1514125071:1514125093:1514125792:100:152:699:0.000000:0.144000:3972.000000:0:0:0:0:709:3:0:504.000000:808:0:0:0:45215:27:NONE:defaultdepartment:NONE:1:0:21540.800000:2567485.677115:1.884987:-U STAFF -q E5-2667v2h6deb128:0.000000:NONE:128215048192.000000:0:0
 
 
 Description du contenu
@@ -44,54 +44,54 @@ Description du contenu
 
 4 lines of commentaries (headers), then, one line by job, with fields divided by ':', described as follow:
 
-* queue_name (str)
-* hostname (str)
-* group (str)
-* owner (login, str)
-* job_name (str)
-* job_number (int, not unique)  # $JOB_ID
-* account (str, always 'sge')
-* priority (int)
-* submission_time (epoch)
-* start_time (epoch)
-* end_time (epoch)
-* failed (int)
-* exit_status (int)
+* [0] queue_name (str)
+* [1] hostname (str)
+* [2] group (str)
+* [3] owner (str)                   # $login
+* [4] job_name (str)
+* [5] job_number (int, not unique)  # $JOB_ID
+* [6] account (str)                 # default 'sge'
+* [7] priority (int)
+* [8] submission_time (epoch)
+* [9] start_time (epoch)
+* [10] end_time (epoch)
+* [11] failed (int)
+* [12] exit_status (int)
   # See man getrusage (for all ru_ fields):
-  * ru_wallclock (float)        # end_time minus start_time
-  * ru_utime (float)            # total amount of time spent executing in user mode (seconds)
-  * ru_stime (float)            # total amount of time spent executing in kernel mode (seconds)
-  * ru_maxrss (float)           # maximum resident set size used (kilobytes)
-  * ru_ixrss (float)
-  * ru_ismrss (float)
-  * ru_idrss (float)
-  * ru_isrss (float)
-  * ru_minflt (float)
-  * ru_majflt (float)
-  * ru_nswap (float)
-  * ru_inblock (float)
-  * ru_oublock (float)
-  * ru_msgsnd (float)
-  * ru_msgrcv (float)
-  * ru_nsignals (float)
-  * ru_nvcsw (float)
-  * ru_nivcsw (float)
-* project (str/NONE)
-* department (str, always 'defaultdepartment')
-* granted_pe (str/NONE)
-* slots (int)
-* task_number (int)
-* cpu (float)                   # total cpu time usage (seconds)
-* mem (float)                   # integral memory usage (Gbytes cpu seconds ?!)
-* io (float)                    # amount of data transferred in i/o ops (in ?)
-* category (str)                # SGE group + queue (-U -q)
-* iow (float, always 0)         # io wait time (seconds), always 0 on linux
-* pe_taskid (str/NONE)
-* maxvmem (float)               # real peakmem, (bytes)
-* arid (int)
-* ar_submission_time (int)
+  * [13] ru_wallclock (float)        # end_time minus start_time
+  * [14] ru_utime (float)            # total amount of time spent executing in user mode (seconds)
+  * [15] ru_stime (float)            # total amount of time spent executing in kernel mode (seconds)
+  * [16] ru_maxrss (float)           # maximum resident set size used (kilobytes)
+  * [17] ru_ixrss (float)
+  * [18] ru_ismrss (float)
+  * [19] ru_idrss (float)
+  * [20] ru_isrss (float)
+  * [21] ru_minflt (float)
+  * [22] ru_majflt (float)
+  * [23] ru_nswap (float)
+  * [24] ru_inblock (float)
+  * [25] ru_oublock (float)
+  * [26] ru_msgsnd (float)
+  * [27] ru_msgrcv (float)
+  * [28] ru_nsignals (float)
+  * [29] ru_nvcsw (float)
+  * [30] ru_nivcsw (float)
+* [31] project (str)                 # default 'NONE'
+* [32] department (str)              # default 'defaultdepartment'
+* [33] granted_pe (str)              # default 'NONE'
+* [34] slots (int)
+* [35] task_number (int)
+* [36] cpu (float)                   # total cpu time usage (seconds)
+* [37] mem (float)                   # integral memory usage (GB seconds ?!)
+* [38] io (float)                    # amount of data transferred in i/o ops (in GB)
+* [39] category (str)                # SGE Userset, queue name, Parallel Environment, etc (-U -q -pe)
+* [40] iow (float)                   # io wait time (seconds), default '0' on linux
+* [41] pe_taskid (str)               # default 'NONE'
+* [42] maxvmem (float)               # real peakmem, (bytes)
+* [43] arid (int)
+* [44] ar_submission_time (int)
 
-``man accounting`` et ``parse_accounting.py`` contiennent (un peu) plus d'info sur les champs du fichier d'accounting.
+``man accounting`` et ``man 2 getrusage`` contiennent (un peu) plus d'info sur les champs du fichier d'accounting.
 
 
 

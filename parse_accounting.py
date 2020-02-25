@@ -327,6 +327,7 @@ if not args.c:
         #print("mem = {} Gbytes".format(int(mem / 1048576)))
         #print("io = {} Mbytes".format(int(io / 1024)))
         #print("iow = {} heures".format(int(iow / 3600)))
+        #print("maxvmem = {} Gbytes".format(int(maxvmem / 1048576)))
 
     # a little air, if into a 'for' shell loop
     print("")

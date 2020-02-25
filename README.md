@@ -2,17 +2,19 @@
 
 Status : Draft. Early Work in Progress.
 
-TL;DR: Analyse, à froid (disconnected), du fichier d'accounting SGE.
+TL;DR: Analyse, à froid (disconnected), du fichier d'accounting (SGE).
 
 
 ## Cahier des charges
 
-Proposer un outil d'analyse 'graphique' (charts) aux admins et utilisateurs de
+Proposer un outil d'analyse 'graphique' (charts) aux admins et utilisateurs de 
 nos clusters. Multiples possibilités de filtres (voir § Charts). Inspiré de 
 [S-GAE2](https://rdlab.cs.upc.edu/s-gae/) (from rdlab, Barcelona University).
 
-Les fichiers d'accounting, sur plusieurs années, deviennent (trés) lourds, et difficile
-a interroger. Injecter leur contenu dans un `middleware` devient pertinent.
+Les fichiers d'accounting, sur plusieurs années, deviennent (trés) lourds, et 
+difficile a interroger (4.4Go 2011-2017, déjà 1.2Go pour 2018-2019).
+
+Injecter leur contenu dans un `middleware` devient pertinent.
 
 
 ### Frontend
@@ -89,7 +91,7 @@ NoSQL ?
 
 ### Glossaire
 
-* accounting file : /var/lib/gridengine/default/common/accounting (fichier cumulatif)
+* SGE accounting file : /var/lib/gridengine/default/common/accounting (fichier cumulatif)
 
 * qacct : Utilitaire SGE d'interrogation du fichier d'accounting
 
