@@ -57,37 +57,37 @@ Description du contenu
 * [10] end_time (epoch)
 * [11] failed (int)
 * [12] exit_status (int)
-  # See man getrusage (for all ru_ fields):
-  * [13] ru_wallclock (float)        # end_time minus start_time
-  * [14] ru_utime (float)            # total amount of time spent executing in user mode (seconds)
-  * [15] ru_stime (float)            # total amount of time spent executing in kernel mode (seconds)
-  * [16] ru_maxrss (float)           # maximum resident set size used (kilobytes)
-  * [17] ru_ixrss (float)
-  * [18] ru_ismrss (float)
-  * [19] ru_idrss (float)
-  * [20] ru_isrss (float)
-  * [21] ru_minflt (float)
-  * [22] ru_majflt (float)
-  * [23] ru_nswap (float)
-  * [24] ru_inblock (float)
-  * [25] ru_oublock (float)
-  * [26] ru_msgsnd (float)
-  * [27] ru_msgrcv (float)
-  * [28] ru_nsignals (float)
-  * [29] ru_nvcsw (float)
-  * [30] ru_nivcsw (float)
-* [31] project (str)                 # default 'NONE'
-* [32] department (str)              # default 'defaultdepartment'
-* [33] granted_pe (str)              # default 'NONE'
+# See man getrusage (for all ru_ fields):
+* [13] ru_wallclock (float)         # end_time minus start_time
+* [14] ru_utime (float)             # total amount of time spent executing in user mode (seconds)
+* [15] ru_stime (float)             # total amount of time spent executing in kernel mode (seconds)
+* [16] ru_maxrss (float)            # maximum resident set size used (kilobytes)
+* [17] ru_ixrss (float)
+* [18] ru_ismrss (float)
+* [19] ru_idrss (float)
+* [20] ru_isrss (float)
+* [21] ru_minflt (float)
+* [22] ru_majflt (float)
+* [23] ru_nswap (float)
+* [24] ru_inblock (float)
+* [25] ru_oublock (float)
+* [26] ru_msgsnd (float)
+* [27] ru_msgrcv (float)
+* [28] ru_nsignals (float)
+* [29] ru_nvcsw (float)
+* [30] ru_nivcsw (float)
+* [31] project (str)                # default 'NONE'
+* [32] department (str)             # default 'defaultdepartment'
+* [33] granted_pe (str)             # default 'NONE'
 * [34] slots (int)
 * [35] task_number (int)
-* [36] cpu (float)                   # total cpu time usage (seconds)
-* [37] mem (float)                   # integral memory usage (GB seconds ?!)
-* [38] io (float)                    # amount of data transferred in i/o ops (in GB)
-* [39] category (str)                # SGE Userset, queue name, Parallel Environment, etc (-U -q -pe)
-* [40] iow (float)                   # io wait time (seconds), default '0' on linux
-* [41] pe_taskid (str)               # default 'NONE'
-* [42] maxvmem (float)               # real peakmem, (bytes)
+* [36] cpu (float)                  # total cpu time usage (seconds)
+* [37] mem (float)                  # integral memory usage (GB seconds ?!)
+* [38] io (float)                   # amount of data transferred in i/o ops (in GB)
+* [39] category (str)               # SGE Userset, queue name, Parallel Environment, etc (-U -q -pe)
+* [40] iow (float)                  # io wait time (seconds), default '0' on linux
+* [41] pe_taskid (str)              # default 'NONE'
+* [42] maxvmem (float)              # real peakmem, (bytes)
 * [43] arid (int)
 * [44] ar_submission_time (int)
 

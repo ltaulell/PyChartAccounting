@@ -72,7 +72,7 @@ Python3 (for reasons, aussi). Une partie du taff est déjà fait dans `parse_acc
 (voir aussi [SGE toolbox](https://github.com/ltaulell/sge_toolbox)).
 
 Regarder aussi les outils d'analyse de log ? Malgré sa structure chelou, 
-l'accounting *EST* un fichier de log. Voir `accounting_file_format.rst`.
+l'accounting *EST* un fichier de log. Voir `SGE_accounting_file_format.rst`.
 
 Pandas ? (csv, delimiter=':')
 
