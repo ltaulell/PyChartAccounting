@@ -57,12 +57,11 @@ Description du contenu
 * [10] end_time (epoch)
 * [11] failed (int)
 * [12] exit_status (int)
-# See man getrusage (for all ru_ fields):
 * [13] ru_wallclock (float)         # end_time minus start_time
 * [14] ru_utime (float)             # total amount of time spent executing in user mode (seconds)
 * [15] ru_stime (float)             # total amount of time spent executing in kernel mode (seconds)
 * [16] ru_maxrss (float)            # maximum resident set size used (kilobytes)
-* [17] ru_ixrss (float)
+* [17] ru_ixrss (float)             # See man getrusage (for all ru_ fields)
 * [18] ru_ismrss (float)
 * [19] ru_idrss (float)
 * [20] ru_isrss (float)
