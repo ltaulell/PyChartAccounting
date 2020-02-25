@@ -1,16 +1,19 @@
-# PyChartSGE
+# PyChartAccounting
 
 Status : Draft. Early Work in Progress.
 
-TL;DR: Une copie +/- simplifiée de [S-GAE2](https://rdlab.cs.upc.edu/s-gae/) 
-(from rdlab, Barcelona University). Analyse, à froid (disconnected), du fichier
-d'accounting SGE.
+TL;DR: Analyse, à froid (disconnected), du fichier d'accounting SGE.
 
 
 ## Cahier des charges
 
 Proposer un outil d'analyse 'graphique' (charts) aux admins et utilisateurs de
-nos clusters. Multiples possibilités de filtres (voir § Charts). Inspiré de S-GAE2.
+nos clusters. Multiples possibilités de filtres (voir § Charts). Inspiré de 
+[S-GAE2](https://rdlab.cs.upc.edu/s-gae/) (from rdlab, Barcelona University).
+
+Les fichiers d'accounting, sur plusieurs années, deviennent (trés) lourds, et difficile
+a interroger. Injecter leur contenu dans un `middleware` devient pertinent.
+
 
 ### Frontend
 
@@ -67,7 +70,7 @@ Python3 (for reasons, aussi). Une partie du taff est déjà fait dans `parse_acc
 (voir aussi [SGE toolbox](https://github.com/ltaulell/sge_toolbox)).
 
 Regarder aussi les outils d'analyse de log ? Malgré sa structure chelou, 
-l'accounting *EST* un fichier de log. Voir `accounting_file_format.md`.
+l'accounting *EST* un fichier de log. Voir `accounting_file_format.rst`.
 
 Pandas ? (csv, delimiter=':')
 

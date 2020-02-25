@@ -1,9 +1,19 @@
-# SGE accounting file format
+==========================
+SGE accounting file format
+==========================
 
-## extract examples
+:date: 2020-02-21
+:modified: 2020-02-25
+:status: draft
+:licence: SPDX-License-Identifier: BSD-2-Clause
 
-  * v6.2u5 (Sun Grid Engine)
 
+extract examples
+================
+
+* v6.2u5 (Sun Grid Engine):
+
+.. code-block:: bash
 
     # Version: 6.2u5
     # 
@@ -15,8 +25,9 @@
     r410lin24ibA:r410lin4.ens-lyon.fr:umpa:gilquin:batchopenmpiintelrun:5:sge:0:1265881946:1265881950:1265881951:12:129:1:0.583911:0.679895:0.000000:0:0:0:0:27013:113:0:0.000000:0:0:0:0:44637:714:NONE:defaultdepartment:r410_128:16:0:1.263806:0.000000:0.000000:-q r410lin24ibA -pe r410_128 16:0.000000:NONE:0.000000:0:0
 
 
-  * v8.1.9 (Son of Grid Engine)
+* v8.1.9 (Son of Grid Engine)
 
+.. code-block:: bash
 
     # Version: 8.1.9
     # 
@@ -28,9 +39,10 @@
     E5-2667v2h6deb128:c8220node213:psmn:ltaulell:envtest:3:sge:0:1514125071:1514125093:1514125792:100:152:699:0.000000:0.144000:3972.000000:0:0:0:0:709:3:0:504.000000:808:0:0:0:45215:27:NONE:defaultdepartment:NONE:1:0:21540.800000:2567485.677115:1.884987:-U STAFF -q E5-2667v2h6deb128:0.000000:NONE:128215048192.000000:0:0
 
 
-## Description du contenu
+Description du contenu
+======================
 
-4 lines of commentaries (headers), then, one line by job, with fields divided by ':', described below:
+4 lines of commentaries (headers), then, one line by job, with fields divided by ':', described as follow:
 
 * queue_name (str)
 * hostname (str)
@@ -79,8 +91,7 @@
 * arid (int)
 * ar_submission_time (int)
 
-`man accounting` et `parse_accounting.py` contiennent plus d'info sur les champs
-du fichier d'accounting.
+``man accounting`` et ``parse_accounting.py`` contiennent (un peu) plus d'info sur les champs du fichier d'accounting.
 
 
 
