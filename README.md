@@ -67,7 +67,7 @@ Piecharts, plotted dots, barcharts...
     * d'effroyables possibilités de mélanges...
 
 
-### Backend
+### Backend / Middleware
 
 Python3 (parceque je bite rien au php). Une partie du taff est déjà fait dans `parse_accounting.py` 
 (voir aussi [SGE toolbox](https://github.com/ltaulell/sge_toolbox)).
@@ -77,17 +77,18 @@ l'accounting *EST* un fichier de log. Voir `SGE_accounting_file_format.rst`.
 
 Pandas ? (csv, delimiter=':')
 
-SQL ? (S-GAE2 mouline tout dans du SQL)
-
-NoSQL ?
+Un QueryLangage quelconque : SQL (S-GAE2 mouline tout dans du SQL) ? NoSQL ?
 
 
-## Biais
+## Biais / Questionnements
 
 À part les dates (*_time), rien n'est unique :
 
 * un même $JOB_ID (job_number) peut être présent plusieurs fois dans le fichier (SGE est limité à max_jobs, et réalise une rotation)
 * un même login (owner) peut être présent dans plusieurs groupes (variations sur de longues périodes)
+* queue_name, hostname et appartenance d'un hostname à une ou plusieurs queue_name peuvent être déduite de l'accounting
+* same pour owner et group
+* SGE ne fait pas de rotation du fichier d'accounting : Un même fichier d'accounting pourra donc être parcouru plusieurs fois
 
 
 ### Glossaire
