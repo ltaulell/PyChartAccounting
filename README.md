@@ -75,7 +75,7 @@ Python3 (parceque je bite rien au php). Une partie du taff est déjà fait dans 
 Regarder aussi les outils d'analyse de log ? Malgré sa structure chelou, 
 l'accounting *EST* un fichier de log. Voir `SGE_accounting_file_format.rst`.
 
-Pandas ? (csv, delimiter=':')
+Pandas ? (csv, delimiter=':') timeseries.
 
 Un QueryLangage quelconque : SQL (S-GAE2 mouline tout dans du SQL) ? NoSQL ?
 
