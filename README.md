@@ -21,7 +21,7 @@ sens devient pertinent.
 ### Frontend
 
 * Web (et python3, for reasons),
-* No authentication, at least, not related to accounting: Un DR peut regarder l'accounting de ses thésards ou de son groupe, un Correspondant doit pouvoir regarder l'accounting du/des labo(s) dont il a la charge.
+* At first: "No authentication", at least, not related to accounting: Un DR peut regarder l'accounting de ses thésards ou de son groupe, un Correspondant doit pouvoir regarder l'accounting du/des labo(s) dont il a la charge.
 * Easy to use : Select, display, Boom!.
 * Fast...
 
@@ -38,20 +38,27 @@ Piecharts, plotted dots, barcharts...
     * average job queued time
 
 * par utilisateur, groupe, métagroupe (groupe de groupes) :
-    * nb de jobs
-    * durées (min, max, med, moy)
-    * cpu vs système (I/O ? ratio % ?)
-    * ram (min, max, med, moy)
-    * job execution time
-    * job queued time
+    * Par année civile, ou par période, sur la totalité :
+        * total executed jobs
+        * total executed hours
+        * average job memory usage
+        * average job execution time
+        * average job queued time
+        * durées (min, max, med, moy)
+        * cpu vs système (I/O ? ratio % ?)
+        * ram (min, max, med, moy)
+
+On a compris le principe, mais dans le doute, et pour ne pas en  oublier :
 
 * par cluster(s), file(s) d'attentes, nodes :
-    * nb de jobs
+    * total executed jobs
+    * total executed hours
+    * average job memory usage
+    * average job execution time
+    * average job queued time
     * durées (min, max, med, moy)
     * cpu vs système (I/O ? ratio % ?)
     * ram (min, max, med, moy)
-    * job execution time
-    * job queued time
 
 * Top 10 : (les + gros/utilisés)
     * utilisateurs
@@ -62,7 +69,13 @@ Piecharts, plotted dots, barcharts...
     * node(s)
 
 * Autres :
-    * par projets (SGE projects ou groupes)
+    * par projets (SGE projects ou groupes):
+        * total executed jobs
+        * total executed hours
+        * average job memory usage
+        * average job execution time
+        * average job queued time
+        * etc.
     * slots-per-job usage (nb de slots/job : séquentiel, mononode, multinode)
     * d'effroyables possibilités de mélanges...
 

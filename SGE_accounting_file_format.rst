@@ -3,7 +3,7 @@ SGE accounting file format
 ==========================
 
 :date: 2020-02-21
-:modified: 2020-02-25
+:modified: 2020-03-01
 :status: draft
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
@@ -42,7 +42,9 @@ extract examples
 Description du contenu
 ======================
 
-4 lines of commentaries (headers), then, one line by job, with fields divided by ':', described as follow:
+Headers: 4 lines of commentaries, with version (no change between 6.2u5 and 8.1.9)
+
+One line per job, 45 columns (0 to 44), with fields divided by ':', described as follow:
 
 * [0] queue_name (str)
 * [1] hostname (str)
