@@ -3,7 +3,6 @@ SGE accounting file format
 ==========================
 
 :date: 2020-02-21
-:modified: 2020-03-01
 :status: draft
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
@@ -42,7 +41,7 @@ extract examples
 Description du contenu
 ======================
 
-Headers: 4 lines of commentaries, with version (no change between 6.2u5 and 8.1.9)
+Headers: 4 lines of commentaries, with version (no change, except version, between 6.2u5 and 8.1.9)
 
 One line per job, 45 columns (0 to 44), with fields divided by ':', described as follow:
 
@@ -92,7 +91,13 @@ One line per job, 45 columns (0 to 44), with fields divided by ':', described as
 * [43] arid (int)
 * [44] ar_submission_time (int)
 
-``man accounting`` et ``man 2 getrusage`` contiennent (un peu) plus d'info sur les champs du fichier d'accounting.
+``man 5 accounting`` et ``man 2 getrusage`` contiennent (un peu) plus d'info sur les champs du fichier d'accounting.
 
+default CSV header:
 
+for reference and scripts.
+
+.. code:: csv
+
+    qname:host:group:owner:job_name:job_id:account:priority:submit_time:start:end:fail:exit_status:ru_wallclock:ru_utime:ru_stime:ru_maxrss:ru_ixrss:ru_ismrss:ru_idrss:ru_isrss:ru_minflt:ru_majflt:ru_nswap:ru_inblock:ru_oublock:ru_msgsnd:ru_msgrcv:ru_nsignals:ru_nvcsw:ru_nivcsw:project:department:granted_pe:slots:task_number:cpu:mem:io:category:iow:pe_taskid:maxvmem:arid:ar_submission_time
 
