@@ -20,7 +20,7 @@ sens devient pertinent.
 
 ### Frontend
 
-* Web (et python3, for reasons),
+* Web (python3? R-shiny?),
 * At first: "No authentication", at least, not related to accounting: Un DR peut regarder l'accounting de ses thésards ou de son groupe, un Correspondant doit pouvoir regarder l'accounting du/des labo(s) dont il a la charge.
 * Easy to use : Select, display, Boom!.
 * Fast...
@@ -80,17 +80,21 @@ On a compris le principe, mais dans le doute, et pour ne pas en  oublier :
     * d'effroyables possibilités de mélanges...
 
 
-### Backend / Middleware
+### Backend / Middleware / Workflow
 
 Python3 (parceque je bite rien au php). Une partie du taff est déjà fait dans `parse_accounting.py` 
 (voir aussi [SGE toolbox](https://github.com/ltaulell/sge_toolbox)).
 
 Regarder aussi les outils d'analyse de log ? Malgré sa structure chelou, 
-l'accounting *EST* un fichier de log. Voir `SGE_accounting_file_format.rst`.
+l'accounting *EST* un fichier de log (ou un CSV, aussi). Voir `SGE_accounting_file_format.rst`.
 
 Pandas ? (csv, delimiter=':') timeseries.
 
-Un QueryLangage quelconque : SQL (S-GAE2 mouline tout dans du SQL) ? NoSQL ?
+Un QueryLangage quelconque : SQL (S-GAE2 mouline tout dans du SQL) ? NoSQL ? SQLite ?
+
+TODO: ch'tite nimage
+
+accounting -> python3 -> format intermédiaire -> query -> présentation (graphs)
 
 
 ## Biais / Questionnements
@@ -111,7 +115,7 @@ Un QueryLangage quelconque : SQL (S-GAE2 mouline tout dans du SQL) ? NoSQL ?
 * qacct : Utilitaire SGE d'interrogation du fichier d'accounting
 
 * métagroupe : groupe regroupant plusieurs disciplines aux usages comparables :
-    - chimistes, astro-chimistes, géo-chimistes,
+    - chimistes, astro-chimistes, géo-chimistes, bio-chimistes,
     - physiciens, astro-physiciens, géo-physiciens, bio-physiciens,
     - mécaflu, multiphysique, thermie/acoustique,
     - workflow génomiques (fonctionnelle, cellulaire, plantes, virus/bactéries),
