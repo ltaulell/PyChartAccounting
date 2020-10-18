@@ -62,20 +62,20 @@ One line per job, 45 columns (0 to 44), with fields divided by ':', described as
 * [14] ru_utime (float)             # total amount of time spent executing in user mode (seconds)
 * [15] ru_stime (float)             # total amount of time spent executing in kernel mode (seconds)
 * [16] ru_maxrss (float)            # maximum resident set size used (kilobytes)
-* [17] ru_ixrss (float)             # See man getrusage (for all ru_ fields)
-* [18] ru_ismrss (float)
-* [19] ru_idrss (float)
-* [20] ru_isrss (float)
-* [21] ru_minflt (float)
-* [22] ru_majflt (float)
-* [23] ru_nswap (float)
-* [24] ru_inblock (float)
-* [25] ru_oublock (float)
-* [26] ru_msgsnd (float)
-* [27] ru_msgrcv (float)
-* [28] ru_nsignals (float)
-* [29] ru_nvcsw (float)
-* [30] ru_nivcsw (float)
+* [17] ru_ixrss (float)             # unused on Linux, see man getrusage (for all ru_ fields)
+* [18] ru_ismrss (float)            # unused on Linux, see man getrusage (for all ru_ fields)
+* [19] ru_idrss (float)             # unused on Linux, see man getrusage (for all ru_ fields)
+* [20] ru_isrss (float)             # unused on Linux, see man getrusage (for all ru_ fields)
+* [21] ru_minflt (float)            # page reclaims (soft page faults) (nb)
+* [22] ru_majflt (float)            # page faults (hard page faults) (nb)
+* [23] ru_nswap (float)             # unused on Linux, see man getrusage (for all ru_ fields)
+* [24] ru_inblock (float)           # block input operations (nb)
+* [25] ru_oublock (float)           # block output operations (nb)
+* [26] ru_msgsnd (float)            # unused on Linux, see man getrusage (for all ru_ fields)
+* [27] ru_msgrcv (float)            # unused on Linux, see man getrusage (for all ru_ fields)
+* [28] ru_nsignals (float)          # unused on Linux, see man getrusage (for all ru_ fields)
+* [29] ru_nvcsw (float)             # voluntary context switches (nb)
+* [30] ru_nivcsw (float)            # involuntary context switches (nb)
 * [31] project (str)                # default 'NONE'
 * [32] department (str)             # default 'defaultdepartment'
 * [33] granted_pe (str)             # default 'NONE'
@@ -91,7 +91,9 @@ One line per job, 45 columns (0 to 44), with fields divided by ':', described as
 * [43] arid (int)
 * [44] ar_submission_time (int)
 
-``man 5 accounting`` et ``man 2 getrusage`` contiennent (un peu) plus d'info sur les champs du fichier d'accounting.
+``man 5 accounting`` contient (un peu) plus d'info sur les champs du fichier d'accounting.
+
+``man 2 getrusage`` contient (un peu) plus d'info sur les champs ``ru_`` (resource usage).
 
 default CSV header:
 
