@@ -49,10 +49,10 @@ One line per job, 45 columns (0 to 44), with fields divided by ':', described as
 * [1] hostname (str)
 * [2] group (str)
 * [3] owner (str)                   # $login
-* [4] job_name (str)
+* [4] job_name (str)                # by user, not unique...
 * [5] job_number (int, not unique)  # $JOB_ID
-* [6] account (str)                 # default 'sge'
-* [7] priority (int)
+* *[6] account (str)*                 # default 'sge'
+* *[7] priority (int)*
 * [8] submission_time (epoch)
 * [9] start_time (epoch)
 * [10] end_time (epoch)
@@ -61,39 +61,43 @@ One line per job, 45 columns (0 to 44), with fields divided by ':', described as
 * [13] ru_wallclock (float)         # end_time minus start_time
 * [14] ru_utime (float)             # total amount of time spent executing in user mode (seconds)
 * [15] ru_stime (float)             # total amount of time spent executing in kernel mode (seconds)
-* [16] ru_maxrss (float)            # maximum resident set size used (kilobytes)
-* [17] ru_ixrss (float)             # unused on Linux, see man getrusage (for all ru_ fields)
-* [18] ru_ismrss (float)            # unused on Linux, see man getrusage (for all ru_ fields)
-* [19] ru_idrss (float)             # unused on Linux, see man getrusage (for all ru_ fields)
-* [20] ru_isrss (float)             # unused on Linux, see man getrusage (for all ru_ fields)
-* [21] ru_minflt (float)            # page reclaims (soft page faults) (nb)
-* [22] ru_majflt (float)            # page faults (hard page faults) (nb)
-* [23] ru_nswap (float)             # unused on Linux, see man getrusage (for all ru_ fields)
-* [24] ru_inblock (float)           # block input operations (nb)
-* [25] ru_oublock (float)           # block output operations (nb)
-* [26] ru_msgsnd (float)            # unused on Linux, see man getrusage (for all ru_ fields)
-* [27] ru_msgrcv (float)            # unused on Linux, see man getrusage (for all ru_ fields)
-* [28] ru_nsignals (float)          # unused on Linux, see man getrusage (for all ru_ fields)
-* [29] ru_nvcsw (float)             # voluntary context switches (nb)
-* [30] ru_nivcsw (float)            # involuntary context switches (nb)
+* [16] ru_maxrss (float)            # maximum resident set size used (kilobytes, largest child)
+* *[17] ru_ixrss (float)*             # unused on Linux, see man getrusage (for all ru_ fields)
+* *[18] ru_ismrss (float)*            # unused on Linux, see man getrusage (for all ru_ fields)
+* *[19] ru_idrss (float)*             # unused on Linux, see man getrusage (for all ru_ fields)
+* *[20] ru_isrss (float)*             # unused on Linux, see man getrusage (for all ru_ fields)
+* *[21] ru_minflt (float)*            # page reclaims (soft page faults) (nb)
+* *[22] ru_majflt (float)*            # page faults (hard page faults) (nb)
+* *[23] ru_nswap (float)*             # unused on Linux, see man getrusage (for all ru_ fields)
+* *[24] ru_inblock (float)*           # block input operations (nb)
+* *[25] ru_oublock (float)*           # block output operations (nb)
+* *[26] ru_msgsnd (float)*            # unused on Linux, see man getrusage (for all ru_ fields)
+* *[27] ru_msgrcv (float)*            # unused on Linux, see man getrusage (for all ru_ fields)
+* *[28] ru_nsignals (float)*          # unused on Linux, see man getrusage (for all ru_ fields)
+* *[29] ru_nvcsw (float)*             # voluntary context switches (nb)
+* *[30] ru_nivcsw (float)*            # involuntary context switches (nb)
 * [31] project (str)                # default 'NONE'
-* [32] department (str)             # default 'defaultdepartment'
-* [33] granted_pe (str)             # default 'NONE'
+* *[32] department (str)*             # default 'defaultdepartment'
+* *[33] granted_pe (str)*             # default 'NONE'
 * [34] slots (int)
-* [35] task_number (int)
+* *[35] task_number (int)*            # Array job index number
 * [36] cpu (float)                  # total cpu time usage (seconds)
 * [37] mem (float)                  # integral memory usage (GB seconds ?!)
 * [38] io (float)                   # amount of data transferred in i/o ops (in GB)
-* [39] category (str)               # SGE Userset, queue name, Parallel Environment, etc (-U -q -pe)
-* [40] iow (float)                  # io wait time (seconds), default '0' on linux
-* [41] pe_taskid (str)              # default 'NONE'
+* *[39] category (str)*               # SGE Userset, queue name, Parallel Environment, etc (-U -q -pe)
+* *[40] iow (float)*                  # io wait time (seconds), default '0' on linux
+* *[41] pe_taskid (str)*              # default 'NONE'
 * [42] maxvmem (float)              # real peakmem, (bytes)
-* [43] arid (int)
-* [44] ar_submission_time (int)
+* *[43] arid (int)*
+* *[44] ar_submission_time (int)*
 
 ``man 5 accounting`` contient (un peu) plus d'info sur les champs du fichier d'accounting.
 
 ``man 2 getrusage`` contient (un peu) plus d'info sur les champs ``ru_`` (resource usage).
+
+Les champs en *italique* ont peu, voire pas du tout, d'intérêt.
+
+
 
 default CSV header:
 
