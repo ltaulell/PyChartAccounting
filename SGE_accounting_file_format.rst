@@ -3,6 +3,7 @@ SGE accounting file format
 ==========================
 
 :date: 2020-02-21
+:modified: 2021-01-21
 :status: draft
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
@@ -38,8 +39,8 @@ extract examples
     E5-2667v2h6deb128:c8220node213:psmn:gilquin:envtest:3:sge:0:1514125071:1514125093:1514125792:100:152:699:0.000000:0.144000:3972.000000:0:0:0:0:709:3:0:504.000000:808:0:0:0:45215:27:NONE:defaultdepartment:NONE:1:0:21540.800000:2567485.677115:1.884987:-U STAFF -q E5-2667v2h6deb128:0.000000:NONE:128215048192.000000:0:0
 
 
-Description du contenu
-======================
+Content description
+===================
 
 Headers: 4 lines of commentaries, with version (no change, except version, between 6.2u5 and 8.1.9)
 
@@ -91,17 +92,17 @@ One line per job, 45 columns (0 to 44), with fields divided by ':', described as
 * *[43] arid (int)*
 * *[44] ar_submission_time (int)*
 
-``man 5 accounting`` contient (un peu) plus d'info sur les champs du fichier d'accounting.
+``man 5 accounting`` contains (a little) more info on the fields of the accounting file.
 
-``man 2 getrusage`` contient (un peu) plus d'info sur les champs ``ru_`` (resource usage).
+``man 2 getrusage`` contains (a little) more info on the ``ru_`` fields (resources usage).
 
-Les champs en *italique* ont peu, voire pas du tout, d'intérêt.
+Fields in *italic* have little, if any, interest.
 
 
+Default CSV header
+==================
 
-default CSV header:
-
-for reference and scripts.
+accounting file can be read as CSV, with ':' as separator. for reference and scripts.
 
 .. code:: csv
 
