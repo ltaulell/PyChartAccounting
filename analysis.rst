@@ -128,5 +128,5 @@ Users results:
 
 Most requested analysis/statistics are ''sum of cpu'', with detailed ''sum of utime'', ''sum of stime'' for a user, a group or a project.
 
-See README.md) for more new requested statistics.
+See README.md for more new requested statistics.
 
