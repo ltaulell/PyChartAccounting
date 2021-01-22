@@ -12,7 +12,7 @@ nos clusters. Multiples possibilités de filtres (voir § Charts). Inspiré de
 [S-GAE2](https://rdlab.cs.upc.edu/s-gae/) (from rdlab, Barcelona University).
 
 Les fichiers d'accounting, sur plusieurs années, deviennent (trés) lourds, et 
-difficile a interroger (4.4Go 2011-2017, déjà 1.2Go pour 2018-2019).
+difficile a interroger (4.4Go 2011-2017, déjà 4.8Go pour 2018-2020).
 
 Injecter leur contenu dans un `middleware` pour triturer les data dans tous les 
 sens devient pertinent.
@@ -30,25 +30,24 @@ sens devient pertinent.
 
 Piecharts, plotted dots, barcharts...
 
-* Par année civile, ou par période (date de début, date de fin) :
+* Par année civile, ou par période (date de début, date de fin), sur la totalité :
     * total executed jobs
     * total executed hours
     * average job memory usage
     * average job execution time
-    * average job queued time
+    * average job queued time (wait, start - submission)
 
-* par utilisateur, groupe, métagroupe (groupe de groupes) :
-    * Par année civile, ou par période, sur la totalité :
+    * par utilisateur, groupe, métagroupe (groupe de groupes ou d'utilisateurs) :
         * total executed jobs
         * total executed hours
         * average job memory usage
         * average job execution time
-        * average job queued time
-        * durées (min, max, med, moy)
+        * average job queued time (wait, start - submission)
+        * durées (min, max, med, avg) des jobs
         * cpu vs système (I/O ? ratio % ?)
-        * ram (min, max, med, moy)
+        * ram (avg, max)
 
-On a compris le principe, mais dans le doute, et pour ne pas en  oublier :
+On a compris le principe, mais dans le doute, et pour ne pas en oublier (toujours sur la base d'une période de temps) :
 
 * par cluster(s), file(s) d'attentes, nodes :
     * total executed jobs
@@ -56,9 +55,9 @@ On a compris le principe, mais dans le doute, et pour ne pas en  oublier :
     * average job memory usage
     * average job execution time
     * average job queued time
-    * durées (min, max, med, moy)
+    * durées (min, max, med, avg) des jobs
     * cpu vs système (I/O ? ratio % ?)
-    * ram (min, max, med, moy)
+    * ram (avg, max)
 
 * Top 10 : (les + gros/utilisés)
     * utilisateurs
@@ -76,8 +75,8 @@ On a compris le principe, mais dans le doute, et pour ne pas en  oublier :
         * average job execution time
         * average job queued time
         * etc.
-    * slots-per-job usage (nb de slots/job : séquentiel, mononode, multinode)
-    * d'effroyables possibilités de mélanges...
+    * slots-per-job usage (nb de slots/job : séquentiel, // mononode, // multinode)
+    * laisser la porte ouverte à d'effroyables possibilités de mélanges...
 
 
 ### Backend / Middleware / Workflow
