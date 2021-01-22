@@ -91,7 +91,7 @@ Pandas ? (csv, delimiter=':') timeseries.
 
 Un QueryLangage quelconque : SQL (S-GAE2 mouline tout dans du SQL) ? NoSQL ? SQLite ?
 
-TODO: ch'tite nimage
+Schéma(s) -> voir PyChartAccounting.mm (mindmap, freeplane) et model.gaphor (gaphor)
 
 accounting -> python3 -> format intermédiaire -> query -> présentation (graphs)
 
@@ -118,7 +118,7 @@ accounting -> python3 -> format intermédiaire -> query -> présentation (graphs
     - physiciens, astro-physiciens, géo-physiciens, bio-physiciens,
     - mécaflu, multiphysique, thermie/acoustique,
     - workflow génomiques (fonctionnelle, cellulaire, plantes, virus/bactéries),
-    - HeeYa!^W IA, apprentissage(s) profond, accélération GPU,
+    - IA, apprentissage(s) profond, accélération GPU,
     - etc.
 
 
