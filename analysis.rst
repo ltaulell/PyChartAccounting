@@ -3,7 +3,7 @@ Pseudo-Analysis
 ===============
 
 :date: 2020-02-29
-:modified: 2021-01-21
+:modified: 2021-01-26
 :status: draft
 :licence: SPDX-License-Identifier: BSD-2-Clause
 
@@ -45,7 +45,7 @@ General fields:
 owner[3]
 --------
 
-System user, submitter of a job. Will appear and disappear over the years. Can be in multiples groups over the years.
+System user (as in login), submitter of a job. Will appear and disappear over the years. Can be in multiples groups over the years.
 
 queue_name[0]
 -------------
