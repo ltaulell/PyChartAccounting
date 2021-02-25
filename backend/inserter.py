@@ -15,10 +15,15 @@ go easy, go simple.
 TODO/FIXME:
 
 - find a way around transaction(s) ?
+    => done (une seul conn)
 
 - yielder/getter ? -> multiprocessing inserts ? (maybe faster?)
     https://www.psycopg.org/docs/usage.html#thread-safety
     https://www.psycopg.org/docs/advanced.html#green-support
+    => bof
+
+- except(s)
+    https://www.psycopg.org/docs/errors.html
 
 """
 
@@ -59,6 +64,7 @@ def get_args(helper=False):
 def decomment(fichiercsv):
     """ do not yield row containing '#' at first place
     BUT, there can be '#' in actual job_name ! (/o\ users...) """
+    """ TODO/FIXME enclose in try/except with UnicodeDecodeError, and pass on """
     for row in fichiercsv:
         if not row.startswith('#'):
             yield row
@@ -67,13 +73,21 @@ def decomment(fichiercsv):
 def execute_sql(connexion, commande, payload, commit=False):
     """ execute commande, always return id
     SQL inserts MUST returning ids, else fetchone() will fail """
-
-    with connexion.cursor() as cursor:
-        cursor.execute(commande, payload)
-        if commit:
-            connexion.commit()
-        log.debug(cursor.statusmessage)
-        return cursor.fetchone()
+    try:
+        with connexion.cursor() as cursor:
+            cursor.execute(commande, payload)
+            if commit:
+                connexion.commit()
+            log.debug(cursor.statusmessage)
+            return cursor.fetchone()
+    except psycopg2.errors.StringDataRightTruncation as e:
+        # if job_name or project is too long, ignore job, there's a problem.
+        log.warning('insertion error: {}'.format(e))
+        pass
+    except psycopg2.errors.NotNullViolation as e:
+        # if any of 'NOT NULL' field is null, ignore job, there's a problem.
+        log.warning('notnull error: {}'.format(e))
+        pass
 
 
 def select_or_insert(conn, table, id_name, payload, name=None, multi=False, insert=True):
@@ -163,8 +177,10 @@ if __name__ == '__main__':
     # conn.set_session(isolation_level=psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE, autocommit=True)
     log.debug(conn)
 
-    with open(fichier, "r", encoding='utf-8') as csvfile:
+    with open(fichier, "r", encoding='latin1') as csvfile:
         # encodings: us-ascii < latin1 < utf-8
+        # but read with 'latin1' because of
+        # "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc3..."
         reader = csv.DictReader(decomment(csvfile), fieldnames=HEADER_LIST, delimiter=':')
         for line in reader:
             log.debug('{}, {}, {}, {}'.format(line['qname'], line['host'], line['group'], line['cpu']))
