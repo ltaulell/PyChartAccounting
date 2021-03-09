@@ -72,9 +72,9 @@
 <font BOLD="true"/>
 </node>
 <node TEXT="ouvrir aux utilisateurs du cluster (intranet)" ID="ID_434819635" CREATED="1611222329271" MODIFIED="1611223609154"/>
-<node TEXT="https://rdlab.cs.upc.edu/s-gae/" ID="ID_1762824682" CREATED="1611222433690" MODIFIED="1611222438299"/>
+<node TEXT="redo de https://rdlab.cs.upc.edu/s-gae/" ID="ID_1762824682" CREATED="1611222433690" MODIFIED="1615302933241"/>
 </node>
-<node TEXT="fichier d&apos;accounting" POSITION="left" ID="ID_75483259" CREATED="1611222349223" MODIFIED="1611304212096">
+<node TEXT="fichier d&apos;accounting" POSITION="left" ID="ID_75483259" CREATED="1611222349223" MODIFIED="1615209069562">
 <edge COLOR="#0000ff"/>
 <richcontent TYPE="NOTE">
 
@@ -87,14 +87,13 @@
       d&#233;crit dans :
     </p>
     <p>
-      https://github.com/ltaulell/PyChartAccounting/blob/master/SGE_accounting_file_format.rst
+      https://github.com/ltaulell/PyChartAccounting/
     </p>
     <p>
-      https://github.com/ltaulell/PyChartAccounting/blob/master/analysis.rst
+      <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">SGE_accounting_file_format.rst</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span><span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">analysis.rst</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
     </p>
   </body>
 </html>
-
 </richcontent>
 </node>
 <node TEXT="contraintes" POSITION="right" ID="ID_1446962237" CREATED="1611222476841" MODIFIED="1611304187393" HGAP_QUANTITY="37.249999307096026 pt" VSHIFT_QUANTITY="5.99999982118608 pt">
@@ -108,13 +107,13 @@
 </node>
 <node TEXT="proposition d&apos;architecture" POSITION="left" ID="ID_53254147" CREATED="1611239468368" MODIFIED="1611247087748" HGAP_QUANTITY="22.249999754130847 pt" VSHIFT_QUANTITY="25.4999992400408 pt">
 <edge COLOR="#00ffff"/>
-<node TEXT="3-tiers" ID="ID_1819904400" CREATED="1611239476432" MODIFIED="1611247083428" HGAP_QUANTITY="28.24999957531692 pt" VSHIFT_QUANTITY="-9.749999709427366 pt">
+<node TEXT="3-tiers ?" ID="ID_1819904400" CREATED="1611239476432" MODIFIED="1615302898894" HGAP_QUANTITY="28.24999957531692 pt" VSHIFT_QUANTITY="-9.749999709427366 pt">
 <node TEXT="si base de donn&#xe9;es, alors postgresql (serveur existant)" ID="ID_1094899213" CREATED="1611239480863" MODIFIED="1611247114705"/>
 <node TEXT="backend de remplissage de la bdd (script python3, via cron)" ID="ID_1573433779" CREATED="1611239500016" MODIFIED="1611247076038" HGAP_QUANTITY="27.499999597668662 pt" VSHIFT_QUANTITY="16.499999508261695 pt"/>
 <node TEXT="frontend web (id&#xe9;alement python3)" ID="ID_836487610" CREATED="1611239532336" MODIFIED="1611247073021" HGAP_QUANTITY="25.999999642372142 pt" VSHIFT_QUANTITY="17.99999946355821 pt"/>
 </node>
 </node>
-<node TEXT="UseCases" POSITION="right" ID="ID_1837565422" CREATED="1611245989216" MODIFIED="1611304184721" HGAP_QUANTITY="29.749999530613437 pt" VSHIFT_QUANTITY="-23.999999284744284 pt">
+<node TEXT="UseCases" POSITION="right" ID="ID_1837565422" CREATED="1611245989216" MODIFIED="1615209082572" HGAP_QUANTITY="29.749999530613437 pt" VSHIFT_QUANTITY="-23.999999284744284 pt">
 <edge COLOR="#7c0000"/>
 <richcontent TYPE="NOTE">
 
@@ -125,6 +124,12 @@
   <body>
     <p>
       Pour faire plus simple, il ne devrait pas y avoir de diff&#233;rence entre Users et Admins
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      <span style="color: #000000; background-color: #ffffff"><font color="#000000" face="monospace">use_cases.gaphor</font></span><span style="font-family: monospace"><font face="monospace"><br/></font></span>
     </p>
   </body>
 </html>
