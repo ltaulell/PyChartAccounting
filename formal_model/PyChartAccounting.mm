@@ -140,15 +140,183 @@
 <node TEXT="project(s)" ID="ID_45717942" CREATED="1611246072345" MODIFIED="1611304136671"/>
 <node TEXT="consommation cpu" ID="ID_218655592" CREATED="1611246334813" MODIFIED="1611246805226">
 <font BOLD="true"/>
+<node TEXT="exemple(s)" ID="ID_947872660" CREATED="1615558612573" MODIFIED="1615558931446"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      SELECT groupes.group_name, COUNT(job_.id_job_) AS nb_job, SUM(job_.cpu) AS sum_cpu
+    </p>
+    <p>
+      FROM job_, groupes
+    </p>
+    <p>
+      WHERE job_.id_groupe = groupes.id_groupe
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND groupes.group_name = 'chimie'
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND (job_.failed = 0 OR job_.exit_status = 0)
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND job_.start_time &gt;= 1325376000
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND job_.start_time &lt;= 1356998400
+    </p>
+    <p>
+      GROUP BY groupes.id_groupe ;
+    </p>
+  </body>
+</html>
+
+</richcontent>
+<hook URI="hours.png" SIZE="1.0" NAME="ExternalObject"/>
+</node>
 </node>
 <node TEXT="nombre de jobs" ID="ID_758929309" CREATED="1611246369805" MODIFIED="1611304106665" HGAP_QUANTITY="19.999999821186073 pt" VSHIFT_QUANTITY="-8.999999731779106 pt">
 <font BOLD="true"/>
+<node TEXT="exemple(s)" ID="ID_1983837817" CREATED="1615558820895" MODIFIED="1615558896838">
+<hook URI="jobs.png" SIZE="1.0" NAME="ExternalObject"/>
+<richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      SELECT users.login, COUNT(job_.id_job_) AS nb_job, SUM(job_.cpu) AS sum_cpu
+    </p>
+    <p>
+      FROM job_, users
+    </p>
+    <p>
+      WHERE job_.id_user = users.id_user
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND users.login = 'cmichel'
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND (job_.failed = 0 OR job_.exit_status = 0)
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND job_.start_time &gt;= 1325376000
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND job_.start_time &lt;= 1356998400
+    </p>
+    <p>
+      GROUP BY users.login ;
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
 </node>
 <node TEXT="m&#xe9;tagroup(s)" ID="ID_1021737442" CREATED="1611246548150" MODIFIED="1611304146320">
 <node TEXT="de users (ex: IA)" ID="ID_1168987951" CREATED="1611246580514" MODIFIED="1611246600966"/>
 <node TEXT="de groupes existants (ex: Bio, Chimistes)" ID="ID_696573978" CREATED="1611246587089" MODIFIED="1611304102471" VSHIFT_QUANTITY="6.74999979883433 pt"/>
 </node>
-<node TEXT="group(s)" ID="ID_1034782684" CREATED="1611303966283" MODIFIED="1611304122039" VSHIFT_QUANTITY="9.749999709427366 pt"/>
+<node TEXT="group(s)" ID="ID_1034782684" CREATED="1611303966283" MODIFIED="1611304122039" VSHIFT_QUANTITY="9.749999709427366 pt">
+<node TEXT="exemple slots" ID="ID_948811819" CREATED="1615558847009" MODIFIED="1615558872066">
+<hook URI="slots_groupes.png" SIZE="1.0" NAME="ExternalObject"/>
+<richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      -- min slots (sur tous les jobs) d'un groupe (chimie)
+    </p>
+    <p>
+      SELECT groupes.group_name, min(job_.slots)
+    </p>
+    <p>
+      FROM job_, groupes
+    </p>
+    <p>
+      WHERE job_.id_groupe = groupes.id_groupe
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND groupes.group_name = 'chimie'
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND job_.start_time &gt;= 1325376000
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND job_.start_time &lt;= 1356998400
+    </p>
+    <p>
+      GROUP BY groupes.group_name ;
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      -- average slots (sur tous les jobs) d'un groupe (chimie)
+    </p>
+    <p>
+      SELECT groupes.group_name, avg(job_.slots)
+    </p>
+    <p>
+      FROM job_, groupes
+    </p>
+    <p>
+      WHERE job_.id_groupe = groupes.id_groupe
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND groupes.group_name = 'chimie'
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND job_.start_time &gt;= 1325376000
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND job_.start_time &lt;= 1356998400
+    </p>
+    <p>
+      GROUP BY groupes.group_name ;
+    </p>
+    <p>
+      
+    </p>
+    <p>
+      -- average slots (sur tous les jobs) d'un groupe (chimie)
+    </p>
+    <p>
+      SELECT groupes.group_name, max(job_.slots)
+    </p>
+    <p>
+      FROM job_, groupes
+    </p>
+    <p>
+      WHERE job_.id_groupe = groupes.id_groupe
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND groupes.group_name = 'chimie'
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND job_.start_time &gt;= 1325376000
+    </p>
+    <p>
+      &#160;&#160;&#160;&#160;AND job_.start_time &lt;= 1356998400
+    </p>
+    <p>
+      GROUP BY groupes.group_name ;
+    </p>
+  </body>
+</html>
+
+</richcontent>
+</node>
+</node>
 </node>
 </node>
 <node TEXT="Admins" ID="ID_77612205" CREATED="1611246304080" MODIFIED="1611304088548">
