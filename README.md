@@ -14,17 +14,20 @@ nos clusters. Multiples possibilités de filtres (voir § Charts). Inspiré de
 Les fichiers d'accounting, sur plusieurs années, deviennent (trés) lourds, et 
 difficile a interroger (4.4Go 2011-2017, déjà 4.8Go pour 2018-2020).
 
-Injecter leur contenu dans un `middleware` pour triturer les data dans tous les 
+Injecter leur contenu dans un `middleware/datawarehouse` pour triturer les data dans tous les 
 sens devient pertinent.
 
 
 ### Frontend
 
 * Web (python3? R-shiny?),
-* At first: "No authentication", at least, not related to accounting: Un DR peut regarder l'accounting de ses thésards ou de son groupe, un Correspondant doit pouvoir regarder l'accounting du/des labo(s) dont il a la charge.
+* At first: "No authentication", at least, not related to accounting: Un DR peut regarder l'accounting de ses thésards ou de son groupe, un Correspondant doit pouvoir regarder l'accounting du/des labo(s) dont il a la charge, etc.
 * Easy to use : Select, display, Boom!.
-* Fast...
+* As fast as possible...
 
+**Choix final** :
+
+* frontend : python3/html/js
 
 ### Charts
 
@@ -81,7 +84,7 @@ On a compris le principe, mais dans le doute, et pour ne pas en oublier (toujour
 
 ### Backend / Middleware / Workflow
 
-Python3 (parceque je bite rien au php). Une partie du taff est déjà fait dans `parse_accounting.py` 
+Python3 (parceque je comprends plus rien au php). Un exemple de ce qui était fait dans `parse_accounting.py` 
 (voir aussi [SGE toolbox](https://github.com/ltaulell/sge_toolbox)).
 
 Regarder aussi les outils d'analyse de log ? Malgré sa structure chelou, 
@@ -94,6 +97,11 @@ Un QueryLangage quelconque : SQL (S-GAE2 mouline tout dans du SQL) ? NoSQL ? SQL
 Schéma(s) -> voir PyChartAccounting.mm (mindmap, freeplane) et model.gaphor (gaphor)
 
 accounting -> python3 -> format intermédiaire -> query -> présentation (graphs)
+
+**Choix final** :
+
+* backend : python3
+* datawarehouse : SQL (postgresql)
 
 
 ## Biais / Questionnements
