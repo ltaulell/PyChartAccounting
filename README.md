@@ -82,7 +82,7 @@ On a compris le principe, mais dans le doute, et pour ne pas en oublier (toujour
     * laisser la porte ouverte à d'effroyables possibilités de mélanges...
 
 
-### Backend / Middleware / Workflow
+### BackOffice / Middleware / Workflow
 
 Python3 (parceque je comprends plus rien au php). Un exemple de ce qui était fait dans `parse_accounting.py` 
 (voir aussi [SGE toolbox](https://github.com/ltaulell/sge_toolbox)).
@@ -100,7 +100,7 @@ accounting -> python3 -> format intermédiaire -> query -> présentation (graphs
 
 **Choix final** :
 
-* backend : python3
+* backoffice : python3 + psycopg2
 * datawarehouse : SQL (postgresql)
 
 
