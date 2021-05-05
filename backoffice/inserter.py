@@ -169,7 +169,7 @@ if __name__ == '__main__':
     METAGROUPES = load_yaml_file(METAGROUPES_FILE)
 
     # prepare la config locale pgsql
-    param_conn_db = config.parserIni(filename='infodb.ini', section='postgresql')
+    param_conn_db = config.parserIni(filename='infodb.ini', section='insertion')
     log.debug(param_conn_db)
 
     conn = psycopg2.connect(**param_conn_db)
