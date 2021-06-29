@@ -70,8 +70,6 @@ def db_transaction(params, fichier, action=None):
                     curs.execute(open(fichier, "r").read())
 
     except (Exception, psycopg2.Error) as db_err:
-        print(db_err.pgerror)
-        print(db_err.diag.message_primary)
         logging.warning(db_err)
 
 
@@ -101,6 +99,7 @@ if __name__ == '__main__':
 
     if args.insert:
         db_transaction(paramConDb, 'sql/clusters_insert.sql', action='insert')
+        db_transaction(paramConDb, 'sql/rcursor.sql', action='insert')
         db_transaction(paramConDb, 'sql/metagroupes_insert.sql', action='insert')
 
     else:

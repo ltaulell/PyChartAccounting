@@ -26,13 +26,13 @@ TODO/FIXME:
     https://www.psycopg.org/docs/errors.html
 
 """
-
 import argparse
 import logging
 import csv
 import sys
 import psycopg2
 import yaml
+from time import perf_counter
 
 import config
 
@@ -70,7 +70,7 @@ def decomment(fichiercsv):
             yield row
 
 
-def execute_sql(connexion, commande, payload, commit=False):
+def execute_sql(connexion, commande, payload='', commit=False):
     """ execute commande, always return id
     SQL inserts MUST returning ids, else fetchone() will fail """
     try:
@@ -118,6 +118,40 @@ def select_or_insert(conn, table, id_name, payload, name=None, multi=False, inse
 
     return result
 
+def pick_cursor(conn, table, col):
+    """
+    A FAIRE
+    Un block sera notre taille max, soit 9223372036854775807.
+    Si cette taille est atteinte, alors il y aura block en plus.
+    """
+
+    sql_str = ' '.join(['SELECT COUNT(*) FROM', table])
+    blockCursor = execute_sql(conn, sql_str)[0]
+
+    sql_str = ' '.join(['SELECT', col, 'FROM', table])
+    result = execute_sql(conn, sql_str)[0]
+
+    for _ in range(1, blockCursor):
+        result += 9223372036854775807
+
+    return result
+
+def update_cursor(conn, table, col, value):
+    sql_str = ''.join(['UPDATE ', table, ' SET ', col, '= (', str(value), ')'])
+
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(sql_str)
+            conn.commit()
+    except psycopg2.errors.StringDataRightTruncation as e:
+        # if job_name or project is too long, ignore job, there's a problem.
+        log.warning('insertion error: {}'.format(e))
+        pass
+    except psycopg2.errors.NotNullViolation as e:
+        # if any of 'NOT NULL' field is null, ignore job, there's a problem.
+        log.warning('notnull error: {}'.format(e))
+        pass
+
 
 def load_yaml_file(yamlfile):
     """ Load yamlfile, return a dict
@@ -127,9 +161,10 @@ def load_yaml_file(yamlfile):
         return a dict
     """
     try:
-        with open(yamlfile, 'r') as f:
-            contenu = yaml.safe_load(f)
-            return contenu
+        f = open(yamlfile, 'r')
+        contenu = yaml.safe_load(f)
+        f.close()
+        return contenu
     except IOError:
         log.critical('Unable to read/load config file: {}'.format(f.name))
         sys.exit(1)
@@ -169,7 +204,7 @@ if __name__ == '__main__':
     METAGROUPES = load_yaml_file(METAGROUPES_FILE)
 
     # prepare la config locale pgsql
-    param_conn_db = config.parserIni(filename='infodb.ini', section='insertion')
+    param_conn_db = config.parserIni(filename='infodb.ini', section='postgresql')
     log.debug(param_conn_db)
 
     conn = psycopg2.connect(**param_conn_db)
@@ -177,7 +212,15 @@ if __name__ == '__main__':
     # conn.set_session(isolation_level=psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE, autocommit=True)
     log.debug(conn)
 
+    # Utilisation d'un cursor pour reprise de lecture du fichier
+    rCursor = pick_cursor(conn, table='rcursor', col='pos_cursor')
+    
+    t1_start = perf_counter()
     with open(fichier, "r", encoding='latin1') as csvfile:
+        # nexter les lignes déjà importées
+        # A voir si il a plus rapide
+        for _ in range(rCursor):
+            next(csvfile)
         # encodings: us-ascii < latin1 < utf-8
         # but read with 'latin1' because of
         # "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc3..."
@@ -323,4 +366,9 @@ if __name__ == '__main__':
                 else:
                     log.info('job {} already exist in database'.format(line['job_id']))
 
+            rCursor += 1
+            update_cursor(conn, table='rcursor', col='pos_cursor', value=rCursor)
+    
     conn.close()
+    t1_stop = perf_counter()
+    print('Elapsed time: {:.5f}"'.format(t1_stop - t1_start))
