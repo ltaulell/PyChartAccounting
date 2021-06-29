@@ -109,6 +109,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.vscode
 
 # Spyder project settings
 .spyderproject
@@ -127,6 +128,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# Personal tests in local
-backoffice/accounting
