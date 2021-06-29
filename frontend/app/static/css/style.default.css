@@ -1,0 +1,257 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&family=Poppins:wght@200&display=swap');
+body {
+    font-family: 'Inconsolata', monospace;
+    background: #fafafa;
+}
+
+p {
+    font-family: 'Inconsolata', monospace;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+a,
+a:hover,
+a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar {
+    padding: 15px 10px;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+i,
+span {
+    display: inline-block;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: #447cc9;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+
+#sidebar ul li a {
+    text-align: left;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #2d63af;
+}
+
+#sidebar .sidebar-header strong {
+    display: none;
+    font-size: 1.8em;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li .inputSpan {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: #447cc9;
+    background: #fff;
+}
+
+#sidebar ul li a .submit {
+    width: 100%;
+    color: #447cc9;
+    background: rgb(255, 255, 255);;
+}
+
+
+#sidebar ul li  .submit:hover {
+    color: rgb(255, 255, 255);
+    background: #447cc9;
+}
+
+
+#sidebar ul li a i {
+    margin-right: 10px;
+}
+
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #447cc9;
+}
+
+ul ul .inputSpan {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #447cc9;
+}
+
+ul.Sep {
+    padding: 20px;
+}
+
+ul.Sep a {
+    text-align: center;
+    font-size: 0.9em !important;
+    display: block;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+/* ---------------------------------------------------
+    radio button style
+----------------------------------------------------- */
+.container {
+    display: block;
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+  
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+  
+.container:hover input ~ .checkmark {
+    background-color: rgb(215, 139, 235);
+}
+
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+  
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.container .checkmark:after {
+    top: 0px;
+    left: 3.3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgb(255, 0, 0);
+}
+
+.periode{
+    display: none;
+}
+  
+.annee{
+    display: none;
+}
+
+
+.charts{
+    width: 100%;
+}
+
+
+@media (min-width: 768px) {
+    .container-fluid {
+      padding: 0 3rem;
+    }
+  }
+
+nav.navbar .container-fluid {
+    width: 100%;
+}
+
+.dataTables_wrapper.container-fluid {
+    padding: 10px 5px 0 0;
+    margin: 100px;
+}
+
+.chart{
+    margin-bottom: 40px;
+}
+
+
+/* ---------------------------------------------------
+    TEXT STYLE
+----------------------------------------------------- */
+
+.erreurs{
+    color: #ff0000;
+}
+
+.info{
+    color: #838383;
+}
+
+.drop-header .collapse .dropArrow{
+    transition: .3s transform ease-in-out;
+}
+
+.drop-header .collapsed .dropArrow {
+    transform: rotate(90deg);
+}
