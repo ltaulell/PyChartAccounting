@@ -1,5 +1,10 @@
 -- $Id$
 -- create proper schema
+create table IF NOT EXISTS rcursor(
+    id_rcursor serial PRIMARY KEY,
+    pos_cursor bigserial
+    );
+
 create table IF NOT EXISTS users (
     id_user bigserial PRIMARY KEY,
     login varchar(255) NOT NULL UNIQUE

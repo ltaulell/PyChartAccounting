@@ -1,5 +1,6 @@
 -- $Id$
 -- drop everything, testing era
+drop table if exists rcursor;
 drop table if exists job_ cascade;
 drop table if exists users_in_metagroupes cascade;
 drop table if exists groupes_in_metagroupes cascade;
@@ -12,3 +13,4 @@ drop table if exists metagroupes cascade;
 drop table if exists groupes cascade;
 drop table if exists hosts cascade;
 drop table if exists users cascade;
+drop table if exists history cascade;
