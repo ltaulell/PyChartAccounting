@@ -4,13 +4,13 @@
 
 -- createdb procedure (also system cmd)
 -- createuser --no-superuser --no-createrole --createdb chartwrite
--- psql -c "ALTER USER chartwrite WITH PASSWORD 'pychart';"
-CREATE ROLE chartwrite WITH PASSWORD 'pychart' LOGIN NOSUPERUSER INHERIT CREATEDB NOCREATEROLE NOREPLICATION;
+-- psql -c "ALTER USER chartwrite WITH PASSWORD 'TO_CHANGE';"
+CREATE ROLE chartwrite WITH PASSWORD 'TO_CHANGE' LOGIN NOSUPERUSER INHERIT CREATEDB NOCREATEROLE NOREPLICATION;
 -- createdb -E UTF8 -O chartwrite accounting
 CREATE DATABASE accounting WITH ENCODING 'UTF8' OWNER chartwrite ;
 \c accounting
 -- chartread user
-CREATE ROLE chartread WITH PASSWORD 'pychart' LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
+CREATE ROLE chartread WITH PASSWORD 'TO_CHANGE' LOGIN NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;
 GRANT CONNECT ON DATABASE accounting TO chartread;
 -- GRANT USAGE ON SCHEMA public TO chartread;
 GRANT SELECT ON ALL TABLES IN SCHEMA public to chartread;
