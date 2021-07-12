@@ -6,12 +6,176 @@
 
         <title>{% block title %}{% endblock %}</title>
         {% block ico %}{% endblock %}
+        <!-- jQuery CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery/jquery-ui.css') }}">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap-datepicker3.css') }}">
         <!-- Main CSS -->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.default.css') }}">
+        <!-- Font Awesome JS -->
+        <script src="{{ url_for('static', filename='vendor/fontawesome/solid.js') }}"></script>
+        <script src="{{ url_for('static', filename='vendor/fontawesome/fontawesome.js') }}"></script>
     </head>
     <body>
+        <div class="wrapper">
+            <nav id="sidebar">
+
+                <div class="sidebar-header">
+                    <h3>PSMN</h3>
+                </div>
+                <form action="" method="post" novalidate>
+                    {{ form.hidden_tag() }}
+                    {{ form.csrf_token }}
+                    <ul class="list-unstyled components">
+                        <li>
+                            
+                            <div class="form-group">
+
+                                <div class="drop-header">
+                                    <a data-toggle="collapse" href="#datePick" aria-expanded="false" aria-controls="collapse-example">
+                                        Dates
+                                        <i class="fa fa-chevron-down pull-right dropArrow float-right"></i>
+                                    </a>
+                                </div>
+
+                                <ul class="collapse list-unstyled" id="datePick">
+                                <li>
+                                    <span class="inputSpan"><label class="container">Par période
+                                        <input type="radio" name="radio" value="periode">
+                                        <span class="checkmark"></span>
+                                        </label>
+                                        <div class="periode div" id="periode">
+                                            <label class="control-label" for="date">Debut</label>
+                                            {{form.dateByForkStart(class="form-control", id="date", placeholder="MM/DD/YYYY",type="text")}}
+                                            <label class="control-label" for="date">Fin</label>
+                                            {{form.dateByForkEnd(class="form-control", id="date", placeholder="MM/DD/YYYY",type="text")}}
+                                        </div>
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <span class="inputSpan"><label class="container">Par année
+                                        <input type="radio" name="radio" value="annee">
+                                        <span class="checkmark"></span>
+                                        </label>
+                                        <div class="annee div" id="annee">
+                                            <label class="control-label" for="date">Année</label> 
+                                            {{form.dateByYear(class="form-control", id="date", placeholder="YYYY",type="text")}}
+                                        </div>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="inputSpan"><label class="container">Tout
+                                        <input type="radio" checked="checked" name="radio" value="tout">
+                                        <span class="checkmark"></span>
+                                        </label>
+                                        <div class="tout div" id="tout"></div>
+                                    </span>
+                                </li>
+                            </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-group">
+                                <span class="inputSpan">
+                                    Utilisateur{{form.users(class="form-control")}}
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-group">
+                                <span class="inputSpan">
+                                    Groupes{{form.groups(class="form-control")}}
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-group">
+                                <div class="drop-header">
+                                    <a data-toggle="collapse" href="#queuePick" aria-expanded="true" aria-controls="collapse-example">
+                                        Queue
+                                        <i class="fa fa-chevron-down pull-right dropArrow float-right"></i>
+                                    </a>
+                                </div>
+    
+                                <ul class="collapse list-unstyled" id="queuePick">
+                                    <li>
+                                        <div class="form-group">
+                                            <span class="inputSpan">
+                                                {{form.queue(class="form-control")}}
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-group">
+                                <div class="drop-header">
+                                    <a data-toggle="collapse" href="#clusterPick" aria-expanded="true" aria-controls="collapse-example">
+                                        Cluster
+                                        <i class="fa fa-chevron-down pull-right dropArrow float-right"></i>
+                                    </a>
+                                </div>
+    
+                                <ul class="collapse list-unstyled" id="clusterPick">
+                                    <li>
+                                        <div class="form-group">
+                                            <span class="inputSpan">
+                                                {{form.cluster(class="form-control")}}
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <li>
+                        
+                    </li>
+                    <ul class="list-unstyled Sep">
+                        <li>
+                            <a class="submit">{{ form.submit(class="btn btn-lg submit") }}</a>
+                        </li>
+                        <li>
+                            <a class="submit">{{ form.reset(class="btn btn-lg submit") }}</a>
+                        </li>
+                    </ul>
+                </form>
+            </nav>
+
+            <!-- Page Content  -->
+            <div id="content">
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    {% block msgUtilisateur %}{% endblock %}
+                </nav>
+                <div class="line"></div>
+                {% block body %}{% endblock %}
+            </div>
+        </div>
         
-        {% block body %}{% endblock %}
         
+
+        <div class="overlay"></div>
+        <!-- jQuery  -->
+        <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='vendor/jquery/jquery-ui.js') }}"></script>
+        <!-- Bootstrap JS -->
+        <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+        <!-- jQuery scroller-->
+        <script src="{{ url_for('static', filename='vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+        <!-- Datepicker -->
+        <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap-datepicker.min.js') }}"></script>
+        <!-- JS Main-->
+        <script src="{{ url_for('static', filename='js/front.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/datepicker.js') }}"></script>
+        <!-- Chart Scripts-->
+        <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/charts-custom.js') }}"></script>
+
+        <!-- Draw Charts-->
+        {% block jsChart %}{% endblock %}
     </body>
 </html>
