@@ -1,1 +1,0 @@
-INSERT INTO rcursor(pos_cursor) VALUES (0) RETURNING id_rcursor;

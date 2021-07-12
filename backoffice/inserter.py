@@ -136,23 +136,6 @@ def pick_cursor(conn, table, col):
 
     return result
 
-def update_cursor(conn, table, col, value):
-    sql_str = ''.join(['UPDATE ', table, ' SET ', col, '= (', str(value), ')'])
-
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute(sql_str)
-            conn.commit()
-    except psycopg2.errors.StringDataRightTruncation as e:
-        # if job_name or project is too long, ignore job, there's a problem.
-        log.warning('insertion error: {}'.format(e))
-        pass
-    except psycopg2.errors.NotNullViolation as e:
-        # if any of 'NOT NULL' field is null, ignore job, there's a problem.
-        log.warning('notnull error: {}'.format(e))
-        pass
-
-
 def load_yaml_file(yamlfile):
     """ Load yamlfile, return a dict
 
@@ -211,16 +194,9 @@ if __name__ == '__main__':
     # conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
     # conn.set_session(isolation_level=psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE, autocommit=True)
     log.debug(conn)
-
-    # Utilisation d'un cursor pour reprise de lecture du fichier
-    rCursor = pick_cursor(conn, table='rcursor', col='pos_cursor')
-    
+ 
     t1_start = perf_counter()
     with open(fichier, "r", encoding='latin1') as csvfile:
-        # nexter les lignes déjà importées
-        # A voir si il a plus rapide
-        for _ in range(rCursor):
-            next(csvfile)
         # encodings: us-ascii < latin1 < utf-8
         # but read with 'latin1' because of
         # "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc3..."
@@ -365,9 +341,6 @@ if __name__ == '__main__':
 
                 else:
                     log.info('job {} already exist in database'.format(line['job_id']))
-
-            rCursor += 1
-            update_cursor(conn, table='rcursor', col='pos_cursor', value=rCursor)
     
     conn.close()
     t1_stop = perf_counter()
