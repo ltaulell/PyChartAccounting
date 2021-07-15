@@ -46,7 +46,7 @@ var legends = {
 }
 
 
-function drawPieChart(IdChart, labelsName, dataList){
+function PieChart(IdChart, labelsName, dataList){
 
     var brandPrimary = 'rgba(179, 50, 155, 1)';
 
@@ -93,7 +93,7 @@ function drawPieChart(IdChart, labelsName, dataList){
 
 
 
-function drawLineChart(IdChart){
+function LineChart(IdChart){
 
     var linePrimary = 'rgba(51, 179, 90, 1)';
     var LineChartId  = $('#'+IdChart);
@@ -135,11 +135,10 @@ function drawLineChart(IdChart){
       });
 }
 
-function drawBarChart(IdChart, labels, values, compare){
+function BarChart(IdChart, labels, values){
 
     const chartLegendSelector = "[data-results-chart-legends]";
-    let chartLegendEL;
-    chartLegendEL = document.querySelector(chartLegendSelector);
+    let chartLegendEL = document.querySelector(chartLegendSelector);
 
     var UserPrimary = 'rgba(51, 179, 90, 1)';
     var AllPrimary = 'rgba(203, 203, 203, 1)';
@@ -167,7 +166,7 @@ function drawBarChart(IdChart, labels, values, compare){
 
 
 
-function drawBarStacked(IdChart, labels, values){
+function BarChartStacked(IdChart, labels, values){
     if(values[0] < values[1]){
         pgValue = values[1];
         ppValue = values[0];
@@ -218,7 +217,7 @@ function drawBarStacked(IdChart, labels, values){
 }
 
 
-function drawBarCompareChart(IdChart, labels, values){
+function BarChartCompare(IdChart, labels, values){
     if(values[0] < values[1]){
         pgValue = values[1];
         ppValue = values[0];
