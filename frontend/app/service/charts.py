@@ -161,14 +161,14 @@ class userCharts(Charts):
                                                         groupBy = ''), 
                                     fetchOne=True)
 
-        output["jobUserGroupe"] = ["PieChart", [jobUserGroupe]]
-        output["heureUserGroupe"] = ["PieChart", [heureUserGroupe]]
-        output["requeteOkHs"] = ["PieChart", [requeteOkHs]]
-        output["requeteOther"] = ["BarChart", [requeteOther]]
-        output["testStacked"] = ["BarChartStacked", [requeteOther]]
+        output["jobUserGroupe"] = {"id":"jobUserGroupe", "type": "PieChart", "values" : jobUserGroupe, "title" : "test"}
+        output["heureUserGroupe"] = {"id":"heureUserGroupe", "type": "PieChart", "values" : heureUserGroupe, "title" : "test2"}
+        output["requeteOkHs"] = {"id":"requeteOkHs", "type": "PieChart", "values" : requeteOkHs, "title" : "test3"}
+        output["requeteOther"] = {"id":"requeteOther", "type": "BarChart", "values" : requeteOther, "title" : "test4"}
+        output["testStacked"] = {"id":"testStacked", "type": "BarChartStacked", "values" : requeteOther, "title" : "test5"}
 
         for key in output:
-            charts.append([key, output[key]])
+            charts.append(output[key])
 
         return charts, rappel, error
     
