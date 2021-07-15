@@ -1,80 +1,122 @@
-<!-- 
-    Page d'index, lorsque l'utilisateur se connecte, il est redirigé sur cette page,
-    cette page sert également de page d'erreurs et/ou d'informations
-
- -->
-
 {% extends 'base.html' %}
-{% block title %}Ens{% endblock %}
+{% block title %}Utilisateur - PSMN{% endblock %}
 {% block ico %}<link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/chart.ico') }}">{% endblock %}
 
+
 {% block msgUtilisateur %}
-
 <div class="container">
-    <div class="row">
-        
-            {% with messages = get_flashed_messages(category_filter=['success']) %}
-                {% if messages %}
-                    {% for message in messages %}
-                    <div class="col-md">
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <span>{{message}}</span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-        
-            {% with messages = get_flashed_messages(category_filter=['warning']) %}
-                {% if messages %}
-                    {% for message in messages %}
-                    <div class="col-md">
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <span>{{message}}</span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-        
-            {% with messages = get_flashed_messages(category_filter=['danger']) %}
-                {% if messages %}
-                    {% for message in messages %}
-                    <div class="col-md">
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <span>{{message}}</span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-    </div>
+  <div class="row">
     {% if infos %}
-        <div class="card">
-            <div class="card-header">
-            Information recherchée
-            </div>
-            <ul class="list-group list-group-horizontal-xl">
-            
-            {% for key, value in infos.items() %}
-                <li class="list-group-item">{{key}}: {{value}}</li>
-            {% endfor %}
-            
-            </ul>
+      <div class="card">
+        <div class="card-header">
+          Information recherchée
         </div>
+        <ul class="list-group list-group-horizontal-xl">
+          {% for key, value in infos.items() %}
+            <li class="list-group-item">{{key}}: {{value}}</li>
+          {% endfor %}
+        </ul>
+      </div>
     {% endif %}
+
+    {% with messages = get_flashed_messages(category_filter=['success']) %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="col-md">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <span>{{message}}</span>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+        
+    {% with messages = get_flashed_messages(category_filter=['warning']) %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="col-md">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <span>{{message}}</span>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+        
+    {% with messages = get_flashed_messages(category_filter=['danger']) %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="col-md">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <span>{{message}}</span>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+  </div>
 </div>
-
-
 {% endblock %}
+
+{% block body %}
+  {% if charts %}
+    
+  <section class="charts">
+      <div class="ChartContainer">
+        <div class="row">
+          {% for chart in charts %}
+            <div class="col-lg-6">
+              <div class="card chart">
+                <div class="card-header d-flex align-items-center">
+                  <h4>{{chart["title"]}}</h4>
+                </div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="{{chart['id']}}"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}
+
+{% block jsChart %}
+  {% if charts %}
+    <script script type= text/javascript>
+      var chart = {{ charts | tojson }} //On lit les éléments contenus dans charts
+      
+      for (let i = 0; i < chart.length; i++) {
+        labels = [];
+        values = [];
+
+        for(let key in chart[i]['values']){
+          labels.push(key);
+          values.push(chart[i]['values'][key]);
+        }
+
+        window[chart[i]['type']](
+                                  chart[i]['id'], 
+                                  labels, 
+                                  values
+                                );
+
+      }
+    </script>
+  {% endif %}
+{% endblock %}
+
+
