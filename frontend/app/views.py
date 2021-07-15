@@ -17,39 +17,35 @@ def isLogged(f):
 
 
 @app.route('/', methods=['GET', 'POST'])
+@isLogged
 def index():
+    form = InputForm() #Recuperation des saisies de l'utilisateur
+    rappel = None
+    if request.method == 'POST' and form.submit.data == True:
 
-        if "user" in session: #Afficher la page de connexion si l'utilisateur n'est pas connecté
-            form = InputForm() #Recuperation des saisies de l'utilisateur
-            rappel = None
-            if request.method == 'POST' and form.submit.data == True:
+        if form.users.data: #Si l'utilisateur saisie des informations dans l'input(user), alors on comprend qu'il veut les informations de l'utilisateur
 
-                
-
-                if form.users.data: #Si l'utilisateur saisie des informations dans l'input(user), alors on comprend qu'il veut les informations de l'utilisateur
-
-                    if form.users.data in users and len(form.users.data.split()) <= 1:
-                        output, rappel, errRet = userCharts.charts(form)
-                        if errRet:
-                            flash("Merci de verifier votre demande d'information", category="danger")
-                        else:
-                            return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
-                    else:
-                        flash("Aucun(e) utilisateur/trice est associé(e) à votre entrée", category="warning")
-                elif form.groups.data != "Tout" and not form.users.data:
-                    print("groupe")
-                elif form.queue.data != "Tout" and not form.users.data:
-                    print("queue")
-                elif form.cluster.data != "default" and not form.users.data:
-                    print("cluster")
+            if form.users.data in users and len(form.users.data.split()) <= 1:
+                output, rappel, errRet = userCharts.charts(form)
+                if errRet:
+                    flash("Merci de verifier votre demande d'information", category="danger")
+                else:
+                    return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
+            else:
+                flash("Aucun(e) utilisateur/trice est associé(e) à votre entrée", category="warning")
+        elif form.groups.data != "Tout" and not form.users.data:
+            print("groupe")
+        elif form.queue.data != "Tout" and not form.users.data:
+            print("queue")
+        elif form.cluster.data != "default" and not form.users.data:
+            print("cluster")
                     
-            elif request.method == 'POST' and form.reset.data == True:
-                LoadGroupes(session["user"], reload=True)
-                return redirect(url_for("index"))
+        elif request.method == 'POST' and form.reset.data == True:
+            LoadGroupes(session["user"], reload=True)
+        return redirect(url_for("index"))
             
-            return render_template('index.html', charts=None, form=form, user=form.users.data, group=form.groups.data, infos=rappel) #Afficher une page blanche, ou avec des erreurs et informations
-        else:
-            return redirect(url_for("login")) #redirection
+    return render_template('index.html', charts=None, form=form, user=form.users.data, group=form.groups.data, infos=rappel) #Afficher une page blanche, ou avec des erreurs et informations
+
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
