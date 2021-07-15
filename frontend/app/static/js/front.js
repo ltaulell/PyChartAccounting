@@ -52,7 +52,7 @@ function loadLists(){
 //  Charger les clusters dans un select
     $.getJSON('/clusters', function(data, status, xhr){
         let select = "selected";
-        let options = '<option value="Tout">Tout</option>';
+        let options = '';
         for (var i = 0; i < data["clusters"].length; i++ ) {
             options += '<option value="' + data["clusters"][i]+ '" '+select+'>' + data["clusters"][i] + '</option>';
             select = "";
