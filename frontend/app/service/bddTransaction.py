@@ -56,39 +56,26 @@ class BddTransaction(object):
         cur.close() #Fermer le cursor
         return db_version #Retourner la réponse
 
-    def fetch(self, command, fetchOne=False):
-        if fetchOne:
-            try:
-                with self.conn.cursor(cursor_factory=RealDictCursor) as cur:
-                    cur.execute(command)
-                    log.debug('status: {}'.format(cur.statusmessage))
-                    bddRet = dict(cur.fetchone())
-                    answerBdd = {}
-                    for k, v in bddRet.items():
-                        if bddRet[k] is None:
-                            answerBdd[k] = 0
-                        else:
-                            answerBdd[k] = v
-                    return answerBdd
-
-            except psycopg2.errors.SyntaxError as Err:
-                log.warning('Erreur de syntax: {}'.format(Err))
-                return 0
-            except psycopg2.errors.UndefinedColumn as Err:
-                log.warning('Erreur de colonne: {}'.format(Err))
-                return 0
-            except psycopg2.errors.UndefinedTable as Err:
-                log.warning('Erreur de table: {}'.format(Err))
-                return 0
-            except Exception as Err:
-                return 0
-        else:
-            try:
-                bddRet = pd.read_sql_query(command, self.conn)
-                bddRet = bddRet.to_dict('r')
+    def fetch(self, command):
+        try:
+            bddRet = pd.read_sql_query(command, self.conn)
+            bddRet = bddRet.to_dict('records')
+            if(len(bddRet) < 2):
                 return bddRet[0]
-            except IndexError:
-                return 0
+            return bddRet
+
+        except psycopg2.errors.SyntaxError as e:
+            log.warning('Erreur de syntax: {}'.format(e))
+            return 0
+        except psycopg2.errors.UndefinedColumn as e:
+            log.warning('Erreur de colonne: {}'.format(e))
+            return 0
+        except psycopg2.errors.UndefinedTable as e:
+            log.warning('Erreur de table: {}'.format(e))
+            return 0
+        except Exception as e:
+            return 0
+
             
 
 
