@@ -94,6 +94,10 @@ $(document).ready(function(){
         });
     });
    
+    $("button").on('click', function(e) {
+        e.preventDefault();
+    });
+
 //  Eviter la frappe entrée lorsque l'utilisateur entre un nom (eviter de valider le formulaire)
     $(window).keydown(function(event){
         if(event.keyCode == 13) {
@@ -101,6 +105,5 @@ $(document).ready(function(){
           return false;
         }
       });
-}); 
-
-
+   
+});
