@@ -22,7 +22,14 @@ def parserIni(filename, section):
         #créer un declencheur
     return paramsDb
 
-def combineDict(a,b):
-    c = a.copy()
-    c.update(b)
+def combineDict(*args):
+    c = dict()
+    for k in args:
+        try:
+            c.update(k)
+        except TypeError:
+            pass
+        except:
+            pass
+
     return c
