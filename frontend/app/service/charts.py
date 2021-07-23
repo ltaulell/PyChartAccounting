@@ -70,9 +70,13 @@ class Charts(object):
     @staticmethod
     def multiDict(values, nKey, nValue):
         dico = dict()
-        for i in values:
-            temp = {i[nKey]: i[nValue]}
+        if len(values) == 2:
+            temp = {values[nKey]: values[nValue]}
             dico = combineDict(dico, temp)
+        else:
+            for value in values:
+                temp = {value[nKey]: value[nValue]}
+                dico = combineDict(dico, temp)
         return dico
 
     def charts(self, form):
@@ -137,7 +141,7 @@ class userCharts(Charts):
             WHERE job_.id_user = users.id_user
                 AND users.login = '{user}'
                 {test}
-                {multiGroup}
+                {group}
                 {date}
             GROUP BY users.login;
             """
@@ -145,7 +149,7 @@ class userCharts(Charts):
                                                             date=date,
                                                             test = 'AND (job_.failed = 0 OR job_.exit_status = 0)',
                                                             groupName = groupName,
-                                                            multiGroup = "",
+                                                            multiGroup = multiGroup,
                                                             user=user))
 
         jobsFailed = self.e.fetch(command=sql.format(    select='',
@@ -481,7 +485,6 @@ class userCharts(Charts):
 
         slotsPerJob = combineDict(slots1, slots2, slots3, slots4, slots5, slots6, slots7, slots8)                                                        
 
-
         #Temps d'attente
         sql = """
             SELECT MAX(job_.start_time - job_.submit_time) as max, AVG(job_.start_time - job_.submit_time) as avg, -- MIN(job_.start_time - job_.submit_time) as min
@@ -629,7 +632,7 @@ class userCharts(Charts):
                                                                     date=date, 
                                                                     test = 'count(job_.id_job_)',
                                                                     user=user))
-        
+
         topTenHostnameHours = Charts.multiDict(topTenHostnameHours, 'hostname', 'sum_')
         topTenHostnameNbJobs = Charts.multiDict(topTenHostnameNbJobs, 'hostname', 'sum_')
 
