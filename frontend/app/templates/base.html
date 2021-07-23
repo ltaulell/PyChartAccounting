@@ -36,7 +36,7 @@
                         <div class="form-group">
 
                             <div class="drop-header">
-                                <button class="btn btn-toggle align-items-center rounded collapsed"
+                                <button class="btn btn-toggle align-items-center collapsed"
                                     data-bs-toggle="collapse" data-bs-target="#datePick" aria-expanded="false">
                                     Dates
                                 </button>
@@ -119,7 +119,7 @@
                     <li>
                         <div class="form-group">
                             <div class="drop-header">
-                                <button class="btn btn-toggle align-items-center rounded collapsed"
+                                <button class="btn btn-toggle align-items-center collapsed"
                                     data-bs-toggle="collapse" data-bs-target="#clusterPick" aria-expanded="false">
                                     Cluster
                                 </button>
@@ -140,12 +140,12 @@
                 <li>
 
                 </li>
-                <ul class="list-unstyled Sep">
+                <ul class="list-unstyled">
                     <li>
-                        <a class="submit">{{ form.submit(class="btn btn-lg submit") }}</a>
+                        <div class="buttonForm">{{ form.submit(class="btn btn-lg sendInfo") }}</div>
                     </li>
                     <li>
-                        <a class="submit">{{ form.reset(class="btn btn-lg submit") }}</a>
+                        <div class="buttonForm">{{ form.reset(class="btn btn-lg resetButton") }}</div>
                     </li>
                 </ul>
             </form>
@@ -184,6 +184,16 @@
 
     <!-- Draw Charts-->
     {% block jsChart %}{% endblock %}
+    <script type="text/javascript">
+	
+        $(document).ready(function(){
+            $(".sendInfo").click(function(){
+                $(this).addClass("animationLoading");
+                
+            });
+        });
+        
+        </script>
 </body>
 
 </html>

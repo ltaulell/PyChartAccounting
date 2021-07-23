@@ -2,6 +2,7 @@
 body {
   font-family: "Inconsolata", monospace;
   background: #fafafa;
+  font-size: 20px;
 }
 
 p {
@@ -10,14 +11,6 @@ p {
   font-weight: 300;
   line-height: 1.7em;
   color: #999;
-}
-
-a,
-a:hover,
-a:focus {
-  color: inherit;
-  text-decoration: none;
-  transition: all 0.3s;
 }
 
 .navbar {
@@ -57,15 +50,12 @@ span {
 }
 
 #sidebar {
+  display: block;
   min-width: 250px;
   max-width: 250px;
   background: #447cc9;
   color: #fff;
   transition: all 0.3s;
-}
-
-#sidebar ul li a {
-  text-align: left;
 }
 
 #sidebar .sidebar-header {
@@ -83,64 +73,66 @@ span {
   border-bottom: 1px solid #47748b;
 }
 
-#sidebar ul li a {
+#sidebar ul li .buttonForm {
   padding: 10px;
   font-size: 1.1em;
   display: block;
+  text-align: center;
 }
 
 #sidebar ul li .inputSpan {
-  padding: 10px;
-  font-size: 1.1em;
   display: block;
+  width: 90%;
+  margin: 0 auto;
+  font-size: 20px;
 }
 
-#sidebar ul li a:hover {
-  color: #447cc9;
-  background: #fff;
-}
-
-#sidebar ul li a .submit {
-  width: 100%;
-  color: #447cc9;
-  background: rgb(255, 255, 255);
-}
-
-#sidebar ul li .submit:hover {
+#sidebar ul li .submitBtn:hover {
   color: rgb(255, 255, 255);
   background: #447cc9;
 }
 
-#sidebar ul li a i {
-  margin-right: 10px;
-}
-
-ul ul a {
-  font-size: 0.9em !important;
-  padding-left: 30px !important;
+#sidebar ul li .sendInfo {
+  width: 100%;
+  height: 60px;
+  border: 2px solid #fff;
+  color: #fff;
   background: #447cc9;
+  box-sizing: border-box;
+  border-radius: 50px;
+  outline: none;
+  transition: all ease 0.5s;
 }
 
-ul ul .inputSpan {
-  font-size: 0.9em !important;
-  padding-left: 30px !important;
-  background: #447cc9;
+#sidebar .sendInfo:hover {
+  color: #447cc9;
+  background: white;
 }
 
-ul.Sep {
-  padding: 20px;
+#sidebar ul li .animationLoading {
+  font-size: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border-left-color: transparent;
+  animation: rotate 1.4s ease 0.5s infinite;
 }
 
-ul.Sep a {
-  text-align: center;
-  font-size: 0.9em !important;
-  display: block;
-  border-radius: 5px;
-  margin-bottom: 5px;
+@keyframes rotate {
+  0% {
+    transform: rotate(360deg);
+  }
+}
+
+#sidebar ul li .resetButton {
+  width: 100%;
+  color: #fff;
+  outline: none;
 }
 
 .drop-header .btn {
   color: white;
+  font-size: 20px;
 }
 
 .btn-toggle {
@@ -169,7 +161,6 @@ ul.Sep a {
   color: rgb(252, 172, 172);
 }
 
-
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -189,7 +180,6 @@ ul.Sep a {
   position: relative;
   padding-left: 20px;
   margin-bottom: 10px;
-  font-size: 20px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
