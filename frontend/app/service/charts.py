@@ -148,7 +148,7 @@ class userCharts(Charts):
         jobSuccessHours = self.e.fetch(command=sql.format(  select=', SUM(job_.cpu) AS sum_cpu',
                                                             date=date,
                                                             test = 'AND (job_.failed = 0 OR job_.exit_status = 0)',
-                                                            groupName = groupName,
+                                                            group = groupName,
                                                             multiGroup = multiGroup,
                                                             user=user))
 
