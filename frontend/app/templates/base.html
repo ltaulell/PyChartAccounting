@@ -154,9 +154,7 @@
         <!-- Page Content  -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                {% block msgUtilisateur %}{% endblock %}
-            </nav>
+            {% block msgUtilisateur %}{% endblock %}
             <div class="line"></div>
             {% block body %}{% endblock %}
         </div>
@@ -177,9 +175,12 @@
     <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap-datepicker.min.js') }}"></script>
     <!-- JS Main-->
     <script src="{{ url_for('static', filename='js/front.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/interact.js') }}"></script>
     <script src="{{ url_for('static', filename='js/datepicker.js') }}"></script>
     <!-- Chart Scripts-->
     <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/html2canvas/html2canvas.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/FileSaver.js/FileSaver.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/charts-custom.js') }}"></script>
 
     <!-- Draw Charts-->

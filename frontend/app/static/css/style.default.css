@@ -224,10 +224,6 @@ span {
   display: none;
 }
 
-.charts {
-  width: 100%;
-}
-
 @media (min-width: 768px) {
   .container-fluid {
     padding: 0 3rem;
@@ -238,9 +234,7 @@ nav.navbar .container-fluid {
   width: 100%;
 }
 
-.chart {
-  margin-bottom: 40px;
-}
+
 
 /* ---------------------------------------------------
     TEXT STYLE
@@ -260,4 +254,24 @@ nav.navbar .container-fluid {
 
 .drop-header .collapsed .dropArrow {
   transform: rotate(90deg);
+}
+
+/* ---------------------------------------------------
+    Charts style
+----------------------------------------------------- */
+
+.chart {
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.toJpg{
+  position: absolute; 
+  top: 0; 
+  right: 0;
+}
+
+.list-group-item-primary{
+  color: white;
+  background-color: #447cc9;
 }
