@@ -4,7 +4,7 @@ from functools import wraps
 from uuid import uuid4
 import app.utils as utils
 from app import app, bdd, users
-from app import userCharts, groupesCharts
+from app import userCharts, groupesCharts, queueCharts, clusterCharts
 
 def isLogged(f):
     @wraps(f)
@@ -28,24 +28,36 @@ def index():
             if form.users.data in users and len(form.users.data.split()) <= 1:
                 output, rappel, errRet = userCharts.charts(form)
                 if errRet:
-                    flash("Merci de verifier votre demande d'information", category="danger")
+                    flash("Merci de verifier votre demande d'information", category="warning")
                 else:
                     return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
             else:
                 flash("Aucun(e) utilisateur/trice est associé(e) à votre entrée", category="warning")
+        #groupe
         elif form.groups.data != "Tout" and not form.users.data:
             output, rappel, errRet = groupesCharts.charts(form)
             if errRet:
-                flash("Merci de verifier votre demande d'information", category="danger")
+                flash("Merci de verifier votre demande d'information", category="warning")
             else:
                 return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
+        #queue
         elif form.queue.data != "Tout" and not form.users.data:
-            print("queue")
+            output, rappel, errRet = queueCharts.charts(form)
+            if errRet:
+                flash("Merci de verifier votre demande d'information", category="warning")
+            else:
+                return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
+        #cluster
         elif form.cluster.data != "default" and not form.users.data:
-            print("cluster")
+            output, rappel, errRet = clusterCharts.charts(form)
+            if errRet:
+                flash("Merci de verifier votre demande d'information", category="warning")
+            else:
+                return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
                     
         elif request.method == 'POST' and form.reset.data == True:
             LoadGroupes(session["user"], reload=True)
+            form = None
             
     return render_template('index.html', charts=None, form=form, user=form.users.data, group=form.groups.data, infos=rappel) #Afficher une page blanche, ou avec des erreurs et informations
 
