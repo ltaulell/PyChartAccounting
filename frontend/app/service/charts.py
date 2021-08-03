@@ -1259,3 +1259,5 @@ class clusterCharts(Charts):
                             {"id":"topTenUsedCluster", "type": "BarChart", "values" : topTenUsedCluster, "title" : "Top 10 des cluster utilisées"},
                         )})
         
+        return charts, recall, error
+        
