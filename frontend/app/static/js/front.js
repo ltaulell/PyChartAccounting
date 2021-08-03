@@ -98,6 +98,10 @@ $(document).ready(function(){
         e.preventDefault();
     });
 
+    $("input#reset").on('click', function(e) {
+        document.getElementById("users").value = ""; 
+    });
+
 //  Eviter la frappe entrée lorsque l'utilisateur entre un nom (eviter de valider le formulaire)
     $(window).keydown(function(event){
         if(event.keyCode == 13) {
