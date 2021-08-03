@@ -55,11 +55,10 @@ def index():
             else:
                 return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
                     
-        elif request.method == 'POST' and form.reset.data == True:
-            LoadGroupes(session["user"], reload=True)
-            form = None
+    elif request.method == 'POST' and form.reset.data == True:
+        LoadGroupes(session["user"], reload=True)
             
-    return render_template('index.html', charts=None, form=form, user=form.users.data, group=form.groups.data, infos=rappel) #Afficher une page blanche, ou avec des erreurs et informations
+    return render_template('index.html', charts=None, form=form) #Afficher une page blanche, ou avec des erreurs et informations
 
 
 @app.route("/login", methods=["POST", "GET"])
