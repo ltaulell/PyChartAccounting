@@ -93,9 +93,9 @@
           <div class="accordion-body">
             <div class="row">
               {% for ch in chart['charts'] %}
-              <div class="col col-lg-6" id="{{ch['id']}}-img">
-                <div class="card chart">
-                  <div class="card-header d-flex align-items-center">
+              <div class="col col-lg-6">
+                <div class="card chart" id="{{ch['id']}}-img">
+                  <div class="card-header">
                     <h4>{{ch["title"]}}</h4>
                     <button class="btn toJpg"  id="{{ch['id']}}-img" value="Save PNG"><i class="fas fa-camera"></i></button>
                   </div>
