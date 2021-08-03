@@ -4,7 +4,8 @@ from flask_wtf import FlaskForm
 
 
 class InputForm(FlaskForm): #create form
-    users = StringField('users', validators=[DataRequired(), Length(max=15)],render_kw={"placeholder": "Utilisateur"})
+    users = StringField('users',render_kw={"placeholder": "Utilisateur"})
+    testUsers = StringField('testUsers',render_kw={"placeholder": "Utilisateur"})
     groups = SelectField('groups', choices=[])
     dateByYear = DateField('Choisir une année', format="%Y")
     dateByForkStart = DateField('Choisir la fin de la période', format="%d/%m/%Y")
