@@ -44,39 +44,39 @@
 
                             <ul class="collapse list-unstyled" id="datePick">
                                 <li>
-                                    <span class="inputSpan"><label class="container">Par période
+                                    <span class="inputSpan"><label class="container-date">Par période
                                             <input type="radio" name="radio" value="periode">
                                             <span class="checkmark"></span>
                                         </label>
-                                        <div class="periode div" id="periode">
+                                        <div class="periode checkDate" id="periode">
                                             <label class="control-label" for="date">Debut</label>
                                             {{form.dateByForkStart(class="form-control", id="date",
                                             placeholder="MM/DD/YYYY",type="text")}}
                                             <label class="control-label" for="date">Fin</label>
                                             {{form.dateByForkEnd(class="form-control", id="date",
-                                            placeholder="MM/DD/YYYY",type="text")}}
+                                            placeholder="MM/DD/YYYY", type="text")}}
                                         </div>
                                     </span>
                                 </li>
 
                                 <li>
-                                    <span class="inputSpan"><label class="container">Par année
+                                    <span class="inputSpan"><label class="container-date">Par année
                                             <input type="radio" name="radio" value="annee">
                                             <span class="checkmark"></span>
                                         </label>
-                                        <div class="annee div" id="annee">
+                                        <div class="annee checkDate" id="annee">
                                             <label class="control-label" for="date">Année</label>
                                             {{form.dateByYear(class="form-control", id="date",
-                                            placeholder="YYYY",type="text")}}
+                                            placeholder="YYYY", type="text")}}
                                         </div>
                                     </span>
                                 </li>
                                 <li>
-                                    <span class="inputSpan"><label class="container">Tout
+                                    <span class="inputSpan"><label class="container-date">Tout
                                             <input type="radio" checked="checked" name="radio" value="tout">
                                             <span class="checkmark"></span>
                                         </label>
-                                        <div class="tout div" id="tout"></div>
+                                        <div class="tout checkDate" id="tout"></div>
                                     </span>
                                 </li>
                             </ul>
@@ -99,7 +99,7 @@
                     <li>
                         <div class="form-group">
                             <div class="drop-header">
-                                <button class="btn btn-toggle collapsed"
+                                <button class="btn btn-toggle collapsed" id="queuePick"
                                     data-bs-toggle="collapse" data-bs-target="#queuePick" aria-expanded="false">
                                     Queue
                                 </button>
@@ -137,9 +137,6 @@
                         </div>
                     </li>
                 </ul>
-                <li>
-
-                </li>
                 <ul class="list-unstyled">
                     <li>
                         <div class="buttonForm">{{ form.submit(class="btn btn-lg sendInfo") }}</div>

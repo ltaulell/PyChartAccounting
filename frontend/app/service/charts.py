@@ -1080,7 +1080,7 @@ class queueCharts(Charts):
         queue = form.queue.data
         recall["queue"] = queue
 
-        #if Catch erreurs then stop
+        #if 0, Catch erreurs then stop
         sql = """
             SELECT COUNT(queues.queue_name) AS nb_job
             FROM job_, queues
@@ -1252,6 +1252,9 @@ class clusterCharts(Charts):
         
         topTenUsedCluster = self.e.fetch(command=sql.format(    date=date, 
                                                                 cluster=cluster))
+        #if 0, Catch erreurs then stop
+        if(Charts.detectError(topTenUsedCluster)):
+            return charts, recall, True
 
         topTenUsedCluster = Charts.multiDict(topTenUsedCluster, 'hostname', 'sum_cpu')
 

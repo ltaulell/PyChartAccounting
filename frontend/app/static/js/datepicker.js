@@ -51,7 +51,7 @@ $(document).ready(function(){
     $('input[type="radio"]').click(function(){
         var inputValue = $(this).attr("value");
         var targetBox = $("." + inputValue);
-        $(".div").not(targetBox).hide();
+        $(".checkDate").not(targetBox).hide();
         document.getElementById(inputValue).style.display = 'block';
         // Va si une autre maniere existe
         switch (inputValue){

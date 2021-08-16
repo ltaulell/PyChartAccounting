@@ -70,7 +70,6 @@ span {
 
 #sidebar ul.components {
   padding: 20px 0;
-  border-bottom: 1px solid #47748b;
 }
 
 #sidebar ul li .buttonForm {
@@ -167,6 +166,8 @@ span {
   overflow-x: hidden;
 }
 
+
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -181,7 +182,7 @@ span {
 /* ---------------------------------------------------
     radio button style
 ----------------------------------------------------- */
-.container {
+.container-date {
   display: block;
   position: relative;
   padding-left: 20px;
@@ -193,13 +194,13 @@ span {
   user-select: none;
 }
 
-.container input {
+.container-date input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
 
-.container:hover input ~ .checkmark {
+.container-date:hover input ~ .checkmark {
   background-color: rgb(215, 139, 235);
 }
 
@@ -209,12 +210,12 @@ span {
   display: none;
 }
 
-.container input:checked ~ .checkmark:after {
+.container-date input:checked ~ .checkmark:after {
   display: block;
   top: 12px;
 }
 
-.container .checkmark:after {
+.container-date .checkmark:after {
   top: 0px;
   left: 3.3px;
   width: 6px;
@@ -232,12 +233,12 @@ span {
 }
 
 @media (min-width: 768px) {
-  .container-fluid {
+  .container-date-fluid {
     padding: 0 3rem;
   }
 }
 
-nav.navbar .container-fluid {
+nav.navbar .container-date-fluid {
   width: 100%;
 }
 

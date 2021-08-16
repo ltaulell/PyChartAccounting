@@ -30,7 +30,7 @@ def index():
                 if errRet:
                     flash("Merci de verifier votre demande d'information", category="warning")
                 else:
-                    return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
+                    return render_template('index.html', charts=output, form=form, infos=rappel)
             else:
                 flash("Aucun(e) utilisateur/trice est associé(e) à votre entrée", category="warning")
         #groupe
@@ -39,21 +39,21 @@ def index():
             if errRet:
                 flash("Merci de verifier votre demande d'information", category="warning")
             else:
-                return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
+                return render_template('index.html', charts=output, form=form, infos=rappel)
         #queue
         elif form.queue.data != "Tout" and not form.users.data:
             output, rappel, errRet = queueCharts.charts(form)
             if errRet:
                 flash("Merci de verifier votre demande d'information", category="warning")
             else:
-                return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
+                return render_template('index.html', charts=output, form=form, infos=rappel)
         #cluster
         elif form.cluster.data != "default" and not form.users.data:
             output, rappel, errRet = clusterCharts.charts(form)
             if errRet:
                 flash("Merci de verifier votre demande d'information", category="warning")
             else:
-                return render_template('index.html', charts=output, form=form, user=form.users.data, group=form.groups.data, infos=rappel)
+                return render_template('index.html', charts=output, form=form, infos=rappel)
                     
     elif request.method == 'POST' and form.reset.data == True:
         LoadGroupes(session["user"], reload=True)
