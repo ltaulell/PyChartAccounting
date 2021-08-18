@@ -14,25 +14,25 @@ go easy, go simple.
 
 TODO/FIXME:
 
-- find a way around transaction(s) ?
-    => done (une seul conn)
-
-- yielder/getter ? -> multiprocessing inserts ? (maybe faster?)
-    https://www.psycopg.org/docs/usage.html#thread-safety
-    https://www.psycopg.org/docs/advanced.html#green-support
-    => bof
+- use last_offset from history to seek() csv file -> speedup on restart
+    - do not save last_offset at -each- line? save @end of process? NO! each line!
+    -> howto @end of process ?
+    - rewrite the read procedure to include offset <- DONE
+    -> test_read_tell.py <- OK
+- get rid of decomment() by ricochet <- OK
 
 - except(s)
     https://www.psycopg.org/docs/errors.html
 
 """
+
 import argparse
 import logging
 import csv
 import sys
 import psycopg2
 import yaml
-from time import perf_counter
+import datetime as dt
 
 import config
 
@@ -61,16 +61,7 @@ def get_args(helper=False):
         return parser.parse_args()
 
 
-def decomment(fichiercsv):
-    """ do not yield row containing '#' at first place
-    BUT, there can be '#' in actual job_name ! (/o\ users...) """
-    """ TODO/FIXME enclose in try/except with UnicodeDecodeError, and pass on """
-    for row in fichiercsv:
-        if not row.startswith('#'):
-            yield row
-
-
-def execute_sql(connexion, commande, payload='', commit=False):
+def execute_sql(connexion, commande, payload, commit=False):
     """ execute commande, always return id
     SQL inserts MUST returning ids, else fetchone() will fail """
     try:
@@ -118,23 +109,6 @@ def select_or_insert(conn, table, id_name, payload, name=None, multi=False, inse
 
     return result
 
-def pick_cursor(conn, table, col):
-    """
-    A FAIRE
-    Un block sera notre taille max, soit 9223372036854775807.
-    Si cette taille est atteinte, alors il y aura block en plus.
-    """
-
-    sql_str = ' '.join(['SELECT COUNT(*) FROM', table])
-    blockCursor = execute_sql(conn, sql_str)[0]
-
-    sql_str = ' '.join(['SELECT', col, 'FROM', table])
-    result = execute_sql(conn, sql_str)[0]
-
-    for _ in range(1, blockCursor):
-        result += 9223372036854775807
-
-    return result
 
 def load_yaml_file(yamlfile):
     """ Load yamlfile, return a dict
@@ -144,10 +118,9 @@ def load_yaml_file(yamlfile):
         return a dict
     """
     try:
-        f = open(yamlfile, 'r')
-        contenu = yaml.safe_load(f)
-        f.close()
-        return contenu
+        with open(yamlfile, 'r') as f:
+            contenu = yaml.safe_load(f)
+            return contenu
     except IOError:
         log.critical('Unable to read/load config file: {}'.format(f.name))
         sys.exit(1)
@@ -158,6 +131,34 @@ def load_yaml_file(yamlfile):
                                                                    mark.column)
             log.critical('{} {}'.format(msg_erreur, f.name))
         sys.exit(1)
+
+
+def lire_fichier(fichier, offset=0):
+    """ try read without direct csv.DictReader and use an offset """
+    try:
+        with open(fichier, "rt", encoding='latin1') as csvfile:
+            # encodings: us-ascii < latin1 < utf-8
+            # but read with 'latin1' because of
+            # "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc3..."
+
+            log.debug('current offset: {}'.format(offset))
+
+            if offset != 0:
+                csvfile.seek(offset, 0)  # wc match ok
+
+            ligne = csvfile.readline()
+
+            while ligne:
+                offset = csvfile.tell()
+
+                if not ligne.startswith('#'):  # decomment()
+                    reader = csv.DictReader([ligne], fieldnames=HEADER_LIST, delimiter=':')
+                    yield offset, reader
+
+                ligne = csvfile.readline()
+
+    except IndexError:
+        log.critical('cannot read {}, not found'.format(csvfile))
 
 
 if __name__ == '__main__':
@@ -187,21 +188,21 @@ if __name__ == '__main__':
     METAGROUPES = load_yaml_file(METAGROUPES_FILE)
 
     # prepare la config locale pgsql
-    param_conn_db = config.parserIni(filename='infodb.ini', section='postgresql')
+    param_conn_db = config.parserIni(filename='infodb.ini', section='insertion')
     log.debug(param_conn_db)
 
     conn = psycopg2.connect(**param_conn_db)
     # conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_AUTOCOMMIT)
     # conn.set_session(isolation_level=psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE, autocommit=True)
     log.debug(conn)
- 
-    t1_start = perf_counter()
-    with open(fichier, "r", encoding='latin1') as csvfile:
-        # encodings: us-ascii < latin1 < utf-8
-        # but read with 'latin1' because of
-        # "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc3..."
-        reader = csv.DictReader(decomment(csvfile), fieldnames=HEADER_LIST, delimiter=':')
-        for line in reader:
+
+    # get last offset (and test conn)
+    sql = ("SELECT last_offset_position FROM history WHERE id_insertion = (SELECT MAX(id_insertion) FROM history);")
+    res = execute_sql(conn, sql, [])
+    last_offset = int(res[0])
+
+    for offset, datarow in lire_fichier(fichier, offset=last_offset):
+        for line in datarow:
             log.debug('{}, {}, {}, {}'.format(line['qname'], line['host'], line['group'], line['cpu']))
 
             with conn:
@@ -313,7 +314,7 @@ if __name__ == '__main__':
                                     %s,
                                     %s,
                                     %s)
-                            RETURNING job_id; """)
+                            RETURNING id_job_; """)
                     data = [idQueue[0],
                             idHost[0],
                             idGroup[0],
@@ -339,9 +340,14 @@ if __name__ == '__main__':
                     jobCommit = execute_sql(conn, sql, data, commit=True)
                     log.info('commited: {}, {}, {}'.format(line['job_id'], line['qname'], line['host']))
 
+                    # add offset to database
+                    date_insert = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    sql = ("""INSERT INTO history(last_offset_position, date_insert) 
+                        VALUES(%s, %s) RETURNING id_insertion; """)
+                    data = [offset, date_insert]
+                    insertCommit = execute_sql(conn, sql, data, commit=True)
+
                 else:
                     log.info('job {} already exist in database'.format(line['job_id']))
-    
+
     conn.close()
-    t1_stop = perf_counter()
-    print('Elapsed time: {:.5f}"'.format(t1_stop - t1_start))
