@@ -20,28 +20,32 @@ ALTER TABLE job_ ALTER COLUMN mem DROP NOT NULL;
 ALTER TABLE job_ ALTER COLUMN io DROP NOT NULL;
 ALTER TABLE job_ ALTER COLUMN maxvmem DROP NOT NULL;
 
+-- WITH date_insert AS (SELECT CURRENT_TIMESTAMP)
+-- INSERT INTO history(last_offset_position, date_insert) VALUES(%s, %s) RETURNING id_insertion;
+
 -- utiliser explain, pour les query plan
 -- pour voir où ça bouffe du temps
 
 -- # https://www.epochconverter.com/
 -- epoch (2010-01-01) 1262304000
--- epoch (2010-12-31) 1293753600
--- epoch (2011-12-31) 1325289600
--- epoch (2012-12-31) 1356912000
--- epoch (2013-12-31) 1388448000
--- epoch (2014-12-31) 1419984000
--- epoch (2015-12-31) 1451520000
--- epoch (2016-12-31) 1483142400
--- epoch (2017-12-31) 1514678400
--- epoch (2018-12-31) 1546214400
--- epoch (2019-12-31) 1577750400
--- epoch (2020-12-31) 1609372800
--- epoch (2021-12-31) 1640908800
+-- epoch (2011-01-01) 1293840000
+-- epoch (2012-01-01) 1325376000
+-- epoch (2013-01-01) 1356998400
+-- epoch (2014-01-01) 1388534400
+-- epoch (2015-01-01) 1420070400
+-- epoch (2016-01-01) 1451606400
+-- epoch (2017-01-01) 1483228800
+-- epoch (2018-01-01) 1514764800
+-- epoch (2019-01-01) 1546300800
+-- epoch (2020-01-01) 1577836800
+-- epoch (2021-01-01) 1609459200
+-- epoch (2022-01-01) 1640995200
 
 -- # https://sql.sh/cours/jointures
+-- # https://www.postgresqltutorial.com/postgresql-count-function/
 
--- total utime d'un user (cmichel)
-SELECT users.login, sum(job_.ru_utime)
+-- total cpu d'un user (cmichel)
+SELECT users.login, sum(job_.cpu)
 FROM job_, users
 WHERE job_.id_user = users.id_user
     AND users.login = 'cmichel'
@@ -54,67 +58,39 @@ WHERE job_.id_user = users.id_user
     AND users.login = 'cmichel' 
 GROUP BY users.login ;
 
--- nb de jobs plantés d'un user (cmichel)
--- # https://www.postgresqltutorial.com/postgresql-count-function/
-SELECT users.login, COUNT(job_.id_job_)
-FROM job_, users
-WHERE job_.id_user = users.id_user
-    AND users.login = 'cmichel'
-    AND job_.failed != 0
-    AND job_.exit_status != 0
-GROUP BY users.login ;
 
--- nb de jobs réussis d'un user (cmichel)
-SELECT users.login, COUNT(job_.id_job_)
-FROM job_, users
-WHERE job_.id_user = users.id_user
-    AND users.login = 'cmichel'
-    AND (job_.failed = 0 OR job_.exit_status = 0)
-GROUP BY users.login ;
-
--- total utime d'un groupe (icbms)
-SELECT groupes.group_name, sum(job_.ru_utime)
+-- total cpu d'un groupe (icbms)
+SELECT groupes.group_name, sum(job_.cpu)
 FROM job_, groupes
 WHERE job_.id_groupe = groupes.id_groupe
     AND groupes.group_name = 'icbms'
 GROUP BY groupes.group_name ;
-
--- total utime de tous les groupes (jobs réussis)
-SELECT groupes.group_name, sum(job_.ru_utime) AS sum_utime, count(job_.id_job_) AS nb_job
-FROM job_, groupes
-WHERE job_.id_groupe = groupes.id_groupe
-    AND (job_.failed = 0 OR job_.exit_status = 0)
-    -- AND job_.start_time >= 1325289600
-    -- AND job_.start_time <= 1356912000
-GROUP BY groupes.group_name
-ORDER BY sum_utime DESC ;
 
 -- same-same avec cpu pour comparer avec les anciennes stats "excel"
 SELECT groupes.group_name, sum(job_.cpu) AS sum_cpu, count(job_.id_job_) AS nb_job
 FROM job_, groupes
 WHERE job_.id_groupe = groupes.id_groupe
     AND (job_.failed = 0 OR job_.exit_status = 0)
-    -- AND job_.start_time >= 1325289600
-    -- AND job_.start_time <= 1356912000
+    -- AND job_.start_time >= 1325376000
+    -- AND job_.start_time <= 1356998400
 GROUP BY groupes.group_name
 ORDER BY sum_cpu DESC ;
-
 
 -- total cpu d'un group (chimie) entre 01-01-2012 et 31-12-2012 (start_time)
 SELECT sum(job_.cpu)
 FROM job_, groupes
 WHERE job_.id_groupe = groupes.id_groupe
-  AND groupes.group_name = 'chimie'
-  AND job_.start_time >= 1325289600
-  AND job_.start_time <= 1356912000
+    AND groupes.group_name = 'chimie'
+    AND job_.start_time >= 1325376000
+    AND job_.start_time <= 1356998400
   ;
 
 -- total cpu, par groupe, entre 01-01-2012 et 31-12-2012 (start_time), plus rapide
 SELECT groupes.group_name, sum(job_.cpu) AS sum_cpu
 FROM job_, groupes
 WHERE job_.id_groupe = groupes.id_groupe
-  AND start_time >= 1325289600
-  AND start_time <= 1356912000
+    AND start_time >= 1325376000
+    AND start_time <= 1356998400
 GROUP BY groupes.group_name
 ORDER BY sum_cpu DESC;
 
@@ -132,11 +108,18 @@ WHERE job_.id_groupe = groupes.id_groupe
     AND groupes.group_name = 'chimie'
 GROUP BY groupes.group_name ;
 
+-- min slots (sur tous les jobs) d'un groupe (chimie)
 -- average slots (sur tous les jobs) d'un groupe (chimie)
-SELECT groupes.group_name, avg(job_.slots)
+-- max slots (sur tous les jobs) d'un groupe (chimie)
+SELECT groupes.group_name, 
+    min(job_.slots),
+    avg(job_.slots),
+    max(job_.slots)
 FROM job_, groupes
 WHERE job_.id_groupe = groupes.id_groupe
     AND groupes.group_name = 'chimie'
+    AND job_.start_time >= 1325376000
+    AND job_.start_time <= 1356998400
 GROUP BY groupes.group_name ;
 
 -- average slots (sur tous les jobs réussis) pour tous les groupes
@@ -176,73 +159,73 @@ WHERE j.id_job_ =
 
 select job_id, cpu from job_ where failed != 0 AND exit_status != 0;
 
-
--- top ten, id_host, par cluster
-SELECT j.id_host, sum(ru_utime) AS sum_value
-FROM job_ j
-WHERE id_host = ANY 
-    (SELECT id_host 
-    FROM hosts_in_clusters 
-    WHERE id_cluster = 
-        (SELECT id_cluster 
-        FROM clusters 
-        WHERE cluster_name = 'E5'
-        )
-    )
-GROUP BY j.id_host
-ORDER BY sum_value DESC
-LIMIT 10 ;
-
 -- top ten, with hostname, par cluster
-SELECT h.hostname, sum(j.cpu), sum(j.ru_utime) AS sum_value
-FROM job_ j
-INNER JOIN hosts h ON j.id_host = h.id_host
-WHERE j.id_host = ANY 
-    (SELECT id_host 
-    FROM hosts_in_clusters 
-    WHERE id_cluster = 
-        (SELECT id_cluster 
-        FROM clusters 
-        WHERE cluster_name = 'E5'
-        )
-    )
-GROUP BY h.hostname, j.id_host
-ORDER BY sum_value DESC
-LIMIT 10 ;
--- pareil, plus rapide
-SELECT hosts.hostname, 
-    sum(job_.cpu) AS sum_cpu, 
-    sum(job_.ru_utime) AS sum_utime
+-- pareil, plus rapide (X5, 2012)
+SELECT hosts.hostname, sum(job_.cpu) AS sum_cpu
 FROM job_,
     hosts,
     hosts_in_clusters,
     clusters
-WHERE job_.id_host = hosts.id_host AND 
-    hosts.id_host = hosts_in_clusters.id_host AND
-    hosts_in_clusters.id_cluster = clusters.id_cluster AND
-    clusters.cluster_name = 'E5'
+WHERE job_.id_host = hosts.id_host 
+    AND hosts.id_host = hosts_in_clusters.id_host 
+    AND hosts_in_clusters.id_cluster = clusters.id_cluster 
+    AND clusters.cluster_name = 'X5'
+    AND job_.start_time >= 1325376000
+    AND job_.start_time <= 1356998400
 GROUP BY hosts.hostname, job_.id_host
 ORDER BY sum_cpu DESC
 LIMIT 10 ;
 
--- top ten, with cluster_name, hostname, tout clusters confondus
-SELECT 
-  clusters.cluster_name, 
-  hosts.hostname, 
-  sum(job_.cpu) AS sum_cpu_value,
-  sum(job_.ru_utime) AS sum_cpu_utime
-FROM 
-  job_, 
-  clusters, 
-  hosts_in_clusters, 
-  hosts
+
+-- nb jobs réussis, queue r815lin128ib, 2012, durée inférieure à 1 jour (86400)
+SELECT queues.queue_name,
+    COUNT(job_.id_job_)
+FROM job_, queues
 WHERE 
-  hosts_in_clusters.id_cluster = clusters.id_cluster AND
-  hosts.id_host = job_.id_host AND
-  hosts.id_host = hosts_in_clusters.id_host
-GROUP BY
-  clusters.cluster_name, hosts.hostname
-ORDER BY
-  sum_cpu_value DESC
-LIMIT 10;
+    job_.id_queue = queues.id_queue
+    AND queues.queue_name = 'r815lin128ib'
+    AND (job_.failed = 0 OR job_.exit_status = 0)
+    AND job_.start_time >= 1325376000
+    AND job_.start_time <= 1356998400
+    AND job_.ru_wallclock < 86400
+GROUP BY queues.queue_name ;
+-- same-same
+SELECT queues.queue_name, COUNT(job_.id_job_)
+FROM queues
+JOIN job_ ON job_.id_queue = queues.id_queue
+WHERE
+    queues.queue_name = 'r815lin128ib'
+    AND (job_.failed = 0 OR job_.exit_status = 0)
+    AND job_.start_time >= 1325376000
+    AND job_.start_time <= 1356998400
+    AND job_.ru_wallclock < 86400
+GROUP BY queues.queue_name ;
+
+
+
+-- users in multiple groups
+SELECT
+    users.login
+FROM
+    users_in_groupes, users, groupes
+WHERE
+    users.id_user = users_in_groupes.id_user
+    AND groupes.id_groupe = users_in_groupes.id_groupe
+GROUP BY users.login
+HAVING count(users_in_groupes.id_user) > 1 ;
+
+-- les groupes qui correspondent, pour chaque résultat
+SELECT
+    users.login, groupes.group_name
+FROM
+    users_in_groupes, users, groupes
+WHERE
+    users.id_user = users_in_groupes.id_user
+    AND groupes.id_groupe = users_in_groupes.id_groupe
+    -- voir requête précédente
+    AND users.login = %login%
+GROUP BY groupes.group_name, users.login 
+ORDER BY groupes.group_name ;
+
+
 

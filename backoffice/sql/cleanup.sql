@@ -1,5 +1,7 @@
 -- $Id$
 -- drop everything, testing era
+--drop table if exists last_insertion cascade;
+drop table if exists history cascade;
 drop table if exists job_ cascade;
 drop table if exists users_in_metagroupes cascade;
 drop table if exists groupes_in_metagroupes cascade;
