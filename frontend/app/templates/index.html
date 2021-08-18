@@ -97,7 +97,7 @@
                 <div class="card chart" id="{{ch['id']}}-img">
                   <div class="card-header">
                     <h4>{{ch["title"]}}</h4>
-                    <button class="btn toJpg"  id="{{ch['id']}}-img" value="Save PNG"><i class="fas fa-camera"></i></button>
+                    <button class="btn toJpg"  id="{{ch['id']}}-img" value="Save PNG"><i class="fas fa-download"></i></button>
                   </div>
                   <div class="card-body">
                     <div class="chart-container">
@@ -123,7 +123,15 @@
 
 {% block jsChart %}
 {% if charts %}
+
+<meta id="searchInfo" data-name="{{infos}}">
+
 <script script type=text/javascript>
+
+      $(document).ready(function () {
+        formsetup({{ infos|tojson }});
+      }); 
+
       var charts = {{ charts | tojson }} //On lit les éléments contenus dans charts
       
       for(let j = 0; j < charts.length; j++){
@@ -143,10 +151,7 @@
                                   labels, 
                                   values
                                 );
-
         }
-
-        
       }
       
 </script>
