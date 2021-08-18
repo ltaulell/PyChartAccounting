@@ -92,8 +92,25 @@ $(document).ready(function(){
               }
             });
         });
+
+        $( "#users" ).on( "click", function() {
+            var text = $(this).val();
+            $.ajax({
+              url: "/output/"+name["user"],
+              type: "get",
+              data: {outData: text},
+              success: function(response) {
+                loadGroups(name["user"]);
+              },
+              error: function(err) {
+                console.log(err)
+              }
+            });
+        });
     });
-   
+
+    
+    
     $("button").on('click', function(e) {
         e.preventDefault();
     });
