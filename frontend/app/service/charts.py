@@ -1253,7 +1253,7 @@ class clusterCharts(Charts):
         topTenUsedCluster = self.e.fetch(command=sql.format(    date=date, 
                                                                 cluster=cluster))
         #if 0, Catch erreurs then stop
-        if(Charts.detectError(topTenUsedCluster)):
+        if(type(topTenUsedCluster) == int):
             return charts, recall, True
 
         topTenUsedCluster = Charts.multiDict(topTenUsedCluster, 'hostname', 'sum_cpu')
@@ -1263,4 +1263,3 @@ class clusterCharts(Charts):
                         )})
         
         return charts, recall, error
-        
