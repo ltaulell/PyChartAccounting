@@ -6,12 +6,7 @@ function loadGroups(name){
 
     $.getJSON('/output/'+name, function(data, status, xhr){
 
-        if(data["groupes"].length > 1){
-            var options = '<option value="Tout" selected>Tout</option>';
-        }else{
-            var select = "selected";
-            var options = '<option value="Tout">Tout</option>';
-        }
+        var options = '<option value="Tout">Tout</option>';
         
         for (var i = 0; i < data["groupes"].length; i++ ) {
             options += '<option value="' + data["groupes"][i]+ '" '+select+'>' + data["groupes"][i] + '</option>';
@@ -40,7 +35,8 @@ function loadLists(){
 
 //  Charger les queues dans un select
     $.getJSON('/queues', function(data, status, xhr){
-        var options = '<option value="Tout" selected>Tout</option>';
+        var options = '<option value="Aucune" selected>Aucune</option>';
+        options += '<option value="Tout">Tout</option>';
         for (var i = 0; i < data["queues"].length; i++ ) {
             options += '<option value="' + data["queues"][i]+ '">' + data["queues"][i] + '</option>';
             select = "";
@@ -51,8 +47,7 @@ function loadLists(){
 
 //  Charger les clusters dans un select
     $.getJSON('/clusters', function(data, status, xhr){
-        let select = "selected";
-        let options = '';
+        options = '<option value="Aucune" selected>Aucune</option>';
         for (var i = 0; i < data["clusters"].length; i++ ) {
             options += '<option value="' + data["clusters"][i]+ '" '+select+'>' + data["clusters"][i] + '</option>';
             select = "";
