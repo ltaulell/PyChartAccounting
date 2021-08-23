@@ -10,12 +10,24 @@
  * Last modified  : 2021-03-11
  */
 
+
+function generateLabelsData(labelsName, dataList){
+
+}
+
+listBackGroundColor = [
+    "#f43004",
+    "#decf3f",
+    "#FFA500",
+    "#9b59b6",
+  ]
+
 var legends = {
     display: true,
-    position: 'bottom',
+    position: 'right',
     labels: {
         generateLabels: function(chart) {
-            var data = chart.data;
+            var data = this.chart.data;
             if (data.labels.length && data.datasets.length) {
                 return data.labels.map(function(label, i) {
                     var meta = chart.getDatasetMeta(0);
@@ -42,6 +54,46 @@ var legends = {
                 return [];
             }
         }
+    },
+    onClick:function(e, legendItem){
+        var index = legendItem.index;
+        var ci = this.chart;
+        var meta = ci.getDatasetMeta(0);
+        var CurrentalreadyHidden = (meta.data[index].hidden==null) ? false : (meta.data[index].hidden);
+        var allShown=true;
+        $.each(meta.data,function(ind0,val0){
+            if(meta.data[ind0].hidden){
+                allShown=false;
+                return false; 
+            }else{
+                allShown=true;
+            }
+        });
+        if(allShown){
+            $.each(meta.data,function(ind,val){
+                if(meta.data[ind]._index===index){
+                    meta.data[ind].hidden=false;
+                }else{
+                    meta.data[ind].hidden=true;
+                }
+            });
+        }else{
+            if(CurrentalreadyHidden){
+                $.each(meta.data,function(ind,val){
+                    if(meta.data[ind]._index===index){
+                        meta.data[ind].hidden=false;
+                    }else{
+                        meta.data[ind].hidden=true;
+                    }
+                });
+            }else{
+                $.each(meta.data,function(ind,val){
+                    meta.data[ind].hidden=false;
+                }); 
+             }
+         }
+        ci.update();
+
     }
 }
 
@@ -149,15 +201,25 @@ function BarChart(IdChart, labels, values){
             labels: labels,
             datasets: [
                 {
-                    backgroundColor: UserPrimary,
-                    borderColor: UserPrimary,
-
+                    backgroundColor: listBackGroundColor,
                     borderWidth: 1,
                     data: values,
                 },
             ]
         }, 
         options: {
+            callbacks: {
+                label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                return previousValue + currentValue;
+            });
+                var currentValue = dataset.data[tooltipItem.index];
+                var percentage = Math.floor(((currentValue/total) * 100));         
+                return currentValue +" ≃ "+ percentage + "%";
+                    }
+                },
+            responsive: true,
             legend: legends
         }
     });
@@ -167,12 +229,7 @@ function BarChart(IdChart, labels, values){
 
 
 function BarChartStacked(IdChart, labels, values){
-    if(values[0] < values[1]){
-        pgValue = values[1];
-        ppValue = values[0];
-        pgLabel = labels[1];
-        ppLabel = labels[0];
-    }
+
     var UserPrimary = 'rgba(51, 179, 90, 1)';
     var AllPrimary = 'rgba(203, 203, 203, 1)';
     var BarChartId  = $('#'+IdChart);
