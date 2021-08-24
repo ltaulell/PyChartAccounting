@@ -119,10 +119,7 @@
 {% endif %}
 {% endblock %}
 
-
-
 {% block jsChart %}
-{% if charts %}
 
 <meta id="searchInfo" data-name="open">
 
@@ -132,28 +129,28 @@
         formsetup({{ infos|tojson }});
       }); 
 
-      var charts = {{ charts | tojson }} //On lit les éléments contenus dans charts
-      
-      for(let j = 0; j < charts.length; j++){
+      {% if charts %}
+        var charts = {{ charts | tojson }} //On lit les éléments contenus dans charts
+        
+        for(let j = 0; j < charts.length; j++){
 
+          for (let i = 0; i < charts[j]['charts'].length; i++) {
+          labels = [];
+          values = [];
 
-        for (let i = 0; i < charts[j]['charts'].length; i++) {
-        labels = [];
-        values = [];
+          for(let key in charts[j]['charts'][i]['values']){
+            labels.push(key);
+            values.push(charts[j]['charts'][i]['values'][key]);
+          }
 
-        for(let key in charts[j]['charts'][i]['values']){
-          labels.push(key);
-          values.push(charts[j]['charts'][i]['values'][key]);
+          window[charts[j]['charts'][i]['type']](
+                                    charts[j]['charts'][i]['id'], 
+                                    labels, 
+                                    values
+                                  );
+          }
         }
-
-        window[charts[j]['charts'][i]['type']](
-                                  charts[j]['charts'][i]['id'], 
-                                  labels, 
-                                  values
-                                );
-        }
-      }
-      
+      {% endif %}
 </script>
-{% endif %}
+
 {% endblock %}

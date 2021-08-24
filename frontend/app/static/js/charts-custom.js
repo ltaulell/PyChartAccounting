@@ -22,6 +22,20 @@ listBackGroundColor = [
     "#9b59b6",
   ]
 
+toolTips = {
+    callbacks: {
+        label: function(tooltipItem, data) {
+        var dataset = data.datasets[tooltipItem.datasetIndex];
+        var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+        return previousValue + currentValue;
+    });
+        var currentValue = dataset.data[tooltipItem.index];
+        var percentage = Math.floor(((currentValue/total) * 100));         
+        return currentValue +" ≃ "+ percentage + "%";
+            }
+        }
+}
+
 var legends = {
     display: true,
     position: 'right',
@@ -55,46 +69,7 @@ var legends = {
             }
         }
     },
-    onClick:function(e, legendItem){
-        var index = legendItem.index;
-        var ci = this.chart;
-        var meta = ci.getDatasetMeta(0);
-        var CurrentalreadyHidden = (meta.data[index].hidden==null) ? false : (meta.data[index].hidden);
-        var allShown=true;
-        $.each(meta.data,function(ind0,val0){
-            if(meta.data[ind0].hidden){
-                allShown=false;
-                return false; 
-            }else{
-                allShown=true;
-            }
-        });
-        if(allShown){
-            $.each(meta.data,function(ind,val){
-                if(meta.data[ind]._index===index){
-                    meta.data[ind].hidden=false;
-                }else{
-                    meta.data[ind].hidden=true;
-                }
-            });
-        }else{
-            if(CurrentalreadyHidden){
-                $.each(meta.data,function(ind,val){
-                    if(meta.data[ind]._index===index){
-                        meta.data[ind].hidden=false;
-                    }else{
-                        meta.data[ind].hidden=true;
-                    }
-                });
-            }else{
-                $.each(meta.data,function(ind,val){
-                    meta.data[ind].hidden=false;
-                }); 
-             }
-         }
-        ci.update();
-
-    }
+    onClick: null
 }
 
 
@@ -120,80 +95,15 @@ function PieChart(IdChart, labelsName, dataList){
             },
         options: {
             responsive: true,
-            tooltips: {
-            callbacks: {
-                label: function(tooltipItem, data) {
-                var dataset = data.datasets[tooltipItem.datasetIndex];
-                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-                return previousValue + currentValue;
-            });
-                var currentValue = dataset.data[tooltipItem.index];
-                var percentage = Math.floor(((currentValue/total) * 100));         
-                return currentValue +" ≃ "+ percentage + "%";
-                    }
-                },
-                title: {
-                    display: true,
-                    text: 'Custom Chart Title'
-                }
-            },
+            tooltips: toolTips,
             legend: legends
         }
     });
 
 }
 
-
-
-function LineChart(IdChart){
-
-    var linePrimary = 'rgba(51, 179, 90, 1)';
-    var LineChartId  = $('#'+IdChart);
-
-    var lineChart = new Chart.Line(LineChartId, {
-        data: {
-          labels: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
-          datasets: [{
-            label: "Utilisateur",
-                    fill: true,
-                    lineTension: 0.3,
-                    backgroundColor: "rgba(51, 179, 90, 0.38)",
-                    borderColor: linePrimary,
-                    borderCapStyle: 'butt',
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    borderJoinStyle: 'miter',
-                    borderWidth: 1,
-                    pointBorderColor: linePrimary,
-                    pointBackgroundColor: "#fff",
-                    pointBorderWidth: 1,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: linePrimary,
-                    pointHoverBorderColor: "rgba(220,220,220,1)",
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
-                    data: [10, 20, 30, 40, 50, 60, 60, 50, 40, 30, 20, 10],
-                    spanGaps: false
-          }]
-        },
-        options: {
-          responsive: true,
-          tooltips: {
-            mode: 'index',
-            intersect: true
-          }
-        }
-      });
-}
-
 function BarChart(IdChart, labels, values){
 
-    const chartLegendSelector = "[data-results-chart-legends]";
-    let chartLegendEL = document.querySelector(chartLegendSelector);
-
-    var UserPrimary = 'rgba(51, 179, 90, 1)';
-    var AllPrimary = 'rgba(203, 203, 203, 1)';
     var BarChartId  = $('#'+IdChart);
 
     var barChart = new Chart.Bar(BarChartId, {
@@ -208,18 +118,8 @@ function BarChart(IdChart, labels, values){
             ]
         }, 
         options: {
-            callbacks: {
-                label: function(tooltipItem, data) {
-                var dataset = data.datasets[tooltipItem.datasetIndex];
-                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-                return previousValue + currentValue;
-            });
-                var currentValue = dataset.data[tooltipItem.index];
-                var percentage = Math.floor(((currentValue/total) * 100));         
-                return currentValue +" ≃ "+ percentage + "%";
-                    }
-                },
             responsive: true,
+            tooltips: toolTips,
             legend: legends
         }
     });
@@ -227,36 +127,33 @@ function BarChart(IdChart, labels, values){
 }
 
 
-
+/*
 function BarChartStacked(IdChart, labels, values){
 
     var UserPrimary = 'rgba(51, 179, 90, 1)';
     var AllPrimary = 'rgba(203, 203, 203, 1)';
     var BarChartId  = $('#'+IdChart);
 
+    var t = [];
+    for (let i = 0; i < labels.length; i++) {
+        var sayings = {
+            label: labels[i],
+            data: [values[i]],
+            backgroundColor: listBackGroundColor[i],
+            borderWidth: 1,
+        };
+        t.push(sayings);
+    }
+    console.log(t);
+
     var barChart = new Chart.Bar(BarChartId, {
         data: {
-            datasets: [
-                {
-                    label: pgLabel,
-                    backgroundColor: UserPrimary,
-                    borderColor: UserPrimary,
-
-                    borderWidth: 1,
-                    data: [pgValue],
-                },
-                {
-                    label: ppLabel,
-                    backgroundColor: AllPrimary,
-
-                    borderColor: AllPrimary,
-
-                    borderWidth: 1,
-                    data: [ppValue],
-                }
-            ]
+            labels: labels,
+            datasets: t
         },
         options : {
+            responsive: true,
+            tooltips: toolTips,
             scales: {
                 yAxes: [{
                     ticks: {
@@ -268,56 +165,13 @@ function BarChartStacked(IdChart, labels, values){
                 xAxes: [{ stacked: true }]
             },
 
+            
+            
+            legend: legends
+        
         }
+        
     });
 
 }
-
-
-function BarChartCompare(IdChart, labels, values){
-    if(values[0] < values[1]){
-        pgValue = values[1];
-        ppValue = values[0];
-        pgLabel = labels[1];
-        ppLabel = labels[0];
-    }
-    var UserPrimary = 'rgba(51, 179, 90, 1)';
-    var AllPrimary = 'rgba(203, 203, 203, 1)';
-    var BarChartId  = $('#'+IdChart);
-
-    var barChart = new Chart.Bar(BarChartId, {
-        data: {
-            datasets: [
-                {
-                    label: pgLabel,
-                    backgroundColor: UserPrimary,
-                    borderColor: UserPrimary,
-
-                    borderWidth: 1,
-                    data: [pgValue],
-                },
-                {
-                    label: ppLabel,
-                    backgroundColor: AllPrimary,
-
-                    borderColor: AllPrimary,
-
-                    borderWidth: 1,
-                    data: [ppValue],
-                }
-            ]
-        },
-        options : {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        min: 0
-                    }
-                }]
-            },
-
-        }
-    });
-
-}
+*/

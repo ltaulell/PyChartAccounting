@@ -1,6 +1,9 @@
+/**
+ * @author Damien LE BORGNE
+ */
+
 function formsetup(data) {
-
-
+    console.log(data);
     if(data.hasOwnProperty('Année')){
         document.getElementById('anneeSearch').click();
     }
@@ -11,12 +14,10 @@ function formsetup(data) {
 
     if(data.hasOwnProperty('queue')){
         document.getElementById("queue").value = data["queue"];
-        document.getElementById('queueSearch').click();
     }
 
     if(data.hasOwnProperty('cluster')){
         document.getElementById("cluster").value = data["cluster"];
-        document.getElementById('clusterSearch').click();
     }
     
 }

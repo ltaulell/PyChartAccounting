@@ -49,8 +49,7 @@ function loadLists(){
     $.getJSON('/clusters', function(data, status, xhr){
         options = '<option value="Aucune" selected>Aucune</option>';
         for (var i = 0; i < data["clusters"].length; i++ ) {
-            options += '<option value="' + data["clusters"][i]+ '" '+select+'>' + data["clusters"][i] + '</option>';
-            select = "";
+            options += '<option value="' + data["clusters"][i]+ '">' + data["clusters"][i] + '</option>';
         }
         // console.log(data["groupes"]);
         $("#cluster").html(options);  

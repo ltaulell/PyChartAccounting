@@ -97,42 +97,20 @@
                     </li>
                     <li>
                         <div class="form-group">
-                            <div class="drop-header">
-                                <button class="btn btn-toggle collapsed" id="queueSearch"
-                                    data-bs-toggle="collapse" data-bs-target="#queuePick" aria-expanded="false">
-                                    Queue
-                                </button>
+                            <div class="form-group">
+                                <span class="inputSpan">
+                                    Queue{{form.queue(class="form-control")}}
+                                </span>
                             </div>
-
-                            <ul class="collapse list-unstyled" id="queuePick">
-                                <li>
-                                    <div class="form-group">
-                                        <span class="inputSpan">
-                                            {{form.queue(class="form-control")}}
-                                        </span>
-                                    </div>
-                                </li>
-                            </ul>
                         </div>
                     </li>
                     <li>
                         <div class="form-group">
-                            <div class="drop-header">
-                                <button class="btn btn-toggle collapsed" id="clusterSearch"
-                                    data-bs-toggle="collapse" data-bs-target="#clusterPick" aria-expanded="false">
-                                    Cluster
-                                </button>
+                            <div class="form-group">
+                                <span class="inputSpan">
+                                    Cluster{{form.cluster(class="form-control")}}
+                                </span>
                             </div>
-
-                            <ul class="collapse list-unstyled" id="clusterPick">
-                                <li>
-                                    <div class="form-group">
-                                        <span class="inputSpan">
-                                            {{form.cluster(class="form-control")}}
-                                        </span>
-                                    </div>
-                                </li>
-                            </ul>
                         </div>
                     </li>
                 </ul>
@@ -183,15 +161,15 @@
     <!-- Draw Charts-->
     {% block jsChart %}{% endblock %}
     <script type="text/javascript">
-	
-        $(document).ready(function(){
-            $(".sendInfo").click(function(){
+
+        $(document).ready(function () {
+            $(".sendInfo").click(function () {
                 $(this).addClass("animationLoading");
-                
+
             });
         });
-        
-        </script>
+
+    </script>
 </body>
 
 </html>
