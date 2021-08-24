@@ -526,8 +526,8 @@ class userCharts(Charts):
                                                                 test = 'count(job_.id_job_)',
                                                                 user=user))
 
-        topTenUsedQueues = Charts.multiDict(topTenUsedQueues, 'queue_name', 'sum_')
-        topTenUsedNodes = Charts.multiDict(topTenUsedNodes, 'queue_name', 'sum_')
+        topTenUsedQueues = Charts.multiDict(topTenUsedQueues, ['queue_name', 'sum_'])
+        topTenUsedNodes = Charts.multiDict(topTenUsedNodes, ['queue_name', 'sum_'])
 
         sql = """
             SELECT hosts.hostname, {test} AS sum_
@@ -548,9 +548,9 @@ class userCharts(Charts):
         topTenHostnameNbJobs = self.e.fetch(command=sql.format(     date=date, 
                                                                     test = 'count(job_.id_job_)',
                                                                     user=user))
-
-        topTenHostnameHours = Charts.multiDict(topTenHostnameHours, 'hostname', 'sum_')
-        topTenHostnameNbJobs = Charts.multiDict(topTenHostnameNbJobs, 'hostname', 'sum_')
+        
+        topTenHostnameHours = Charts.multiDict(topTenHostnameHours, ['hostname', 'sum_'])
+        topTenHostnameNbJobs = Charts.multiDict(topTenHostnameNbJobs, ['hostname', 'sum_'])
 
 
         charts.append(  {"id": "chart1", "name" : "Information utilisateur/groupe", "charts" : (

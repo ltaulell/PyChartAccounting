@@ -68,15 +68,26 @@ class Charts(object):
         return {name: value}
 
     @staticmethod
-    def multiDict(values, nKey, nValue):
+    def multiDict(values:dict, KeysValues : list):
         dico = dict()
-        if len(values) == 2:
-            temp = {values[nKey]: values[nValue]}
-            dico = combineDict(dico, temp)
-        else:
-            for value in values:
-                temp = {value[nKey]: value[nValue]}
+
+        if len(KeysValues) == 2 and type(KeysValues[0]) != list:
+            if len(values) == 2:
+                temp = {values[KeysValues[0]]: values[KeysValues[1]]}
                 dico = combineDict(dico, temp)
+            else:
+                for value in values:
+                    temp = {value[KeysValues[0]]: value[KeysValues[1]]}
+                    dico = combineDict(dico, temp)
+        else:
+            temp = dict()
+            for value in values:
+                for keyValue in KeysValues:
+                    if len(keyValue) == 2:
+                        temp = {value[keyValue[0]]: value[keyValue[1]]}
+                    else:
+                        temp = {keyValue[0]: value[keyValue[0]]}
+                    dico = combineDict(dico, temp)
         return dico
 
     def charts(self, form):

@@ -34,7 +34,7 @@ class clusterCharts(Charts):
         if(type(topTenUsedCluster) == int):
             return charts, recall, True
 
-        topTenUsedCluster = Charts.multiDict(topTenUsedCluster, 'hostname', 'sum_cpu')
+        topTenUsedCluster = Charts.multiDict(topTenUsedCluster, ['hostname', 'sum_cpu'])
 
         charts.append(  {"id": "chart6", "name" : "Top 10", "charts": (
                             {"id":"topTenUsedCluster", "type": "BarChart", "values" : topTenUsedCluster, "title" : "Top 10 des cluster utilisées"},

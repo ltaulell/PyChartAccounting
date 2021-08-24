@@ -12,8 +12,7 @@ class defaultCharts(Charts):
 
         # Variables input
         date = self.pickDate(form, recall)[0]
-        cluster = form.cluster.data
-        recall["cluster"] = cluster
+        recall["default"] = "oui"
 
 
         sql = """
@@ -69,9 +68,40 @@ class defaultCharts(Charts):
                                                                     group = 'await',
                                                                     order = 'await DESC'
                                                                     ))
-
-
         print(topTenUsedQueuesByHours)
+        print("\n\n")
+        topTenUsedQueuesByHours = Charts.multiDict(topTenUsedQueuesByHours, [['queue_name', 'sum_cpu'], ['group_name']])
+        print(topTenUsedQueuesByHours)
+        sql = """
+            SELECT
+                queues.queue_name,
+                max(job_.cpu) as max_cpu
+            FROM 
+                job_, queues
+            WHERE
+                job_.id_queue = queues.id_queue
+                {date}
+            GROUP BY queues.queue_name
+            ORDER BY max_cpu DESC
+            LIMIT 10;
+        """
+
+        topTenUsedQueues = self.e.fetch(command=sql.format(    date=date))
+
+
+
+        charts.append(  {"id": "chart5", "name" : "Temps d'attente", "charts": (
+                            {"id":"waitingTimeMAM", "type": "BarChart", "values" : topTenUsedQueuesByHours, "title" : "Temps d'attente"},
+                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : topTenUsedQueuesByJobs, "title" : "Temps d'attente moyen"},
+                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : topTenUsedHostByJobs, "title" : "Temps d'attente moyen"},
+                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : topTenMaxvmem, "title" : "Temps d'attente moyen"},
+                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : topTenTempsAttente, "title" : "Temps d'attente moyen"},
+                            {"id":"waitingTime", "type": "BarChart", "values" : topTenUsedHostByHours, "title" : "Temps d'attente"}
+                        )})
+        
+        charts.append(  {"id": "chart6", "name" : "Top 10", "charts": (
+                            {"id":"topTenUsedQueues", "type": "BarChart", "values" : topTenUsedQueues, "title" : "Top 10 des queues utilisées"},
+                        )})
 
        
         return charts, recall, error
