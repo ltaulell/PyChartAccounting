@@ -159,7 +159,7 @@
     <script src="{{ url_for('static', filename='js/charts-custom.js') }}"></script>
 
     <!-- Draw Charts-->
-    {% block jsChart %}{% endblock %}
+    
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -170,6 +170,10 @@
         });
 
     </script>
+
+
+    {% block jsChart %}{% endblock %}
+
 </body>
 
 </html>
