@@ -2,21 +2,6 @@
  * @author Damien LE BORGNE
  */
 
-function loadGroups(name){
-
-    $.getJSON('/output/'+name, function(data, status, xhr){
-
-        var options = '<option value="Tout">Tout</option>';
-        
-        for (var i = 0; i < data["groupes"].length; i++ ) {
-            options += '<option value="' + data["groupes"][i]+ '" '+select+'>' + data["groupes"][i] + '</option>';
-            select = "";
-        }
-        // console.log(data["groupes"]);
-        $("#groups").html(options);  
-    });
-}
-
 function loadLists(){
     
     var listUsers = [];
@@ -62,7 +47,7 @@ function loadLists(){
             response( $.grep( listUsers, function( item ){
                 return matcher.test( item );
             }) );
-        }
+        },
     });
 };
 
@@ -87,7 +72,7 @@ $(document).ready(function(){
             });
         });
 
-        $( "#users" ).on( "click", function() {
+        $("#users").click(function (e) {
             var text = $(this).val();
             $.ajax({
               url: "/output/"+name["user"],
@@ -103,15 +88,14 @@ $(document).ready(function(){
         });
     });
 
-    
-    
-    $("button").on('click', function(e) {
+    $("button").click(function (e) {
         e.preventDefault();
     });
-
-    $("input#reset").on('click', function(e) {
-        document.getElementById("users").value = ""; 
+    
+    $(".sendInfo").click(function () {
+        $(this).addClass("animationLoading");
     });
+
 
 //  Eviter la frappe entrée lorsque l'utilisateur entre un nom (eviter de valider le formulaire)
     $(window).keydown(function(event){

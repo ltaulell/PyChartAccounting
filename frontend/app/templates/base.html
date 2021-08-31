@@ -49,10 +49,10 @@
                                         </label>
                                         <div class="periode checkDate" id="periode">
                                             <label class="control-label" for="date">Debut</label>
-                                            {{form.dateByForkStart(class="form-control", id="date",
+                                            {{form.dateByForkStart(class="form-control", 
                                             placeholder="MM/DD/YYYY",type="text")}}
                                             <label class="control-label" for="date">Fin</label>
-                                            {{form.dateByForkEnd(class="form-control", id="date",
+                                            {{form.dateByForkEnd(class="form-control", 
                                             placeholder="MM/DD/YYYY", type="text")}}
                                         </div>
                                     </span>
@@ -65,14 +65,14 @@
                                         </label>
                                         <div class="annee checkDate" id="annee">
                                             <label class="control-label" for="date">Année</label>
-                                            {{form.dateByYear(class="form-control", id="date",
+                                            {{form.dateByYear(class="form-control", 
                                             placeholder="YYYY", type="text")}}
                                         </div>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="inputSpan"><label class="container-date">Tout
-                                            <input type="radio" checked="checked" name="radio" value="tout">
+                                            <input type="radio" id="toutSearch" checked="checked" name="radio" value="tout">
                                             <span class="checkmark"></span>
                                         </label>
                                         <div class="tout checkDate" id="tout"></div>
@@ -84,7 +84,7 @@
                     <li>
                         <div class="form-group">
                             <span class="inputSpan">
-                                Utilisateur{{form.users(class="form-control")}}
+                                Utilisateur{{form.users(class="form-control", value="")}}
                             </span>
                         </div>
                     </li>
@@ -120,6 +120,9 @@
                     </li>
                     <li>
                         <div class="buttonForm">{{ form.reset(class="btn btn-lg resetButton") }}</div>
+                    </li>
+                    <li>
+                        <div class="buttonForm"><button class="btn btn-lg resetButton" id="reloadForm" type="button"><i class="fas fa-redo"></i> Paramètre précédent</button></div>
                     </li>
                 </ul>
             </form>
@@ -157,20 +160,6 @@
     <script src="{{ url_for('static', filename='vendor/dom-to-image/dom-to-image.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/FileSaver.js/FileSaver.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/charts-custom.js') }}"></script>
-
-    <!-- Draw Charts-->
-    
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $(".sendInfo").click(function () {
-                $(this).addClass("animationLoading");
-
-            });
-        });
-
-    </script>
-
 
     {% block jsChart %}{% endblock %}
 

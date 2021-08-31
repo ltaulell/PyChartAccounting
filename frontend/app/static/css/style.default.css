@@ -117,6 +117,11 @@ span {
   animation: rotate 1.4s ease 0.5s infinite;
 }
 
+#sidebar ul li .animationLoading:hover {
+  color: #fff;
+  background: #447cc9;
+}
+
 @keyframes rotate {
   0% {
     transform: rotate(360deg);
@@ -283,3 +288,41 @@ nav.navbar .container-date-fluid {
   color: white;
   background-color: #447cc9;
 }
+
+
+/* ---------------------------------------------------
+    Grid system
+----------------------------------------------------- */
+
+@media (min-width: 576px) {
+  .colm {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .colm {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .colm {
+    -ms-flex: 0 0 80%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .colm {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+

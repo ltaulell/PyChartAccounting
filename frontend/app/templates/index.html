@@ -93,7 +93,7 @@
           <div class="accordion-body">
             <div class="row">
               {% for ch in chart['charts'] %}
-              <div class="col col-lg-6">
+              <div class="colm">
                 <div class="card chart" id="{{ch['id']}}-img">
                   <div class="card-header">
                     <h4>{{ch["title"]}}</h4>
@@ -130,7 +130,8 @@
       }); 
 
       {% if charts %}
-        var charts = {{ charts | tojson }} //On lit les éléments contenus dans charts
+      
+        var charts = JSON.parse('{{ charts|tojson }}'); //On lit les éléments contenus dans charts
         
         for(let j = 0; j < charts.length; j++){
 
@@ -138,16 +139,17 @@
           labels = [];
           values = [];
 
-          for(let key in charts[j]['charts'][i]['values']){
-            labels.push(key);
-            values.push(charts[j]['charts'][i]['values'][key]);
-          }
-
-          window[charts[j]['charts'][i]['type']](
-                                    charts[j]['charts'][i]['id'], 
-                                    labels, 
-                                    values
-                                  );
+            for(let key in charts[j]['charts'][i]['values']){
+              for(let v in charts[j]['charts'][i]['values'][key]){
+                labels.push(v);
+                values.push(charts[j]['charts'][i]['values'][key][v]);
+              }
+            }
+            window[charts[j]['charts'][i]['type']](
+                                      charts[j]['charts'][i]['id'], 
+                                      labels, 
+                                      values
+                                    );
           }
         }
       {% endif %}
