@@ -5,11 +5,10 @@ from flask_wtf import FlaskForm
 
 class InputForm(FlaskForm): #create form
     users = StringField('users',render_kw={"placeholder": "Utilisateur"})
-    testUsers = StringField('testUsers',render_kw={"placeholder": "Utilisateur"})
     groups = SelectField('groups', choices=[])
-    dateByYear = DateField('Choisir une année', format="%Y")
-    dateByForkStart = DateField('Choisir la fin de la période', format="%d/%m/%Y")
-    dateByForkEnd = DateField('Choisir le debut de la période', format="%d/%m/%Y")
+    dateByYear = DateField('dateByYear', format="%Y")
+    dateByForkStart = DateField('dateByForkStart', format="%d/%m/%Y")
+    dateByForkEnd = DateField('dateByForkEnd', format="%d/%m/%Y")
     queue = SelectField('queue', choices=[])
     cluster = SelectField('cluster', choices=[])
     submit = SubmitField('Envoyer')
