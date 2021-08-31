@@ -1,4 +1,4 @@
-from app.utils import combineDict
+from app.utils import splitDict
 from app.service.charts import Charts
 
 class defaultCharts(Charts):
@@ -68,10 +68,9 @@ class defaultCharts(Charts):
                                                                     group = 'await',
                                                                     order = 'await DESC'
                                                                     ))
-        print(topTenUsedQueuesByHours)
-        print("\n\n")
-        topTenUsedQueuesByHours = Charts.multiDict(topTenUsedQueuesByHours, [['queue_name', 'sum_cpu'], ['group_name']])
-        print(topTenUsedQueuesByHours)
+                                                                    
+        topTenUsedQueuesByHours = super().multiDict(topTenUsedQueuesByHours, [['queue_name', 'sum_cpu'], ['group_name']])
+
         sql = """
             SELECT
                 queues.queue_name,

@@ -1,4 +1,4 @@
-from app.utils import combineDict
+from app.utils import splitDict
 from app.service.charts import Charts
 
 class groupsCharts(Charts):
@@ -28,7 +28,7 @@ class groupsCharts(Charts):
 
         jobsTotal = self.e.fetch(command=sql.format(date=date, groupName=groupName))
 
-        if(Charts.detectError(jobsTotal)):
+        if(super().detectError(jobsTotal)):
             return charts, recall, True
 
         
@@ -52,10 +52,10 @@ class groupsCharts(Charts):
                                                         test = 'AND job_.failed != 0 AND job_.exit_status != 0',
                                                         groupName = groupName))
 
-        jobsSuccess = Charts.nameDict("Jobs réussi", Charts.isNullDict("nb_job", jobsSuccess))
-        jobsFailed = Charts.nameDict("Jobs mauvais", Charts.isNullDict("nb_job", jobsFailed))
+        jobsSuccess = super().nameDict("Jobs réussi", super().isNullDict("nb_job", jobsSuccess))
+        jobsFailed = super().nameDict("Jobs mauvais", super().isNullDict("nb_job", jobsFailed))
 
-        jobsSuccessFailed = combineDict(jobsSuccess, jobsFailed)
+        jobsSuccessFailed = (jobsSuccess, jobsFailed)
 
 
         # Group, Exec time
@@ -71,6 +71,7 @@ class groupsCharts(Charts):
         
         execTimeMAM = self.e.fetch(command=sql.format(  date=date,
                                                         groupName = groupName))
+        execTimeMAM = splitDict(execTimeMAM)
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -101,10 +102,10 @@ class groupsCharts(Charts):
                                                             test = "<",
                                                             groupName = groupName))
 
-        execTimeSupAvg = Charts.nameDict("Temps d'éxecution moyen supérieur", Charts.isNullDict("sup_avg", execTimeSupAvg))
-        execTimeInfAvg = Charts.nameDict("Temps d'éxecution moyen inférieur", Charts.isNullDict("inf_avg", execTimeInfAvg))
+        execTimeSupAvg = super().nameDict("Temps d'éxecution moyen supérieur", super().isNullDict("sup_avg", execTimeSupAvg))
+        execTimeInfAvg = super().nameDict("Temps d'éxecution moyen inférieur", super().isNullDict("inf_avg", execTimeInfAvg))
 
-        execTimeComparaison = combineDict(execTimeSupAvg, execTimeInfAvg)
+        execTimeComparaison = (execTimeSupAvg, execTimeInfAvg)
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -137,12 +138,12 @@ class groupsCharts(Charts):
                                                         test = " > 18144000 ",
                                                         groupName=groupName))
 
-        execTime1 = Charts.nameDict("< 86400", Charts.isNullDict("exectime", execTime1))
-        execTime2 = Charts.nameDict("[86400; 604800]", Charts.isNullDict("exectime", execTime2))
-        execTime3 = Charts.nameDict("[604800; 18144000]", Charts.isNullDict("exectime", execTime3))
-        execTime4 = Charts.nameDict("> 18144000", Charts.isNullDict("exectime", execTime4))
+        execTime1 = super().nameDict("< 24", super().isNullDict("exectime", execTime1))
+        execTime2 = super().nameDict("[24; 168]", super().isNullDict("exectime", execTime2))
+        execTime3 = super().nameDict("[168; 5 040h", super().isNullDict("exectime", execTime3))
+        execTime4 = super().nameDict("> 5 040", super().isNullDict("exectime", execTime4))
 
-        execTime = combineDict(execTime1, execTime2, execTime3, execTime4) #Posibilité que des valeurs disparaissent car value = 0.
+        execTime = (execTime1, execTime2, execTime3, execTime4) #Posibilité que des valeurs disparaissent car value = 0.
 
 
         # Mem Usage
@@ -157,8 +158,9 @@ class groupsCharts(Charts):
             GROUP BY groupes.group_name ;
             """
         
-        memUseMaxAvgMin = self.e.fetch(command=sql.format(  date=date, 
+        memUseMAM = self.e.fetch(command=sql.format(  date=date, 
                                                             groupName=groupName))
+        memUseMAM = splitDict(memUseMAM)
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -188,10 +190,10 @@ class groupsCharts(Charts):
                                                         test = "<",
                                                         groupName=groupName))
 
-        memUseSupAvg = Charts.nameDict("Utilisation de la mémoire moyenne supérieur", Charts.isNullDict("jobs_sup_avg", memUseSupAvg))
-        memUseInfAvg = Charts.nameDict("Utilisation de la mémoire moyenne inférieur", Charts.isNullDict("jobs_inf_avg", memUseInfAvg))
+        memUseSupAvg = super().nameDict("Utilisation de la mémoire moyenne supérieur", super().isNullDict("jobs_sup_avg", memUseSupAvg))
+        memUseInfAvg = super().nameDict("Utilisation de la mémoire moyenne inférieur", super().isNullDict("jobs_inf_avg", memUseInfAvg))
 
-        memUseComparaison = combineDict(memUseSupAvg, memUseInfAvg)
+        memUseComparaison = (memUseSupAvg, memUseInfAvg)
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -244,16 +246,16 @@ class groupsCharts(Charts):
                                                     test = " > 137438953472 ",
                                                     groupName=groupName))
 
-        mUsage1 = Charts.nameDict("< 1073741824", Charts.isNullDict("musage", mUsage1))
-        mUsage2 = Charts.nameDict("[1073741824; 4294967296]", Charts.isNullDict("musage", mUsage2))
-        mUsage3 = Charts.nameDict("[4294967296; 858993459]", Charts.isNullDict("musage", mUsage3))
-        mUsage4 = Charts.nameDict("[858993459; 17179869184]", Charts.isNullDict("musage", mUsage4))
-        mUsage5 = Charts.nameDict("[17179869184; 34359738368]", Charts.isNullDict("musage", mUsage5))
-        mUsage6 = Charts.nameDict("[34359738368; 68719476736]", Charts.isNullDict("musage", mUsage6))
-        mUsage7 = Charts.nameDict("[68719476736; 137438953472]", Charts.isNullDict("musage", mUsage7))
-        mUsage8 = Charts.nameDict("> 137438953472", Charts.isNullDict("musage", mUsage8))
+        mUsage1 = super().nameDict("< 1", super().isNullDict("musage", mUsage1))
+        mUsage2 = super().nameDict("[1; 4]", super().isNullDict("musage", mUsage2))
+        mUsage3 = super().nameDict("[4; 8]", super().isNullDict("musage", mUsage3))
+        mUsage4 = super().nameDict("[8; 16]", super().isNullDict("musage", mUsage4))
+        mUsage5 = super().nameDict("[16; 32]", super().isNullDict("musage", mUsage5))
+        mUsage6 = super().nameDict("[32; 64]", super().isNullDict("musage", mUsage6))
+        mUsage7 = super().nameDict("[64; 128]", super().isNullDict("musage", mUsage7))
+        mUsage8 = super().nameDict("> 128", super().isNullDict("musage", mUsage8))
 
-        memUsage = combineDict(mUsage1, mUsage2, mUsage3, mUsage4, mUsage5, mUsage6, mUsage7, mUsage8) #Posibilité que des valeurs disparaissent car value = 0.
+        memUsage = (mUsage1, mUsage2, mUsage3, mUsage4, mUsage5, mUsage6, mUsage7, mUsage8) #Posibilité que des valeurs disparaissent car value = 0.
 
 
         # Slots usage
@@ -270,6 +272,7 @@ class groupsCharts(Charts):
         
         slotsPerJobsMAM = self.e.fetch(command=sql.format(  date=date,
                                                             groupName=groupName))
+        slotsPerJobsMAM = splitDict(slotsPerJobsMAM)
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -299,10 +302,10 @@ class groupsCharts(Charts):
                                                                 test = "<",
                                                                 groupName=groupName))
 
-        slotsPerJobsSupAvg = Charts.nameDict("Slots par job moyen supérieur", Charts.isNullDict("jobs_sup_avg", slotsPerJobsSupAvg))
-        slotsPerJobsInfAvg = Charts.nameDict("Slots par job moyen inférieur", Charts.isNullDict("jobs_inf_avg", slotsPerJobsInfAvg))
+        slotsPerJobsSupAvg = super().nameDict("Slots par job moyen supérieur", super().isNullDict("jobs_sup_avg", slotsPerJobsSupAvg))
+        slotsPerJobsInfAvg = super().nameDict("Slots par job moyen inférieur", super().isNullDict("jobs_inf_avg", slotsPerJobsInfAvg))
 
-        slotsPerJobsComparaison = combineDict(slotsPerJobsSupAvg, slotsPerJobsInfAvg)
+        slotsPerJobsComparaison = (slotsPerJobsSupAvg, slotsPerJobsInfAvg)
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -355,16 +358,16 @@ class groupsCharts(Charts):
                                                     test = " > 128 ",
                                                     groupName=groupName))
 
-        slots1 = Charts.nameDict("= 1", Charts.isNullDict("slots", slots1))
-        slots2 = Charts.nameDict("[1; 4]", Charts.isNullDict("slots", slots2))
-        slots3 = Charts.nameDict("[5; 8]", Charts.isNullDict("slots", slots3))
-        slots4 = Charts.nameDict("[9; 16]", Charts.isNullDict("slots", slots4))
-        slots5 = Charts.nameDict("[17; 32]", Charts.isNullDict("slots", slots5))
-        slots6 = Charts.nameDict("[33; 64]", Charts.isNullDict("slots", slots6))
-        slots7 = Charts.nameDict("[65; 128]", Charts.isNullDict("slots", slots7))
-        slots8 = Charts.nameDict("> 128", Charts.isNullDict("slots", slots8))
+        slots1 = super().nameDict("= 1", super().isNullDict("slots", slots1))
+        slots2 = super().nameDict("[1; 4]", super().isNullDict("slots", slots2))
+        slots3 = super().nameDict("[5; 8]", super().isNullDict("slots", slots3))
+        slots4 = super().nameDict("[9; 16]", super().isNullDict("slots", slots4))
+        slots5 = super().nameDict("[17; 32]", super().isNullDict("slots", slots5))
+        slots6 = super().nameDict("[33; 64]", super().isNullDict("slots", slots6))
+        slots7 = super().nameDict("[65; 128]", super().isNullDict("slots", slots7))
+        slots8 = super().nameDict("> 128", super().isNullDict("slots", slots8))
 
-        slotsPerJob = combineDict(slots1, slots2, slots3, slots4, slots5, slots6, slots7, slots8)                                                        
+        slotsPerJob = (slots1, slots2, slots3, slots4, slots5, slots6, slots7, slots8)                                                        
 
 
         charts.append(  {"id": "chart1", "name" : "Information utilisateur/groupe", "charts" : (
@@ -378,7 +381,7 @@ class groupsCharts(Charts):
                         )})
 
         charts.append(  {"id": "chart3", "name" : "Utilisation de la mémoire", "charts": (
-                            {"id":"memUseMaxAvgMin", "type": "BarChart", "values" : memUseMaxAvgMin, "title" : "Utilisation de la mémoire"},
+                            {"id":"memUseMAM", "type": "BarChart", "values" : memUseMAM, "title" : "Utilisation de la mémoire"},
                             {"id":"memUseComparaison", "type": "PieChart", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne"},
                             {"id":"memUsage", "type": "BarChart", "values" : memUsage, "title" : "Utilisation de la mémoire"}
                         )})

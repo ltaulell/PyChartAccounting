@@ -1,4 +1,4 @@
-from app.utils import combineDict
+from app.utils import splitDict
 from app.service.charts import Charts
 
 class queuesCharts(Charts):
@@ -28,7 +28,7 @@ class queuesCharts(Charts):
         jobsTotal = self.e.fetch(command=sql.format(    date=date,
                                                         queue = queue))
         
-        if(Charts.detectError(jobsTotal)):
+        if(super().detectError(jobsTotal)):
             return charts, recall, True
 
 
@@ -46,7 +46,7 @@ class queuesCharts(Charts):
         
         execTimeMAM = self.e.fetch(command=sql.format(  date=date,
                                                         queue=queue))
-
+        execTimeMAM = splitDict(execTimeMAM)
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
             FROM job_, queues
@@ -76,10 +76,10 @@ class queuesCharts(Charts):
                                                             test = "<",
                                                             queue=queue))
 
-        execTimeSupAvg = Charts.nameDict("Temps d'éxecution moyen supérieur", Charts.isNullDict("sup_avg", execTimeSupAvg))
-        execTimeInfAvg = Charts.nameDict("Temps d'éxecution moyen inférieur", Charts.isNullDict("inf_avg", execTimeInfAvg))
+        execTimeSupAvg = super().nameDict("Temps d'éxecution moyen supérieur", super().isNullDict("sup_avg", execTimeSupAvg))
+        execTimeInfAvg = super().nameDict("Temps d'éxecution moyen inférieur", super().isNullDict("inf_avg", execTimeInfAvg))
 
-        execTimeComparaison = combineDict(execTimeSupAvg, execTimeInfAvg)
+        execTimeComparaison = (execTimeSupAvg, execTimeInfAvg)
 
 
         sql = """
@@ -113,12 +113,12 @@ class queuesCharts(Charts):
                                                         test = " > 18144000 ",
                                                         queue=queue))
 
-        execTime1 = Charts.nameDict("< 86400", Charts.isNullDict("exectime", execTime1))
-        execTime2 = Charts.nameDict("[86400; 604800]", Charts.isNullDict("exectime", execTime2))
-        execTime3 = Charts.nameDict("[604800; 18144000]", Charts.isNullDict("exectime", execTime3))
-        execTime4 = Charts.nameDict("> 18144000", Charts.isNullDict("exectime", execTime4))
+        execTime1 = super().nameDict("< 24", super().isNullDict("exectime", execTime1))
+        execTime2 = super().nameDict("[24; 168]", super().isNullDict("exectime", execTime2))
+        execTime3 = super().nameDict("[168; 5 040h", super().isNullDict("exectime", execTime3))
+        execTime4 = super().nameDict("> 5 040", super().isNullDict("exectime", execTime4))
 
-        execTime = combineDict(execTime1, execTime2, execTime3, execTime4) #Posibilité que des valeurs disparaissent car value = 0.
+        execTime = (execTime1, execTime2, execTime3, execTime4) #Posibilité que des valeurs disparaissent car value = 0.
 
 
         # Queue exec jobs
@@ -141,10 +141,10 @@ class queuesCharts(Charts):
                                                         test = 'AND job_.failed != 0 AND job_.exit_status != 0',
                                                         queue = queue))
 
-        jobsSuccess = Charts.nameDict("Jobs réussi", Charts.isNullDict("nb_job", jobsSuccess))
-        jobsFailed = Charts.nameDict("Jobs mauvais", Charts.isNullDict("nb_job", jobsFailed))
+        jobsSuccess = super().nameDict("Jobs réussi", super().isNullDict("nb_job", jobsSuccess))
+        jobsFailed = super().nameDict("Jobs mauvais", super().isNullDict("nb_job", jobsFailed))
 
-        jobsSuccessFailed = combineDict(jobsSuccess, jobsFailed)
+        jobsSuccessFailed = (jobsSuccess, jobsFailed)
 
         charts.append(  {"id": "chart1", "name" : "Information utilisateur/groupe", "charts" : (
                             {"id":"jobsSuccessFailed", "type": "PieChart", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
