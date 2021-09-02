@@ -9,3 +9,5 @@ CREATE TABLE IF NOT EXISTS history (
     );
 
 INSERT INTO history(last_offset_position, date_insert) VALUES ('0', current_timestamp) RETURNING id_insertion;
+
+-- UPDATE history SET last_offset_position = 3548322420, date_insert = current_timestamp WHERE id_insertion = 1;
