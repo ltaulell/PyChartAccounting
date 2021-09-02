@@ -8,11 +8,6 @@
  * Last modified  : 2021-08-25
  */
 
-
-function generateLabelsData(labelsName, dataList){
-
-}
-
 listBackGroundColor = [
     "#61615A","#BA0900","#6B7900","#00C2A0","#FFAA92","#FF90C9","#B903AA","#D16100","#DDEFFF","#000035",
     "#ff34ff","#3b9700","#d16100","#72418f","#3b5dff","#7a4900","#a30059","#0aa6d8","#ffb500","#0000a6"

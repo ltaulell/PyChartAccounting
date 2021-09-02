@@ -8,9 +8,9 @@ function loadLists(){
 
 //  Ajouter tout les utilisateurs de la bdd dans un array retourner la liste sous format json dans /users (python), Recuperer la liste et le push dans listUsers (js)
     $.getJSON('/users', function(data){
-     for (var i = 0; i < data["users"].length; i++ ) {
+        for (var i = 0; i < data["users"].length; i++ ) {
         listUsers.push(data["users"][i]);
-     }
+        }
     });
 
 //  Charger les groupes dans un select
@@ -60,30 +60,30 @@ $(document).ready(function(){
         $("#users").keyup(function(){
             var text = $(this).val();
             $.ajax({
-              url: "/output/"+name["user"],
-              type: "get",
-              data: {outData: text},
-              success: function(response) {
-                loadGroups(name["user"]);
-              },
-              error: function(err) {
-                console.log(err)
-              }
+                url: "/output/"+name["user"],
+                type: "get",
+                data: {outData: text},
+                success: function(response) {
+                    loadGroups(name["user"]);
+                },
+                error: function(err) {
+                    console.log(err)
+                }
             });
         });
 
         $("#users").click(function (e) {
             var text = $(this).val();
             $.ajax({
-              url: "/output/"+name["user"],
-              type: "get",
-              data: {outData: text},
-              success: function(response) {
-                loadGroups(name["user"]);
-              },
-              error: function(err) {
-                console.log(err)
-              }
+                url: "/output/"+name["user"],
+                type: "get",
+                data: {outData: text},
+                success: function(response) {
+                    loadGroups(name["user"]);
+                },
+                error: function(err) {
+                    console.log(err)
+                }
             });
         });
     });
@@ -103,6 +103,6 @@ $(document).ready(function(){
           event.preventDefault();
           return false;
         }
-      });
+    });
    
 });
