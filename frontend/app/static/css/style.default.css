@@ -326,3 +326,6 @@ nav.navbar .container-date-fluid {
   }
 }
 
+#imgSave{
+  display: none;
+}

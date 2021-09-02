@@ -140,7 +140,7 @@ class groupsCharts(Charts):
 
         execTime1 = super().nameDict("< 24", super().isNullDict("exectime", execTime1))
         execTime2 = super().nameDict("[24; 168]", super().isNullDict("exectime", execTime2))
-        execTime3 = super().nameDict("[168; 5 040h", super().isNullDict("exectime", execTime3))
+        execTime3 = super().nameDict("[168; 5 040]", super().isNullDict("exectime", execTime3))
         execTime4 = super().nameDict("> 5 040", super().isNullDict("exectime", execTime4))
 
         execTime = (execTime1, execTime2, execTime3, execTime4) #Posibilité que des valeurs disparaissent car value = 0.

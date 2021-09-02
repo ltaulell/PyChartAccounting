@@ -94,7 +94,7 @@ class userCharts(Charts):
         
         sql = """
             SELECT MAX(job_.ru_wallclock)/3600 AS max, AVG(job_.ru_wallclock)/3600 AS avg, MIN(job_.ru_wallclock)/3600 AS min 
-            FROM job_, users
+            FROM job_, users, groupes
             WHERE job_.id_user = users.id_user
                 AND users.login = '{user}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
@@ -106,11 +106,13 @@ class userCharts(Charts):
         execTimeMAM = self.e.fetch(command=sql.format(  date=date,
                                                         group = multiGroup,
                                                         user=user))
+
         execTimeMAM = splitDict(execTimeMAM)
+
         
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
-            FROM job_, users
+            FROM job_, users, groupes
             WHERE job_.id_user = users.id_user
                 AND users.login = '{user}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
@@ -123,6 +125,7 @@ class userCharts(Charts):
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
                         {date}
+                        {group}
                     GROUP BY users.login)
             GROUP BY users.login ;
             """      
@@ -178,7 +181,7 @@ class userCharts(Charts):
 
         execTime1 = super().nameDict("< 24", super().isNullDict("exectime", execTime1))
         execTime2 = super().nameDict("[24; 168]", super().isNullDict("exectime", execTime2))
-        execTime3 = super().nameDict("[168; 5 040h", super().isNullDict("exectime", execTime3))
+        execTime3 = super().nameDict("[168; 5 040]", super().isNullDict("exectime", execTime3))
         execTime4 = super().nameDict("> 5 040", super().isNullDict("exectime", execTime4))
 
         execTime = (execTime1, execTime2, execTime3, execTime4) #Posibilité que des valeurs disparaissent car value = 0.
@@ -314,11 +317,12 @@ class userCharts(Charts):
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
-            FROM job_, users
+            FROM job_, users, groupes
             WHERE job_.id_user = users.id_user
                 AND users.login = '{user}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
+                {group}
                 -- avg donné par requête imbriquée
                 AND job_.slots  {test} (
                     SELECT AVG(job_.slots)
@@ -327,6 +331,7 @@ class userCharts(Charts):
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
                         {date}
+                        {group}
                     GROUP BY users.login)
             GROUP BY users.login ;
             """
@@ -334,26 +339,29 @@ class userCharts(Charts):
         slotsPerJobsSupAvg = self.e.fetch(command=sql.format(   select='jobs_sup_avg',
                                                                 date=date, 
                                                                 test = ">",
+                                                                group = multiGroup,
                                                                 user=user))
         
         slotsPerJobsInfAvg = self.e.fetch(command=sql.format(   select='jobs_inf_avg',
                                                                 date=date, 
                                                                 test = "<",
+                                                                group = multiGroup,
                                                                 user=user))
-
+        
         slotsPerJobsSupAvg = super().nameDict("Slots par job moyen supérieur", super().isNullDict("jobs_sup_avg", slotsPerJobsSupAvg))
         slotsPerJobsInfAvg = super().nameDict("Slots par job moyen inférieur", super().isNullDict("jobs_inf_avg", slotsPerJobsInfAvg))
-
+        
         slotsPerJobsComparaison = (slotsPerJobsSupAvg, slotsPerJobsInfAvg)
 
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
-            FROM job_, users
+            FROM job_, users, groupes
             WHERE job_.id_user = users.id_user
                 AND users.login = '{user}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
+                {group}
                 AND job_.slots {test}
             GROUP BY users.login ;
             """
@@ -361,41 +369,49 @@ class userCharts(Charts):
         slots1 = self.e.fetch(command=sql.format(   select='slots',
                                                     date=date, 
                                                     test = " = 1 ",
+                                                    group = multiGroup,
                                                     user=user))
 
         slots2 = self.e.fetch(command=sql.format(   select='slots',
                                                     date=date, 
                                                     test = " > 1 AND job_.slots <= 4 ",
+                                                    group = multiGroup,
                                                     user=user))
 
         slots3 = self.e.fetch(command=sql.format(   select='slots',
                                                     date=date, 
                                                     test = " > 5 AND job_.slots <= 8 ",
+                                                    group = multiGroup,
                                                     user=user))
 
         slots4 = self.e.fetch(command=sql.format(   select='slots',
                                                     date=date, 
                                                     test = " > 9 AND job_.slots <= 16 ",
+                                                    group = multiGroup,
                                                     user=user))
 
         slots5 = self.e.fetch(command=sql.format(   select='slots',
                                                     date=date, 
                                                     test = " > 17 AND job_.slots <= 32 ",
+                                                    group = multiGroup,
                                                     user=user))
 
         slots6 = self.e.fetch(command=sql.format(   select='slots',
                                                     date=date, 
                                                     test = " > 33 AND job_.slots <= 64 ",
+                                                    group = multiGroup,
                                                     user=user))
 
         slots7 = self.e.fetch(command=sql.format(   select='slots',
                                                     date=date, 
                                                     test = " > 65 AND job_.slots <= 128 ",
+                                                    group = multiGroup,
                                                     user=user))
 
         slots8 = self.e.fetch(command=sql.format(   select='slots',
                                                     date=date, 
                                                     test = " > 128 ",
+                                                    group = multiGroup,
                                                     user=user))
 
         slots1 = super().nameDict("= 1", super().isNullDict("slots", slots1))
@@ -417,25 +433,28 @@ class userCharts(Charts):
             CASE WHEN MIN(job_.start_time - job_.submit_time) < 0 THEN 0
             ELSE MIN(job_.start_time - job_.submit_time)
             END 
-            FROM job_, users
+            FROM job_, users, groupes
             WHERE job_.id_user = users.id_user
                 AND users.login = '{user}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date} 
+                {group}
             GROUP BY users.login ;
             """
         
         waitingTimeMAM = self.e.fetch(command=sql.format(   date=date,
+                                                            group = multiGroup,
                                                             user=user))
         waitingTimeMAM = splitDict(waitingTimeMAM)
         
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
-            FROM job_, users
+            FROM job_, users, groupes
             WHERE job_.id_user = users.id_user
                 AND users.login = '{user}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
+                {group}
                 -- avg donné par requête imbriquée
                 AND (job_.start_time - job_.submit_time) > (
                     SELECT AVG(job_.start_time - job_.submit_time)
@@ -444,6 +463,7 @@ class userCharts(Charts):
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
                         {date}
+                        {group}
                     GROUP BY users.login)
             GROUP BY users.login ;
             """
@@ -451,11 +471,13 @@ class userCharts(Charts):
         waitingTimeSupAvg = self.e.fetch(command=sql.format(    select='wt_sup_avg',
                                                                 date=date, 
                                                                 test = ">",
+                                                                group = multiGroup,
                                                                 user=user))
         
         waitingTimeInfAvg = self.e.fetch(command=sql.format(    select='wt_inf_avg',
                                                                 date=date, 
                                                                 test = "<",
+                                                                group = multiGroup,
                                                                 user=user))
 
         waitingTimeSupAvg = super().nameDict("Slots par job moyen supérieur", super().isNullDict("wt_sup_avg", waitingTimeSupAvg))
@@ -466,11 +488,12 @@ class userCharts(Charts):
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
-            FROM job_, users
+            FROM job_, users, groupes
             WHERE job_.id_user = users.id_user
                 AND users.login = '{user}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
+                {group}
                 AND (job_.start_time - job_.submit_time) {test}
             GROUP BY users.login;
             """
@@ -478,26 +501,31 @@ class userCharts(Charts):
         waitingTime1 = self.e.fetch(command=sql.format(     select='waitingtime',
                                                             date=date, 
                                                             test = "< 3600",
+                                                            group = multiGroup,
                                                             user=user))
 
         waitingTime2 = self.e.fetch(command=sql.format(     select='waitingtime',
                                                             date=date, 
                                                             test = "> 3600 AND (job_.start_time - job_.submit_time) < 21600",
+                                                            group = multiGroup,
                                                             user=user))
 
         waitingTime3 = self.e.fetch(command=sql.format(     select='waitingtime',
                                                             date=date, 
                                                             test = "> 21600 AND (job_.start_time - job_.submit_time) < 43200",
+                                                            group = multiGroup,
                                                             user=user))
 
         waitingTime4 = self.e.fetch(command=sql.format(     select='waitingtime',
                                                             date=date, 
                                                             test = "> 43200 AND (job_.start_time - job_.submit_time) < 86400",
+                                                            group = multiGroup,
                                                             user=user))
 
         waitingTime5 = self.e.fetch(command=sql.format(     select='waitingtime',
                                                             date=date, 
                                                             test = "> 86400",
+                                                            group = multiGroup,
                                                             user=user))
 
         waitingTime1 = super().nameDict("< 1", super().isNullDict("waitingtime", waitingTime1))
@@ -513,44 +541,50 @@ class userCharts(Charts):
         
         sql = """
             SELECT queues.queue_name, {select} AS sum_
-            FROM users, queues, job_
+            FROM users, queues, job_, groupes
             WHERE job_.id_user = users.id_user
                 AND users.login = '{user}'
                 AND job_.id_queue = queues.id_queue
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
+                {group}
             GROUP BY queues.queue_name
             ORDER BY sum_ DESC LIMIT 10 ;
         """
 
         topTenUsedQueues = self.e.fetch(command=sql.format(     date=date, 
                                                                 select = 'sum(job_.cpu)/3600',
+                                                                group = multiGroup,
                                                                 user=user))
 
         topTenUsedNodes = self.e.fetch(command=sql.format(      date=date, 
                                                                 select = 'count(job_.id_job_)',
+                                                                group = multiGroup,
                                                                 user=user))
         topTenUsedQueues = super().multiDict(topTenUsedQueues, ['queue_name', 'sum_'])
         topTenUsedNodes = super().multiDict(topTenUsedNodes, ['queue_name', 'sum_'])
 
         sql = """
             SELECT hosts.hostname, {select} AS sum_
-            FROM users, hosts, job_
+            FROM users, hosts, job_, groupes
             WHERE job_.id_user = users.id_user
                 AND users.login = '{user}'
                 AND job_.id_host = hosts.id_host
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
+                {group}
             GROUP BY hosts.hostname
             ORDER BY sum_ DESC LIMIT 10 ;
             """
         
         topTenHostnameHours = self.e.fetch(command=sql.format(      date=date, 
                                                                     select = 'sum(job_.cpu)/3600',
+                                                                    group = multiGroup,
                                                                     user=user))
 
         topTenHostnameNbJobs = self.e.fetch(command=sql.format(     date=date, 
                                                                     select = 'count(job_.id_job_)',
+                                                                    group = multiGroup,
                                                                     user=user))
         
         topTenHostnameHours = super().multiDict(topTenHostnameHours, ['hostname', 'sum_'])

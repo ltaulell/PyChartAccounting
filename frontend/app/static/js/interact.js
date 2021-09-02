@@ -1,11 +1,13 @@
 $('button.toJpg').on('click', function(e){
     e.preventDefault();
+    html2canvas($("#"+this.id)[0], {
+        scale: 5
+      }).then((canvas) => {
+        document.getElementById("imgSave").appendChild(canvas);
 
-    var node = document.getElementById(this.id);
-    var name = this.id.replace("-img", "")
-   
-    domtoimage.toBlob(node).then(function (blob) {
-        window.saveAs(blob, name+'.png');
+        canvas.toBlob(function(blob) {
+            saveAs(blob, "img.jpg"); 
+        });
     });
 
 });

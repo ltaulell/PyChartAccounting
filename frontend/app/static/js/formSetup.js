@@ -4,7 +4,6 @@
 
 
  function loadGroups(name){
-    console.log("fromsetup.js");
     $.getJSON('/output/'+name, function(data, status, xhr){
 
         if(data["groupes"].length > 1){
