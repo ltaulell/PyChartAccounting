@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{% endblock %}</title>
+    {% block ico %}{% endblock %}
+    <!-- jQuery CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/jquery/jquery-ui.css') }}">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap-datepicker3.css') }}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.default.css') }}">
+    <!-- Font Awesome JS -->
+    <script src="{{ url_for('static', filename='vendor/fontawesome/solid.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/fontawesome/fontawesome.js') }}"></script>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <nav id="sidebar">
+
+            <div class="sidebar-header">
+                <h3>PSMN</h3>
+            </div>
+            <form action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                {{ form.csrf_token }}
+                <ul class="list-unstyled components">
+                    <li>
+
+                        <div class="form-group">
+
+                            <div class="drop-header">
+                                <span class="inputSpan">
+                                    Dates
+                                </span>
+                            </div>
+
+                            <ul class="list-unstyled" id="datePick">
+                                <li>
+                                    <span class="inputSpan"><label class="container-date">Par période
+                                            <input type="radio" id="periodeSearch" name="radio" value="periode">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <div class="periode checkDate" id="periode">
+                                            <label class="control-label" for="date">Debut</label>
+                                            {{form.dateByForkStart(class="form-control", 
+                                            placeholder="MM/DD/YYYY",type="text")}}
+                                            <label class="control-label" for="date">Fin</label>
+                                            {{form.dateByForkEnd(class="form-control", 
+                                            placeholder="MM/DD/YYYY", type="text")}}
+                                        </div>
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <span class="inputSpan"><label class="container-date">Par année
+                                            <input type="radio" id="anneeSearch" name="radio" value="annee">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <div class="annee checkDate" id="annee">
+                                            <label class="control-label" for="date">Année</label>
+                                            {{form.dateByYear(class="form-control", 
+                                            placeholder="YYYY", type="text")}}
+                                        </div>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="inputSpan"><label class="container-date">Tout
+                                            <input type="radio" id="toutSearch" checked="checked" name="radio" value="tout">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <div class="tout checkDate" id="tout"></div>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group">
+                            <span class="inputSpan">
+                                Utilisateur{{form.users(class="form-control", value="")}}
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group">
+                            <span class="inputSpan">
+                                Groupes{{form.groups(class="form-control")}}
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <span class="inputSpan">
+                                    Queue{{form.queue(class="form-control")}}
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <span class="inputSpan">
+                                    Cluster{{form.cluster(class="form-control")}}
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li>
+                        <div class="buttonForm">{{ form.submit(class="btn btn-lg sendInfo") }}</div>
+                    </li>
+                    <li>
+                        <div class="buttonForm">{{ form.reset(class="btn btn-lg resetButton") }}</div>
+                    </li>
+                    <li>
+                        <div class="buttonForm"><button class="btn btn-lg resetButton" id="reloadForm" type="button"><i class="fas fa-redo"></i> Paramètre précédent</button></div>
+                    </li>
+                </ul>
+            </form>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            {% block msgUtilisateur %}{% endblock %}
+            <div class="line"></div>
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+
+
+
+    <div class="overlay"></div>
+    <!-- jQuery  -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery-ui.js') }}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- jQuery scroller-->
+    <script
+        src="{{ url_for('static', filename='vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+    <!-- Datepicker -->
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap-datepicker.min.js') }}"></script>
+    <!-- JS Main-->
+    <script src="{{ url_for('static', filename='js/front.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/interact.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/datepicker.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/formSetup.js') }}"></script>
+    <!-- Chart Scripts-->
+    <script src="{{ url_for('static', filename='vendor/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/dom-to-image/dom-to-image.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/FileSaver.js/FileSaver.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/charts-custom.js') }}"></script>
+
+    {% block jsChart %}{% endblock %}
+
+</body>
+
+</html>

@@ -1,0 +1,328 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&family=Poppins:wght@200&display=swap");
+body {
+  font-family: "Inconsolata", monospace;
+  background: #fafafa;
+  font-size: 20px;
+}
+
+p {
+  font-family: "Inconsolata", monospace;
+  font-size: 1.1em;
+  font-weight: 300;
+  line-height: 1.7em;
+  color: #999;
+}
+
+.navbar {
+  padding: 15px 10px;
+  background: #fff;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 40px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+  box-shadow: none;
+  outline: none !important;
+  border: none;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dashed #ddd;
+  margin: 40px 0;
+}
+
+i,
+span {
+  display: inline-block;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+.wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+#sidebar {
+  display: block;
+  min-width: 250px;
+  max-width: 250px;
+  background: #447cc9;
+  color: #fff;
+  transition: all 0.3s;
+}
+
+#sidebar .sidebar-header {
+  padding: 20px;
+  background: #2d63af;
+}
+
+#sidebar .sidebar-header strong {
+  display: none;
+  font-size: 1.8em;
+}
+
+#sidebar ul.components {
+  padding: 20px 0;
+}
+
+#sidebar ul li .buttonForm {
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
+  text-align: center;
+}
+
+#sidebar ul li .inputSpan {
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+  font-size: 20px;
+}
+
+#sidebar ul li .submitBtn:hover {
+  color: rgb(255, 255, 255);
+  background: #447cc9;
+}
+
+#sidebar ul li .sendInfo {
+  width: 90%;
+  height: 60px;
+  border: 2px solid #fff;
+  color: #fff;
+  background: #447cc9;
+  box-sizing: border-box;
+  border-radius: 50px;
+  outline: none;
+  transition: all ease 0.5s;
+}
+
+#sidebar .sendInfo:hover {
+  color: #447cc9;
+  background: white;
+}
+
+#sidebar ul li .animationLoading {
+  font-size: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border-left-color: transparent;
+  animation: rotate 1.4s ease 0.5s infinite;
+}
+
+#sidebar ul li .animationLoading:hover {
+  color: #fff;
+  background: #447cc9;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(360deg);
+  }
+}
+
+#sidebar ul li .resetButton {
+  width: 100%;
+  color: #fff;
+  outline: none;
+}
+
+.drop-header .btn {
+  color: white;
+  font-size: 20px;
+}
+
+.btn-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.65);
+  background-color: transparent;
+  border: 0;
+}
+
+.btn-toggle::before {
+  width: 1.25em;
+  line-height: 0;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  transition: transform 0.35s ease;
+  transform-origin: 0.5em 50%;
+}
+
+.btn-toggle[aria-expanded="true"]::before {
+  transform: rotate(90deg);
+}
+
+.btn-toggle[aria-expanded="true"] {
+  color: rgb(252, 172, 172);
+}
+
+.ui-autocomplete { 
+  max-height: 200px;
+  overflow-y: scroll; 
+  overflow-x: hidden;
+}
+
+
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+  width: 100%;
+  padding: 20px;
+  min-height: 100vh;
+  transition: all 0.3s;
+}
+
+/* ---------------------------------------------------
+    radio button style
+----------------------------------------------------- */
+.container-date {
+  display: block;
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container-date input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.container-date:hover input ~ .checkmark {
+  background-color: rgb(215, 139, 235);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container-date input:checked ~ .checkmark:after {
+  display: block;
+  top: 12px;
+}
+
+.container-date .checkmark:after {
+  top: 0px;
+  left: 3.3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(255, 0, 0);
+}
+
+.periode {
+  display: none;
+}
+
+.annee {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .container-date-fluid {
+    padding: 0 3rem;
+  }
+}
+
+nav.navbar .container-date-fluid {
+  width: 100%;
+}
+
+
+
+/* ---------------------------------------------------
+    TEXT STYLE
+----------------------------------------------------- */
+
+.erreurs {
+  color: #ff0000;
+}
+
+.info {
+  color: #838383;
+}
+
+.drop-header .collapse .dropArrow {
+  transition: 0.3s transform ease-in-out;
+}
+
+.drop-header .collapsed .dropArrow {
+  transform: rotate(90deg);
+}
+
+/* ---------------------------------------------------
+    Charts style
+----------------------------------------------------- */
+
+.chart {
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.toJpg{
+  position: absolute; 
+  top: 0; 
+  right: 0;
+}
+
+.list-group-item-primary{
+  color: white;
+  background-color: #447cc9;
+}
+
+
+/* ---------------------------------------------------
+    Grid system
+----------------------------------------------------- */
+
+@media (min-width: 576px) {
+  .colm {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .colm {
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .colm {
+    -ms-flex: 0 0 80%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .colm {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
