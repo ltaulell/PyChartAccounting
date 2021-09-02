@@ -120,7 +120,7 @@ class userCharts(Charts):
                 {group}
                 AND job_.ru_wallclock {test} (
                     SELECT AVG(job_.ru_wallclock)
-                    FROM job_, users
+                    FROM job_, users, groupes
                     WHERE job_.id_user = users.id_user
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
