@@ -326,7 +326,7 @@ class userCharts(Charts):
                 -- avg donné par requête imbriquée
                 AND job_.slots  {test} (
                     SELECT AVG(job_.slots)
-                    FROM job_, users
+                    FROM job_, users, groupes
                     WHERE job_.id_user = users.id_user
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
@@ -458,7 +458,7 @@ class userCharts(Charts):
                 -- avg donné par requête imbriquée
                 AND (job_.start_time - job_.submit_time) > (
                     SELECT AVG(job_.start_time - job_.submit_time)
-                    FROM job_, users
+                    FROM job_, users, groupes
                     WHERE job_.id_user = users.id_user
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
