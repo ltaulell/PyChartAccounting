@@ -55,12 +55,12 @@ def index():
             if errRet:
                 flash("Merci de verifier votre demande d'information", category="warning")
             return render_template('index.html', charts=output, form=form, infos=rappel)
-        else:
+        """else:
             print("default")
             output, rappel, errRet = defaultCharts.charts(form)
             if errRet:
                 flash("Merci de verifier votre demande d'information", category="warning")
-            return render_template('index.html', charts=output, form=form, infos=rappel)
+            return render_template('index.html', charts=output, form=form, infos=rappel)"""
 
     elif request.method == 'POST' and form.reset.data == True:
         LoadGroupes(session["user"], reload=True)
