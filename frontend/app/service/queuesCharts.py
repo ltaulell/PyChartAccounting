@@ -152,9 +152,9 @@ class queuesCharts(Charts):
                         )})
 
         charts.append(  {"id": "chart2", "name" : "Temps d'éxecution", "charts": (
-                            {"id":"execTimeMAM", "type": "BarChart", "values" : execTimeMAM, "title" : "Temps d'exécution"},
-                            {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen"},
-                            {"id":"execTime", "type": "BarChart", "values" : execTime, "title" : "Temps d'exécution"}
+                            {"id":"execTimeMAM", "type": "BarChart", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
+                            {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
+                            {"id":"execTime", "type": "BarChart", "values" : execTime, "title" : "Temps d'exécution (heures)"}
                         )})
 
         return charts, recall, error

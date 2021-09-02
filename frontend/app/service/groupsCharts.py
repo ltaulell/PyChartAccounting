@@ -375,15 +375,15 @@ class groupsCharts(Charts):
                         )})
 
         charts.append(  {"id": "chart2", "name" : "Temps d'éxecution", "charts": (
-                            {"id":"execTimeMAM", "type": "BarChart", "values" : execTimeMAM, "title" : "Temps d'exécution"},
-                            {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen"},
-                            {"id":"execTime", "type": "BarChart", "values" : execTime, "title" : "Temps d'exécution"}
+                            {"id":"execTimeMAM", "type": "BarChart", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
+                            {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
+                            {"id":"execTime", "type": "BarChart", "values" : execTime, "title" : "Temps d'exécution (heures)"}
                         )})
 
         charts.append(  {"id": "chart3", "name" : "Utilisation de la mémoire", "charts": (
-                            {"id":"memUseMAM", "type": "BarChart", "values" : memUseMAM, "title" : "Utilisation de la mémoire"},
-                            {"id":"memUseComparaison", "type": "PieChart", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne"},
-                            {"id":"memUsage", "type": "BarChart", "values" : memUsage, "title" : "Utilisation de la mémoire"}
+                            {"id":"memUseMAM", "type": "BarChart", "values" : memUseMAM, "title" : "Utilisation de la mémoire (GiB)"},
+                            {"id":"memUseComparaison", "type": "PieChart", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne (GiB)"},
+                            {"id":"memUsage", "type": "BarChart", "values" : memUsage, "title" : "Utilisation de la mémoire (GiB)"}
                         )})
 
         charts.append(  {"id": "chart4", "name" : "Slots par jobs", "charts": (

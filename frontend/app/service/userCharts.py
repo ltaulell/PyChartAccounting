@@ -598,15 +598,15 @@ class userCharts(Charts):
                         )})
 
         charts.append(  {"id": "chart2", "name" : "Temps d'éxecution", "charts": (
-                            {"id":"execTimeMAM", "type": "BarChart", "values" : execTimeMAM, "title" : "Temps d'exécution (Heure)"},
-                            {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (Heure)"},
-                            {"id":"execTime", "type": "BarChart", "values" : execTime, "title" : "Temps d'exécution (Heure)"}
+                            {"id":"execTimeMAM", "type": "BarChart", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
+                            {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
+                            {"id":"execTime", "type": "BarChart", "values" : execTime, "title" : "Temps d'exécution (heures)"}
                         )})
 
         charts.append(  {"id": "chart3", "name" : "Utilisation de la mémoire", "charts": (
-                            {"id":"memUseMAM", "type": "BarChart", "values" : memUseMAM, "title" : "Utilisation de la mémoire (GB)"},
-                            {"id":"memUseComparaison", "type": "PieChart", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne"},
-                            {"id":"memUsage", "type": "BarChart", "values" : memUsage, "title" : "Utilisation de la mémoire"}
+                            {"id":"memUseMAM", "type": "BarChart", "values" : memUseMAM, "title" : "Utilisation de la mémoire (GiB)"},
+                            {"id":"memUseComparaison", "type": "PieChart", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne (GiB)"},
+                            {"id":"memUsage", "type": "BarChart", "values" : memUsage, "title" : "Utilisation de la mémoire (GiB)"}
                         )})
 
         charts.append(  {"id": "chart4", "name" : "Slots par jobs", "charts": (
@@ -616,15 +616,15 @@ class userCharts(Charts):
                         )})
 
         charts.append(  {"id": "chart5", "name" : "Temps d'attente", "charts": (
-                            {"id":"waitingTimeMAM", "type": "BarChart", "values" : waitingTimeMAM, "title" : "Temps d'attente (Heures)"},
-                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : waitingTimeComparaison, "title" : "Temps d'attente moyen (Heures)"},
-                            {"id":"waitingTime", "type": "BarChart", "values" : waitingTime, "title" : "Temps d'attente (Heures)"}
+                            {"id":"waitingTimeMAM", "type": "BarChart", "values" : waitingTimeMAM, "title" : "Temps d'attente (heures)"},
+                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : waitingTimeComparaison, "title" : "Temps d'attente moyen (heures)"},
+                            {"id":"waitingTime", "type": "BarChart", "values" : waitingTime, "title" : "Temps d'attente (heures)"}
                         )})
         
         charts.append(  {"id": "chart6", "name" : "Top 10", "charts": (
-                            {"id":"topTenUsedQueues", "type": "BarChart", "values" : topTenUsedQueues, "title" : "Top 10 des queues utilisées (Heures)"},
+                            {"id":"topTenUsedQueues", "type": "BarChart", "values" : topTenUsedQueues, "title" : "Top 10 des queues utilisées (heures)"},
                             {"id":"topTenUsedNodes", "type": "BarChart", "values" : topTenUsedNodes, "title" : "Top 10 des nodes utilisés (nombre de jobs)"},
-                            {"id":"topTenHostnameHours", "type": "BarChart", "values" : topTenHostnameHours, "title" : "Top 10 Hostnames (Heures)"},
+                            {"id":"topTenHostnameHours", "type": "BarChart", "values" : topTenHostnameHours, "title" : "Top 10 Hostnames (heures)"},
                             {"id":"topTenHostnameNbJobs", "type": "BarChart", "values" : topTenHostnameNbJobs, "title" : "Top 10 Hostnames (nombre de jobs)"}
                         )})
   
