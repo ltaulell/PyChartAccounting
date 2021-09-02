@@ -197,7 +197,7 @@ if __name__ == '__main__':
     log.debug(conn)
 
     # get last offset (and test conn)
-    sql = ("SELECT last_offset_position FROM history WHERE id_insertion = (SELECT MAX(id_insertion) FROM history);")
+    sql = ("SELECT last_offset_position FROM history WHERE id_insertion = 1;")
     res = execute_sql(conn, sql, [])
     last_offset = int(res[0])
 
