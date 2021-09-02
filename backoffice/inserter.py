@@ -345,9 +345,9 @@ if __name__ == '__main__':
                     # sql = ("""INSERT INTO history(last_offset_position, date_insert) 
                     #    VALUES(%s, %s) RETURNING id_insertion; """)
                     sql = ("""UPDATE history 
-                              SET history.last_offset_position = %s, history.date_insert = %s 
-                              WHERE history.id_insertion = 1 
-                              RETURNING history.id_insertion ;""")
+                              SET last_offset_position = %s, date_insert = %s 
+                              WHERE id_insertion = 1 
+                              RETURNING id_insertion ;""")
                     data = [offset, date_insert]
                     insertCommit = execute_sql(conn, sql, data, commit=True)
 
