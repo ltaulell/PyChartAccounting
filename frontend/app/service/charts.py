@@ -28,8 +28,8 @@ class Charts(object):
 
             fromDate = datetime.datetime(fromYear, fromMonth, fromDay).timestamp()
             toDate = datetime.datetime(toYear, toMonth, toDay).timestamp()
-            recall["Debut"] = str(datetime.datetime.fromtimestamp(fromDate).strftime('%d-%m-%Y'))
-            recall["Fin"] = str(datetime.datetime.fromtimestamp(toDate).strftime('%d-%m-%Y'))
+            recall["Debut"] = str(datetime.datetime.fromtimestamp(fromDate).strftime('%d/%m/%Y'))
+            recall["Fin"] = str(datetime.datetime.fromtimestamp(toDate).strftime('%d/%m/%Y'))
             
             return date % (fromDate, toDate), recall
             

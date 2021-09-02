@@ -47,6 +47,7 @@ class queuesCharts(Charts):
         execTimeMAM = self.e.fetch(command=sql.format(  date=date,
                                                         queue=queue))
         execTimeMAM = splitDict(execTimeMAM)
+        
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
             FROM job_, queues
@@ -115,7 +116,7 @@ class queuesCharts(Charts):
 
         execTime1 = super().nameDict("< 24", super().isNullDict("exectime", execTime1))
         execTime2 = super().nameDict("[24; 168]", super().isNullDict("exectime", execTime2))
-        execTime3 = super().nameDict("[168; 5 040h", super().isNullDict("exectime", execTime3))
+        execTime3 = super().nameDict("[168; 5 040]", super().isNullDict("exectime", execTime3))
         execTime4 = super().nameDict("> 5 040", super().isNullDict("exectime", execTime4))
 
         execTime = (execTime1, execTime2, execTime3, execTime4) #Posibilité que des valeurs disparaissent car value = 0.
