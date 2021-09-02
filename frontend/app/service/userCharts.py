@@ -52,7 +52,7 @@ class userCharts(Charts):
         nbhoursGroup = self.e.fetch(command=sql.format( date=date,
                                                     groupName = groupName,
                                                     user=user))
-
+        print("nbhoursGroup")
         sql = """
             SELECT COUNT(job_.id_job_) AS nb_job {select}
             FROM job_, users, groupes
@@ -88,7 +88,7 @@ class userCharts(Charts):
         nbHoursGroupUser = (hoursGroup, hoursUser)
         nbJobsGroupUser = (jobsGroup, jobsUser)
 
-        
+        print("jobsSuccessFailed")
 
         #Exec time
         
@@ -108,7 +108,7 @@ class userCharts(Charts):
                                                         user=user))
 
         execTimeMAM = splitDict(execTimeMAM)
-
+        print("execTimeMAM")
         
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -120,7 +120,7 @@ class userCharts(Charts):
                 {group}
                 AND job_.ru_wallclock {test} (
                     SELECT AVG(job_.ru_wallclock)
-                    FROM job_, users
+                    FROM job_, users, groupes
                     WHERE job_.id_user = users.id_user
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
@@ -146,7 +146,7 @@ class userCharts(Charts):
         execTimeInfAvg = super().nameDict("Temps d'éxecution moyen inférieur", super().isNullDict("inf_avg", execTimeInfAvg))
 
         execTimeComparaison = (execTimeSupAvg, execTimeInfAvg)
-
+        print("execTimeComparaison")
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -185,7 +185,7 @@ class userCharts(Charts):
         execTime4 = super().nameDict("> 5 040", super().isNullDict("exectime", execTime4))
 
         execTime = (execTime1, execTime2, execTime3, execTime4) #Posibilité que des valeurs disparaissent car value = 0.
-
+        print("execTime")
 
         #Memory usage
 
@@ -202,6 +202,7 @@ class userCharts(Charts):
         memUseMAM = self.e.fetch(command=sql.format(  date=date,
                                                         user=user))
         memUseMAM = splitDict(memUseMAM)
+        print("memUseMAM")
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -235,6 +236,7 @@ class userCharts(Charts):
         memUseInfAvg = super().nameDict("Utilisation de la mémoire moyenne inférieur", super().isNullDict("jobs_inf_avg", memUseInfAvg))
 
         memUseComparaison = (memUseSupAvg, memUseInfAvg)
+        print("memUseComparaison")
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -297,7 +299,7 @@ class userCharts(Charts):
         mUsage8 = super().nameDict("> 128", super().isNullDict("musage", mUsage8))
 
         memUsage = (mUsage1, mUsage2, mUsage3, mUsage4, mUsage5, mUsage6, mUsage7, mUsage8) #Posibilité que des valeurs disparaissent car value = 0.
-
+        print("memUsage")
 
         #slots usage
 
@@ -314,6 +316,7 @@ class userCharts(Charts):
         slotsPerJobsMAM = self.e.fetch(command=sql.format(  date=date,
                                                             user=user))
         slotsPerJobsMAM = splitDict(slotsPerJobsMAM)
+        print("slotsPerJobsMAM")
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -326,7 +329,7 @@ class userCharts(Charts):
                 -- avg donné par requête imbriquée
                 AND job_.slots  {test} (
                     SELECT AVG(job_.slots)
-                    FROM job_, users
+                    FROM job_, users, groupes
                     WHERE job_.id_user = users.id_user
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
@@ -352,7 +355,7 @@ class userCharts(Charts):
         slotsPerJobsInfAvg = super().nameDict("Slots par job moyen inférieur", super().isNullDict("jobs_inf_avg", slotsPerJobsInfAvg))
         
         slotsPerJobsComparaison = (slotsPerJobsSupAvg, slotsPerJobsInfAvg)
-
+        print("slotsPerJobsComparaison")
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -424,7 +427,7 @@ class userCharts(Charts):
         slots8 = super().nameDict("> 128", super().isNullDict("slots", slots8))
 
         slotsPerJob = (slots1, slots2, slots3, slots4, slots5, slots6, slots7, slots8)                                                        
-
+        print("slotsPerJob")
 
         #Temps d'attente
         
@@ -446,7 +449,8 @@ class userCharts(Charts):
                                                             group = multiGroup,
                                                             user=user))
         waitingTimeMAM = splitDict(waitingTimeMAM)
-        
+        print("waitingTimeMAM")
+
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
             FROM job_, users, groupes
@@ -458,7 +462,7 @@ class userCharts(Charts):
                 -- avg donné par requête imbriquée
                 AND (job_.start_time - job_.submit_time) > (
                     SELECT AVG(job_.start_time - job_.submit_time)
-                    FROM job_, users
+                    FROM job_, users, groupes
                     WHERE job_.id_user = users.id_user
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
@@ -484,7 +488,7 @@ class userCharts(Charts):
         waitingTimeInfAvg = super().nameDict("Slots par job moyen inférieur", super().isNullDict("wt_inf_avg", waitingTimeInfAvg))
 
         waitingTimeComparaison = (waitingTimeSupAvg, waitingTimeInfAvg)
-
+        print("waitingTimeComparaison")
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -535,7 +539,7 @@ class userCharts(Charts):
         waitingTime5 = super().nameDict("> 24", super().isNullDict("waitingtime", waitingTime5))
 
         waitingTime = (waitingTime1, waitingTime2, waitingTime3, waitingTime4, waitingTime5) 
-
+        print("waitingTime")
 
         #Top ten
         
@@ -563,6 +567,7 @@ class userCharts(Charts):
                                                                 user=user))
         topTenUsedQueues = super().multiDict(topTenUsedQueues, ['queue_name', 'sum_'])
         topTenUsedNodes = super().multiDict(topTenUsedNodes, ['queue_name', 'sum_'])
+        print("topTenUsedNodes")
 
         sql = """
             SELECT hosts.hostname, {select} AS sum_
@@ -589,7 +594,7 @@ class userCharts(Charts):
         
         topTenHostnameHours = super().multiDict(topTenHostnameHours, ['hostname', 'sum_'])
         topTenHostnameNbJobs = super().multiDict(topTenHostnameNbJobs, ['hostname', 'sum_'])
-
+        print("topTenHostnameHours")
 
         charts.append(  {"id": "chart1", "name" : "Information utilisateur/groupe", "charts" : (
                             {"id":"jobsSuccessFailed", "type": "PieChart", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
