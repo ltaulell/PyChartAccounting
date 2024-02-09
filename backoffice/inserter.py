@@ -73,39 +73,39 @@ def execute_sql(connexion, commande, payload, commit=False):
             return cursor.fetchone()
     except psycopg2.errors.StringDataRightTruncation as e:
         # if job_name or project is too long, ignore job, there's a problem.
-        log.warning('insertion error: {}'.format(e))
+        log.warning(f"insertion error: {e}")
         pass
     except psycopg2.errors.NotNullViolation as e:
         # if any of 'NOT NULL' field is null, ignore job, there's a problem.
-        log.warning('notnull error: {}'.format(e))
+        log.warning(f"notnull error: {e}")
         pass
 
 
 def select_or_insert(conn, table, id_name, payload, name=None, multi=False, insert=True):
     """ Prepare the SQL statements, payload MUST be a list """
 
-    log.debug('payload: {}'.format(payload))
+    log.debug(f"payload: {payload}")
 
     if multi is False:
         sql_str = ''.join(['SELECT ', id_name, ' FROM ', table, ' WHERE ', name, ' LIKE (%s);'])
         result = execute_sql(conn, sql_str, payload)
-        log.debug('select: {}'.format(result))
+        log.debug(f"select: {result}")
 
         if result is None and insert is True:
             sql_str = ''.join(['INSERT INTO ', table, '(', name, ') VALUES (%s) RETURNING ', id_name, ';'])
             result = execute_sql(conn, sql_str, payload, commit=True)
-            log.debug('insert: {}'.format(result))
+            log.debug(f"insert: {result}")
 
     else:
         id1, id2 = id_name
         sql_str = ''.join(['SELECT ', id1, ',', id2, ' FROM ', table, ' WHERE ', id1, ' = (%s) AND ', id2, ' = (%s);'])
         result = execute_sql(conn, sql_str, payload)
-        log.debug('select: {}'.format(result))
+        log.debug(f"select: {result}")
 
         if result is None and insert is True:
             sql_str = ''.join(['INSERT INTO ', table, '(', id1, ',', id2, ') VALUES (%s, %s) RETURNING ', id1, ',', id2, ';'])
             result = execute_sql(conn, sql_str, payload, commit=True)
-            log.debug('insert: {}'.format(result))
+            log.debug(f"insert: {result}")
 
     return result
 
@@ -122,14 +122,13 @@ def load_yaml_file(yamlfile):
             contenu = yaml.safe_load(f)
             return contenu
     except IOError:
-        log.critical('Unable to read/load config file: {}'.format(f.name))
+        log.critical(f"Unable to read/load config file: {f.name}")
         sys.exit(1)
     except yaml.MarkedYAMLError as erreur:
         if hasattr(erreur, 'problem_mark'):
             mark = erreur.problem_mark
-            msg_erreur = "YAML error position: ({}:{}) in ".format(mark.line + 1,
-                                                                   mark.column)
-            log.critical('{} {}'.format(msg_erreur, f.name))
+            msg_erreur = f"YAML error position: ({mark.line}:{mark.column + 1}) in ")
+            log.critical(f"{msg_erreur} {f.name}")
         sys.exit(1)
 
 
@@ -141,7 +140,7 @@ def lire_fichier(fichier, offset=0):
             # but read with 'latin1' because of
             # "UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc3..."
 
-            log.debug('current offset: {}'.format(offset))
+            log.debug(f"current offset: {offset}")
 
             if offset != 0:
                 csvfile.seek(offset, 0)  # wc match ok
@@ -158,7 +157,7 @@ def lire_fichier(fichier, offset=0):
                 ligne = csvfile.readline()
 
     except IndexError:
-        log.critical('cannot read {}, not found'.format(csvfile))
+        log.critical(f"cannot read {csvfile}, not found")
 
 
 if __name__ == '__main__':
@@ -178,7 +177,7 @@ if __name__ == '__main__':
 
     if args.input:
         fichier = ''.join(args.input)
-        log.debug('input: {}'.format(fichier))
+        log.debug(f"input: {fichier}")
     else:
         log.warning('no input file!')
         sys.exit(1)
@@ -203,7 +202,7 @@ if __name__ == '__main__':
 
     for offset, datarow in lire_fichier(fichier, offset=last_offset):
         for line in datarow:
-            log.debug('{}, {}, {}, {}'.format(line['qname'], line['host'], line['group'], line['cpu']))
+            log.debug(f"{line['qname']}, {line['host']}, {line['group']}, {line['cpu']}")
 
             with conn:
                 # queue
@@ -338,7 +337,7 @@ if __name__ == '__main__':
                             ]
 
                     jobCommit = execute_sql(conn, sql, data, commit=True)
-                    log.info('commited: {}, {}, {}'.format(line['job_id'], line['qname'], line['host']))
+                    log.info(f"commited: {line['job_id']}, {line['qname']}, {line['host']}")
 
                     # add offset to database
                     date_insert = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -352,6 +351,6 @@ if __name__ == '__main__':
                     insertCommit = execute_sql(conn, sql, data, commit=True)
 
                 else:
-                    log.info('job {} already exist in database'.format(line['job_id']))
+                    log.info(f"job {line['job_id']} already exist in database")
 
     conn.close()

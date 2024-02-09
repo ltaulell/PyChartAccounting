@@ -19,7 +19,7 @@ def parserIni(filename, section):
         for param in params:
             paramsDb[param[0]] = param[1]
     else:
-        raise Exception('Section [{}] not found in file {}'.format(section, filename))
+        raise Exception(f'Section [{section}] not found in file {filename}')
         # créer un declencheur
     return paramsDb
 

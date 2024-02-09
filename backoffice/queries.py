@@ -71,7 +71,7 @@ def execute_sql(connexion, commande, payload, commit=False, fetchall=False):
             cursor.execute(commande, payload)
             if commit:
                 connexion.commit()
-            log.debug('status: {}'.format(cursor.statusmessage))
+            log.debug(f"status: {cursor.statusmessage}")
             if fetchall:
                 return cursor.fetchall()
             else:
@@ -79,21 +79,21 @@ def execute_sql(connexion, commande, payload, commit=False, fetchall=False):
 
     except psycopg2.errors.StringDataRightTruncation as e:
         # if job_name or project is too long, ignore job, there's a problem.
-        log.warning('insertion error: {}'.format(e))
+        log.warning(f"insertion error: {e}")
         pass
     except psycopg2.errors.NotNullViolation as e:
         # if any of 'NOT NULL' field is null, ignore job, there's a problem.
-        log.warning('notnull error: {}'.format(e))
+        log.warning(f"notnull error: {e}")
         pass
     except psycopg2.errors.ProgrammingError as e:
         # if cursor.execute() did not produce any result
-        log.warning('fetch error: {}'.format(e))
+        log.warning(f"fetch error: {e}")
         pass
 
 
 def prepare_select(conn, payload):
     """ """
-    log.debug('payload: {}'.format(payload))
+    log.debug(f"payload: {payload}")
 
     # sql_str = ''.join(['SELECT ', id_name, ' FROM ', table, ' WHERE ', name, ' LIKE (%s);'])
     sql_str = """ SELECT groupes.group_name, sum(job_.cpu) AS sum_cpu, count(job_.id_job_) AS nb_job
@@ -105,7 +105,7 @@ def prepare_select(conn, payload):
                   ORDER BY sum_cpu DESC; """
 
     result = execute_sql(conn, sql_str, payload, fetchall=True)
-    log.debug('select: {}'.format(result))
+    log.debug(f"select: {result}")
     return result
 
 
@@ -130,13 +130,13 @@ if __name__ == '__main__':
             for epoch in YEARS:
                 start, end = epoch
                 year = datetime.datetime.fromtimestamp(start).strftime('%Y')
-                print('année: {}'.format(year))
+                print(f"année: {year}")
                 resultats = prepare_select(conn, epoch)
-                log.debug('resultats: {}'.format(resultats))
+                log.debug(f"resultats: {resultats}")
 
                 for (groupe, secondes, jobs) in resultats:
                     heures = int(secondes / 3600)
-                    log.debug('resultat: {}, {}, {}'.format(groupe, jobs, heures))
+                    log.debug(f"resultat: {groupe}, {jobs}, {heures}")
 
                     data.append([groupe, year, 'time', heures])
                     data.append([groupe, year, 'jobs', jobs])
