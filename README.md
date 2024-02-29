@@ -100,7 +100,7 @@ accounting -> python3 -> format intermédiaire -> query -> présentation (graphs
 
 **Choix final** :
 
-* backoffice : python3 + psycopg2
+* backoffice : flask (python3) + psycopg2
 * datawarehouse : SQL (postgresql)
 
 
