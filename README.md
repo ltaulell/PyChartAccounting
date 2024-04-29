@@ -101,6 +101,9 @@ accounting -> python3 -> format intermédiaire -> query -> présentation (graphs
 **Choix final** :
 
 * backoffice : flask (python3) + psycopg2
+
+requirements: flask flask_wtf wtforms pandas psycopg2
+
 * datawarehouse : SQL (postgresql)
 
 
