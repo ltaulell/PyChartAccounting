@@ -56,7 +56,7 @@ class queuesCharts(Charts):
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
                 -- avg donné par requête imbriquée
-                AND job_.ru_wallclock > (
+                AND job_.ru_wallclock {test} (
                     SELECT AVG(job_.ru_wallclock)
                     FROM job_, queues
                     WHERE job_.id_queue = queues.id_queue
@@ -148,13 +148,13 @@ class queuesCharts(Charts):
         jobsSuccessFailed = (jobsSuccess, jobsFailed)
 
         charts.append(  {"id": "chart1", "name" : "Information utilisateur/groupe", "charts" : (
-                            {"id":"jobsSuccessFailed", "type": "PieChart", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
+                            {"id":"jobsSuccessFailed", "type": "pie", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
                         )})
 
         charts.append(  {"id": "chart2", "name" : "Temps d'éxecution", "charts": (
-                            {"id":"execTimeMAM", "type": "BarChart", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
-                            {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
-                            {"id":"execTime", "type": "BarChart", "values" : execTime, "title" : "Temps d'exécution (heures)"}
+                            {"id":"execTimeMAM", "type": "bar", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
+                            {"id":"execTimeComparaison", "type": "pie", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
+                            {"id":"execTime", "type": "bar", "values" : execTime, "title" : "Temps d'exécution (heures)"}
                         )})
 
         return charts, recall, error

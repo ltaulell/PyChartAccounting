@@ -17,6 +17,9 @@
     <!-- Font Awesome JS -->
     <script src="{{ url_for('static', filename='vendor/fontawesome/solid.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/fontawesome/fontawesome.js') }}"></script>
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    
 </head>
 
 <body>
@@ -134,6 +137,7 @@
             {% block msgUtilisateur %}{% endblock %}
             <div class="line"></div>
             {% block body %}{% endblock %}
+
         </div>
     </div>
 

@@ -1,7 +1,7 @@
 $('button.toJpg').on('click', function(e){
     e.preventDefault();
     html2canvas($("#"+this.id)[0], {
-        scale: 5
+        scale: 2
       }).then((canvas) => {
         document.getElementById("imgSave").appendChild(canvas);
 

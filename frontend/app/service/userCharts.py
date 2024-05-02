@@ -456,7 +456,7 @@ class userCharts(Charts):
                 {date}
                 {group}
                 -- avg donné par requête imbriquée
-                AND (job_.start_time - job_.submit_time) > (
+                AND (job_.start_time - job_.submit_time) {test} (
                     SELECT AVG(job_.start_time - job_.submit_time)
                     FROM job_, users
                     WHERE job_.id_user = users.id_user
@@ -592,33 +592,33 @@ class userCharts(Charts):
 
 
         charts.append(  {"id": "chart1", "name" : "Information utilisateur/groupe", "charts" : (
-                            {"id":"jobsSuccessFailed", "type": "PieChart", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
-                            {"id":"nbJobsGroupUser", "type": "PieChart", "values" : nbJobsGroupUser, "title" : "Nombre de jobs / Groupe"},
-                            {"id":"nbHoursGroupUser", "type": "PieChart", "values" : nbHoursGroupUser, "title" : "Nombre d'heures / Groupe"}
+                            {"id":"jobsSuccessFailed", "type": "pie", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
+                            {"id":"nbJobsGroupUser", "type": "pie", "values" : nbJobsGroupUser, "title" : "Nombre de jobs / Groupe"},
+                            {"id":"nbHoursGroupUser", "type": "pie", "values" : nbHoursGroupUser, "title" : "Nombre d'heures / Groupe"}
                         )})
 
         charts.append(  {"id": "chart2", "name" : "Temps d'éxecution", "charts": (
-                            {"id":"execTimeMAM", "type": "BarChart", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
+                            {"id":"execTimeMAM", "type": "bar", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
                             {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
-                            {"id":"execTime", "type": "BarChart", "values" : execTime, "title" : "Temps d'exécution (heures)"}
+                            {"id":"execTime", "type": "bar", "values" : execTime, "title" : "Temps d'exécution (heures)"}
                         )})
 
         charts.append(  {"id": "chart3", "name" : "Utilisation de la mémoire", "charts": (
-                            {"id":"memUseMAM", "type": "BarChart", "values" : memUseMAM, "title" : "Utilisation de la mémoire (GiB)"},
-                            {"id":"memUseComparaison", "type": "PieChart", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne (GiB)"},
-                            {"id":"memUsage", "type": "BarChart", "values" : memUsage, "title" : "Utilisation de la mémoire (GiB)"}
+                            {"id":"memUseMAM", "type": "bar", "values" : memUseMAM, "title" : "Utilisation de la mémoire (GiB)"},
+                            {"id":"memUseComparaison", "type": "pie", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne (GiB)"},
+                            {"id":"memUsage", "type": "bar", "values" : memUsage, "title" : "Utilisation de la mémoire (GiB)"}
                         )})
 
         charts.append(  {"id": "chart4", "name" : "Slots par jobs", "charts": (
-                            {"id":"slotsPerJobsMAM", "type": "BarChart", "values" : slotsPerJobsMAM, "title" : "Slots par job"},
-                            {"id":"slotsPerJobsComparaison", "type": "PieChart", "values" : slotsPerJobsComparaison, "title" : "Slots par job moyenne"},
-                            {"id":"slotsPerJob", "type": "BarChart", "values" : slotsPerJob, "title" : "Slots par job"}
+                            {"id":"slotsPerJobsMAM", "type": "bar", "values" : slotsPerJobsMAM, "title" : "Slots par job"},
+                            {"id":"slotsPerJobsComparaison", "type": "pie", "values" : slotsPerJobsComparaison, "title" : "Slots par job moyenne"},
+                            {"id":"slotsPerJob", "type": "bar", "values" : slotsPerJob, "title" : "Slots par job"}
                         )})
 
         charts.append(  {"id": "chart5", "name" : "Temps d'attente", "charts": (
-                            {"id":"waitingTimeMAM", "type": "BarChart", "values" : waitingTimeMAM, "title" : "Temps d'attente (heures)"},
-                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : waitingTimeComparaison, "title" : "Temps d'attente moyen (heures)"},
-                            {"id":"waitingTime", "type": "BarChart", "values" : waitingTime, "title" : "Temps d'attente (heures)"}
+                            {"id":"waitingTimeMAM", "type": "bar", "values" : waitingTimeMAM, "title" : "Temps d'attente (heures)"},
+                            {"id":"waitingTimeComparaison", "type": "pie", "values" : waitingTimeComparaison, "title" : "Temps d'attente moyen (heures)"},
+                            {"id":"waitingTime", "type": "bar", "values" : waitingTime, "title" : "Temps d'attente (heures)"}
                         )})
         
         charts.append(  {"id": "chart6", "name" : "Top 10", "charts": (
@@ -629,4 +629,3 @@ class userCharts(Charts):
                         )})
   
         return charts, recall, error
-    
