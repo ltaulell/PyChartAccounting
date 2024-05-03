@@ -90,16 +90,16 @@ class defaultCharts(Charts):
 
 
         charts.append(  {"id": "chart5", "name" : "Temps d'attente", "charts": (
-                            {"id":"waitingTimeMAM", "type": "BarChart", "values" : topTenUsedQueuesByHours, "title" : "Temps d'attente"},
-                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : topTenUsedQueuesByJobs, "title" : "Temps d'attente moyen"},
-                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : topTenUsedHostByJobs, "title" : "Temps d'attente moyen"},
-                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : topTenMaxvmem, "title" : "Temps d'attente moyen"},
-                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : topTenTempsAttente, "title" : "Temps d'attente moyen"},
-                            {"id":"waitingTime", "type": "BarChart", "values" : topTenUsedHostByHours, "title" : "Temps d'attente"}
+                            {"id":"waitingTimeMAM", "type": "bar", "values" : topTenUsedQueuesByHours, "title" : "Temps d'attente"},
+                            {"id":"waitingTimeComparaison", "type": "pie", "values" : topTenUsedQueuesByJobs, "title" : "Temps d'attente moyen"},
+                            {"id":"waitingTimeComparaison", "type": "pie", "values" : topTenUsedHostByJobs, "title" : "Temps d'attente moyen"},
+                            {"id":"waitingTimeComparaison", "type": "pie", "values" : topTenMaxvmem, "title" : "Temps d'attente moyen"},
+                            {"id":"waitingTimeComparaison", "type": "pie", "values" : topTenTempsAttente, "title" : "Temps d'attente moyen"},
+                            {"id":"waitingTime", "type": "bar", "values" : topTenUsedHostByHours, "title" : "Temps d'attente"}
                         )})
         
         charts.append(  {"id": "chart6", "name" : "Top 10", "charts": (
-                            {"id":"topTenUsedQueues", "type": "BarChart", "values" : topTenUsedQueues, "title" : "Top 10 des queues utilisées"},
+                            {"id":"topTenUsedQueues", "type": "bar", "values" : topTenUsedQueues, "title" : "Top 10 des queues utilisées"},
                         )})
 
        

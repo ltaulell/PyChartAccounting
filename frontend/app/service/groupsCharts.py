@@ -61,7 +61,7 @@ class groupsCharts(Charts):
         # Group, Exec time
 
         sql = """
-            SELECT min(job_.ru_wallclock) as min, avg(job_.ru_wallclock) as avg, max(job_.ru_wallclock) as max
+            SELECT MAX(job_.ru_wallclock) as max, AVG(job_.ru_wallclock) as avg, MIN(job_.ru_wallclock) as min
             FROM job_, groupes
             WHERE job_.id_groupe = groupes.id_groupe
                 AND groupes.group_name = '{groupName}'
@@ -202,7 +202,7 @@ class groupsCharts(Charts):
                 AND groupes.group_name = '{groupName}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
-                {test}
+                AND job_.maxvmem {test}
             GROUP BY groupes.group_name ;
             """
         
@@ -261,7 +261,7 @@ class groupsCharts(Charts):
         # Slots usage
 
         sql = """
-            SELECT min(job_.slots) as min, avg(job_.slots) as avg, max(job_.slots) as max
+            SELECT MAX(job_.slots) as max, AVG(job_.slots) as avg, MIN(job_.slots) as min
             FROM job_, groupes
             WHERE job_.id_groupe = groupes.id_groupe
                 AND groupes.group_name = '{groupName}'
@@ -371,25 +371,25 @@ class groupsCharts(Charts):
 
 
         charts.append(  {"id": "chart1", "name" : "Information utilisateur/groupe", "charts" : (
-                            {"id":"jobsSuccessFailed", "type": "PieChart", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
+                            {"id":"jobsSuccessFailed", "type": "pie", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
                         )})
 
         charts.append(  {"id": "chart2", "name" : "Temps d'éxecution", "charts": (
-                            {"id":"execTimeMAM", "type": "BarChart", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
-                            {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
-                            {"id":"execTime", "type": "BarChart", "values" : execTime, "title" : "Temps d'exécution (heures)"}
+                            {"id":"execTimeMAM", "type": "bar", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
+                            {"id":"execTimeComparaison", "type": "pie", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
+                            {"id":"execTime", "type": "bar", "values" : execTime, "title" : "Temps d'exécution (heures)"}
                         )})
 
         charts.append(  {"id": "chart3", "name" : "Utilisation de la mémoire", "charts": (
-                            {"id":"memUseMAM", "type": "BarChart", "values" : memUseMAM, "title" : "Utilisation de la mémoire (GiB)"},
-                            {"id":"memUseComparaison", "type": "PieChart", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne (GiB)"},
-                            {"id":"memUsage", "type": "BarChart", "values" : memUsage, "title" : "Utilisation de la mémoire (GiB)"}
+                            {"id":"memUseMAM", "type": "bar", "values" : memUseMAM, "title" : "Utilisation de la mémoire (GiB)"},
+                            {"id":"memUseComparaison", "type": "pie", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne (GiB)"},
+                            {"id":"memUsage", "type": "bar", "values" : memUsage, "title" : "Utilisation de la mémoire (GiB)"}
                         )})
 
         charts.append(  {"id": "chart4", "name" : "Slots par jobs", "charts": (
-                            {"id":"slotsPerJobsMAM", "type": "BarChart", "values" : slotsPerJobsMAM, "title" : "Slots par job"},
-                            {"id":"slotsPerJobsComparaison", "type": "PieChart", "values" : slotsPerJobsComparaison, "title" : "Slots par job moyenne"},
-                            {"id":"slotsPerJob", "type": "BarChart", "values" : slotsPerJob, "title" : "Slots par job"}
+                            {"id":"slotsPerJobsMAM", "type": "bar", "values" : slotsPerJobsMAM, "title" : "Slots par job"},
+                            {"id":"slotsPerJobsComparaison", "type": "pie", "values" : slotsPerJobsComparaison, "title" : "Slots par job moyenne"},
+                            {"id":"slotsPerJob", "type": "bar", "values" : slotsPerJob, "title" : "Slots par job"}
                         )})
   
         return charts, recall, error
