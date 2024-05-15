@@ -41,8 +41,7 @@ class userCharts(Charts):
         sql = """
            SELECT COUNT(job_.id_job_) AS nb_job, SUM(job_.cpu)/3600 AS sum_cpu
             FROM job_, groupes, users
-            WHERE job_.id_groupe = groupes.id_groupe
-                AND groupes.group_name = '{groupName}'
+            WHERE groupes.group_name = '{groupName}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
                 AND users.login != '{user}' 
@@ -53,6 +52,7 @@ class userCharts(Charts):
                                                     groupName = groupName,
                                                     user=user))
         print("nbhoursGroup")
+
         sql = """
             SELECT COUNT(job_.id_job_) AS nb_job {select}
             FROM job_, users, groupes
@@ -66,13 +66,13 @@ class userCharts(Charts):
 
         jobSuccessHours = self.e.fetch(command=sql.format(  select=', SUM(job_.cpu)/3600 AS sum_cpu',
                                                             date=date,
-                                                            test = 'AND (job_.failed = 0 OR job_.exit_status = 0)',
+                                                            test = " AND (job_.failed = 0 OR job_.exit_status = 0) ",
                                                             group = multiGroup,
                                                             user=user))
 
         jobsFailed = self.e.fetch(command=sql.format(   select = '',
                                                         date=date,
-                                                        test = 'AND job_.failed != 0 AND job_.exit_status != 0',
+                                                        test = " AND job_.failed != 0 AND job_.exit_status != 0 ",
                                                         group = multiGroup,
                                                         user=user))
 
@@ -88,7 +88,7 @@ class userCharts(Charts):
         nbHoursGroupUser = (hoursGroup, hoursUser)
         nbJobsGroupUser = (jobsGroup, jobsUser)
 
-        print("jobsSuccessFailed")
+        
 
         #Exec time
         
@@ -109,7 +109,7 @@ class userCharts(Charts):
 
         execTimeMAM = splitDict(execTimeMAM)
         print("execTimeMAM")
-        
+       
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
             FROM job_, users, groupes
@@ -316,7 +316,7 @@ class userCharts(Charts):
         slotsPerJobsMAM = self.e.fetch(command=sql.format(  date=date,
                                                             user=user))
         slotsPerJobsMAM = splitDict(slotsPerJobsMAM)
-        print("slotsPerJobsMAM")
+
 
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
@@ -450,7 +450,7 @@ class userCharts(Charts):
                                                             user=user))
         waitingTimeMAM = splitDict(waitingTimeMAM)
         print("waitingTimeMAM")
-
+            
         sql = """
             SELECT COUNT(job_.id_job_) as {select}
             FROM job_, users, groupes
@@ -460,7 +460,7 @@ class userCharts(Charts):
                 {date}
                 {group}
                 -- avg donné par requête imbriquée
-                AND (job_.start_time - job_.submit_time) > (
+                AND (job_.start_time - job_.submit_time) {test} (
                     SELECT AVG(job_.start_time - job_.submit_time)
                     FROM job_, users, groupes
                     WHERE job_.id_user = users.id_user
@@ -597,41 +597,40 @@ class userCharts(Charts):
         print("topTenHostnameHours")
 
         charts.append(  {"id": "chart1", "name" : "Information utilisateur/groupe", "charts" : (
-                            {"id":"jobsSuccessFailed", "type": "PieChart", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
-                            {"id":"nbJobsGroupUser", "type": "PieChart", "values" : nbJobsGroupUser, "title" : "Nombre de jobs / Groupe"},
-                            {"id":"nbHoursGroupUser", "type": "PieChart", "values" : nbHoursGroupUser, "title" : "Nombre d'heures / Groupe"}
+                            {"id":"jobsSuccessFailed", "type": "pie", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
+                            {"id":"nbJobsGroupUser", "type": "pie", "values" : nbJobsGroupUser, "title" : "Nombre de jobs / Groupe"},
+                            {"id":"nbHoursGroupUser", "type": "pie", "values" : nbHoursGroupUser, "title" : "Nombre d'heures / Groupe"}
                         )})
 
         charts.append(  {"id": "chart2", "name" : "Temps d'éxecution", "charts": (
-                            {"id":"execTimeMAM", "type": "BarChart", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
-                            {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
-                            {"id":"execTime", "type": "BarChart", "values" : execTime, "title" : "Temps d'exécution (heures)"}
+                            {"id":"execTimeMAM", "type": "bar", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
+                            {"id":"execTimeComparaison", "type": "pie", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
+                            {"id":"execTime", "type": "bar", "values" : execTime, "title" : "Temps d'exécution (heures)"}
                         )})
 
         charts.append(  {"id": "chart3", "name" : "Utilisation de la mémoire", "charts": (
-                            {"id":"memUseMAM", "type": "BarChart", "values" : memUseMAM, "title" : "Utilisation de la mémoire (GiB)"},
-                            {"id":"memUseComparaison", "type": "PieChart", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne (GiB)"},
-                            {"id":"memUsage", "type": "BarChart", "values" : memUsage, "title" : "Utilisation de la mémoire (GiB)"}
+                            {"id":"memUseMAM", "type": "bar", "values" : memUseMAM, "title" : "Utilisation de la mémoire (GiB)"},
+                            {"id":"memUseComparaison", "type": "pie", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne (GiB)"},
+                            {"id":"memUsage", "type": "bar", "values" : memUsage, "title" : "Utilisation de la mémoire (GiB)"}
                         )})
 
         charts.append(  {"id": "chart4", "name" : "Slots par jobs", "charts": (
-                            {"id":"slotsPerJobsMAM", "type": "BarChart", "values" : slotsPerJobsMAM, "title" : "Slots par job"},
-                            {"id":"slotsPerJobsComparaison", "type": "PieChart", "values" : slotsPerJobsComparaison, "title" : "Slots par job moyenne"},
-                            {"id":"slotsPerJob", "type": "BarChart", "values" : slotsPerJob, "title" : "Slots par job"}
+                            {"id":"slotsPerJobsMAM", "type": "bar", "values" : slotsPerJobsMAM, "title" : "Slots par job"},
+                            {"id":"slotsPerJobsComparaison", "type": "pie", "values" : slotsPerJobsComparaison, "title" : "Slots par job moyenne"},
+                            {"id":"slotsPerJob", "type": "bar", "values" : slotsPerJob, "title" : "Slots par job"}
                         )})
 
         charts.append(  {"id": "chart5", "name" : "Temps d'attente", "charts": (
-                            {"id":"waitingTimeMAM", "type": "BarChart", "values" : waitingTimeMAM, "title" : "Temps d'attente (heures)"},
-                            {"id":"waitingTimeComparaison", "type": "PieChart", "values" : waitingTimeComparaison, "title" : "Temps d'attente moyen (heures)"},
-                            {"id":"waitingTime", "type": "BarChart", "values" : waitingTime, "title" : "Temps d'attente (heures)"}
+                            {"id":"waitingTimeMAM", "type": "bar", "values" : waitingTimeMAM, "title" : "Temps d'attente (heures)"},
+                            {"id":"waitingTimeComparaison", "type": "pie", "values" : waitingTimeComparaison, "title" : "Temps d'attente moyen (heures)"},
+                            {"id":"waitingTime", "type": "bar", "values" : waitingTime, "title" : "Temps d'attente (heures)"}
                         )})
         
         charts.append(  {"id": "chart6", "name" : "Top 10", "charts": (
-                            {"id":"topTenUsedQueues", "type": "BarChart", "values" : topTenUsedQueues, "title" : "Top 10 des queues utilisées (heures)"},
-                            {"id":"topTenUsedNodes", "type": "BarChart", "values" : topTenUsedNodes, "title" : "Top 10 des nodes utilisés (nombre de jobs)"},
-                            {"id":"topTenHostnameHours", "type": "BarChart", "values" : topTenHostnameHours, "title" : "Top 10 Hostnames (heures)"},
-                            {"id":"topTenHostnameNbJobs", "type": "BarChart", "values" : topTenHostnameNbJobs, "title" : "Top 10 Hostnames (nombre de jobs)"}
+                            {"id":"topTenUsedQueues", "type": "bar", "values" : topTenUsedQueues, "title" : "Top 10 des queues utilisées (heures)"},
+                            {"id":"topTenUsedNodes", "type": "bar", "values" : topTenUsedNodes, "title" : "Top 10 des nodes utilisés (nombre de jobs)"},
+                            {"id":"topTenHostnameHours", "type": "bar", "values" : topTenHostnameHours, "title" : "Top 10 Hostnames (heures)"},
+                            {"id":"topTenHostnameNbJobs", "type": "bar", "values" : topTenHostnameNbJobs, "title" : "Top 10 Hostnames (nombre de jobs)"}
                         )})
   
         return charts, recall, error
-    

@@ -13,6 +13,7 @@ listBackGroundColor = [
     "#ff34ff","#3b9700","#d16100","#72418f","#3b5dff","#7a4900","#a30059","#0aa6d8","#ffb500","#0000a6"
     
   ]
+backgroundColors= ["#36A2EB","#FF6384","#97DF52","#FA3639","#FF8350","#E843EB","#FBFE52","#44F8FB","#FF9BFA","#35F7AE"];
 
 toolTips = {
     callbacks: {
@@ -69,9 +70,10 @@ function PieChart(IdChart, labelsName, dataList){
 
     var brandPrimary = 'rgba(179, 50, 155, 1)';
 
-    var PieChartId    = $('#'+IdChart);
+    //var PieChartId    = $('#'+IdChart);
 
-    var pieChart = new Chart.Doughnut(PieChartId, {
+    var pieChart = new Chart(IdChart, {
+		type: "pie",
         data: {
             labels: labelsName,
             datasets: [
@@ -96,14 +98,15 @@ function PieChart(IdChart, labelsName, dataList){
 
 function BarChart(IdChart, labels, values){
 
-    var BarChartId  = $('#'+IdChart);
+    //var BarChartId  = $('#'+IdChart);
 
-    var barChart = new Chart.Bar(BarChartId, {
+    var barChart = new Chart(IdChart, {
+		type: "bar",
         data: {
             labels: labels,
             datasets: [
                 {
-                    backgroundColor: listBackGroundColor,
+                    backgroundColor: backgroundColors,
                     borderWidth: 1,
                     data: values,
                 },

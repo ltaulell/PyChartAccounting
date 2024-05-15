@@ -131,26 +131,59 @@
       }); 
 
       {% if charts %}
-      
+            
         var charts = JSON.parse('{{ charts|tojson }}'); //On lit les éléments contenus dans charts
         
         for(let j = 0; j < charts.length; j++){
 
           for (let i = 0; i < charts[j]['charts'].length; i++) {
-          labels = [];
-          values = [];
+
+			      const canva = document.querySelector("#"+charts[j]['charts'][i]['id']);
+			  
+            labels = [];
+            values = [];
 
             for(let key in charts[j]['charts'][i]['values']){
               for(let v in charts[j]['charts'][i]['values'][key]){
+                console.log(v);
                 labels.push(v);
+                console.log(charts[j]['charts'][i]['values'][key][v]);
                 values.push(charts[j]['charts'][i]['values'][key][v]);
               }
             }
+             
+          const chart = canva.getContext('2d');
+            
+          const type= charts[j]['charts'][i]['type'];
+            
+          switch(type){
+            case "pie":
+              PieChart(chart, labels, values);
+              break;
+            case "bar":
+              BarChart(chart, labels, values);
+              break;
+			    }
+            
+
+			/*var myChart= new Chart(chart, {
+			type: charts[j]['charts'][i]['type'],
+			data: {
+				labels: labels,
+				datasets: [{
+					label: charts[j]['name'],
+					data: values,
+					backgroundColor: ["#36A2EB","#FF6384","#97DF52","#FA3639","#FF8350","#E843EB","#FBFE52","#44F8FB","#FF9BFA","#35F7AE"],
+					}],	
+				},
+				
+			});/*
             window[charts[j]['charts'][i]['type']](
                                       charts[j]['charts'][i]['id'], 
                                       labels, 
                                       values
-                                    );
+                                    );*/
+             
           }
         }
       {% endif %}
