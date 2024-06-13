@@ -1,9 +1,11 @@
 
 # https://plainenglish.io/blog/how-to-securely-deploy-flask-with-apache-in-a-linux-server-environment
+# https://www.cheatsheet.fr/2021/05/19/publier-un-site-flask-sur-apache/
 
 * copy or git clone into Apache served directory (ex: /var/www/html/your_site_name)
 
-* install pg_config and pg headers (libpq-dev, build-essential) for psycopg2
+* install dependcies for psycopg2 build
+build-essential, libpq-dev, python3-dev
 
 * create a python3 venv:
 python3 -m venv your_site_environment
@@ -16,4 +18,6 @@ python3 -m pip install -r requirements.txt
 
 * configure WSGI file
 touch your_site.wsgi
+
+
 

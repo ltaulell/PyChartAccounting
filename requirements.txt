@@ -2,4 +2,5 @@ Flask==3.0.3
 Flask-WTF==1.2.1
 WTForms==3.1.2
 pandas==2.2.2
+#psycopg2-binary==2.9.9
 psycopg2==2.9.9
