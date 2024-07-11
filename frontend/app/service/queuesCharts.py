@@ -77,8 +77,8 @@ class queuesCharts(Charts):
                                                             test = "<",
                                                             queue=queue))
 
-        execTimeSupAvg = super().nameDict("Temps d'éxecution moyen supérieur", super().isNullDict("sup_avg", execTimeSupAvg))
-        execTimeInfAvg = super().nameDict("Temps d'éxecution moyen inférieur", super().isNullDict("inf_avg", execTimeInfAvg))
+        execTimeSupAvg = super().nameDict("Temps d'exécution > moyenne", super().isNullDict("sup_avg", execTimeSupAvg))
+        execTimeInfAvg = super().nameDict("Temps d'exécution < moyenne", super().isNullDict("inf_avg", execTimeInfAvg))
 
         execTimeComparaison = (execTimeSupAvg, execTimeInfAvg)
 
@@ -147,14 +147,14 @@ class queuesCharts(Charts):
 
         jobsSuccessFailed = (jobsSuccess, jobsFailed)
 
-        charts.append(  {"id": "chart1", "name" : "Information utilisateur/groupe", "charts" : (
+        charts.append(  {"id": "chart1", "name" : "Information Queue", "charts" : (
                             {"id":"jobsSuccessFailed", "type": "pie", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
                         )})
 
-        charts.append(  {"id": "chart2", "name" : "Temps d'éxecution", "charts": (
+        charts.append(  {"id": "chart2", "name" : "Temps d'exécution", "charts": (
                             {"id":"execTimeMAM", "type": "bar", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
                             {"id":"execTimeComparaison", "type": "pie", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
-                            {"id":"execTime", "type": "bar", "values" : execTime, "title" : "Temps d'exécution (heures)"}
+                            {"id":"execTime", "type": "bar", "values" : execTime, "title" : "Temps d'exécution (heures, répartition)"}
                         )})
 
         return charts, recall, error

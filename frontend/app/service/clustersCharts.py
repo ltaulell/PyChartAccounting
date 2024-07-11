@@ -36,7 +36,7 @@ class clusterCharts(Charts):
         topTenUsedCluster = super().multiDict(topTenUsedCluster, ['hostname', 'sum_cpu'])
 
         charts.append(  {"id": "chart6", "name" : "Top 10", "charts": (
-                            {"id":"topTenUsedCluster", "type": "bar", "values" : topTenUsedCluster, "title" : "Top 10 des cluster utilisées"},
+                            {"id":"topTenUsedCluster", "type": "bar", "values" : topTenUsedCluster, "title" : "Top 10 des clusters utilisés"},
                         )})
         
         return charts, recall, error

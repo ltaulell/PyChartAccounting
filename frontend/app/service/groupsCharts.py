@@ -102,8 +102,8 @@ class groupsCharts(Charts):
                                                             test = "<",
                                                             groupName = groupName))
 
-        execTimeSupAvg = super().nameDict("Temps d'éxecution moyen supérieur", super().isNullDict("sup_avg", execTimeSupAvg))
-        execTimeInfAvg = super().nameDict("Temps d'éxecution moyen inférieur", super().isNullDict("inf_avg", execTimeInfAvg))
+        execTimeSupAvg = super().nameDict("Temps d'exécution > moyenne", super().isNullDict("sup_avg", execTimeSupAvg))
+        execTimeInfAvg = super().nameDict("Temps d'exécution < moyenne", super().isNullDict("inf_avg", execTimeInfAvg))
 
         execTimeComparaison = (execTimeSupAvg, execTimeInfAvg)
 
@@ -190,8 +190,8 @@ class groupsCharts(Charts):
                                                         test = "<",
                                                         groupName=groupName))
 
-        memUseSupAvg = super().nameDict("Utilisation de la mémoire moyenne supérieur", super().isNullDict("jobs_sup_avg", memUseSupAvg))
-        memUseInfAvg = super().nameDict("Utilisation de la mémoire moyenne inférieur", super().isNullDict("jobs_inf_avg", memUseInfAvg))
+        memUseSupAvg = super().nameDict("Utilisation de la mémoire > moyenne", super().isNullDict("jobs_sup_avg", memUseSupAvg))
+        memUseInfAvg = super().nameDict("Utilisation de la mémoire < moyenne", super().isNullDict("jobs_inf_avg", memUseInfAvg))
 
         memUseComparaison = (memUseSupAvg, memUseInfAvg)
 
@@ -302,8 +302,8 @@ class groupsCharts(Charts):
                                                                 test = "<",
                                                                 groupName=groupName))
 
-        slotsPerJobsSupAvg = super().nameDict("Slots par job moyen supérieur", super().isNullDict("jobs_sup_avg", slotsPerJobsSupAvg))
-        slotsPerJobsInfAvg = super().nameDict("Slots par job moyen inférieur", super().isNullDict("jobs_inf_avg", slotsPerJobsInfAvg))
+        slotsPerJobsSupAvg = super().nameDict("Slots par job > moyenne", super().isNullDict("jobs_sup_avg", slotsPerJobsSupAvg))
+        slotsPerJobsInfAvg = super().nameDict("Slots par job < moyenne", super().isNullDict("jobs_inf_avg", slotsPerJobsInfAvg))
 
         slotsPerJobsComparaison = (slotsPerJobsSupAvg, slotsPerJobsInfAvg)
 
@@ -370,26 +370,26 @@ class groupsCharts(Charts):
         slotsPerJob = (slots1, slots2, slots3, slots4, slots5, slots6, slots7, slots8)                                                        
 
 
-        charts.append(  {"id": "chart1", "name" : "Information utilisateur/groupe", "charts" : (
+        charts.append(  {"id": "chart1", "name" : "Information groupe", "charts" : (
                             {"id":"jobsSuccessFailed", "type": "pie", "values" : jobsSuccessFailed, "title" : "Taux réussite"},
                         )})
 
-        charts.append(  {"id": "chart2", "name" : "Temps d'éxecution", "charts": (
+        charts.append(  {"id": "chart2", "name" : "Temps d'exécution", "charts": (
                             {"id":"execTimeMAM", "type": "bar", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
                             {"id":"execTimeComparaison", "type": "pie", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
-                            {"id":"execTime", "type": "bar", "values" : execTime, "title" : "Temps d'exécution (heures)"}
+                            {"id":"execTime", "type": "bar", "values" : execTime, "title" : "Temps d'exécution (heures, répartition)"}
                         )})
 
         charts.append(  {"id": "chart3", "name" : "Utilisation de la mémoire", "charts": (
                             {"id":"memUseMAM", "type": "bar", "values" : memUseMAM, "title" : "Utilisation de la mémoire (GiB)"},
                             {"id":"memUseComparaison", "type": "pie", "values" : memUseComparaison, "title" : "Utilisation de la mémoire moyenne (GiB)"},
-                            {"id":"memUsage", "type": "bar", "values" : memUsage, "title" : "Utilisation de la mémoire (GiB)"}
+                            {"id":"memUsage", "type": "bar", "values" : memUsage, "title" : "Utilisation de la mémoire (GiB, répartition)"}
                         )})
 
         charts.append(  {"id": "chart4", "name" : "Slots par jobs", "charts": (
                             {"id":"slotsPerJobsMAM", "type": "bar", "values" : slotsPerJobsMAM, "title" : "Slots par job"},
                             {"id":"slotsPerJobsComparaison", "type": "pie", "values" : slotsPerJobsComparaison, "title" : "Slots par job moyenne"},
-                            {"id":"slotsPerJob", "type": "bar", "values" : slotsPerJob, "title" : "Slots par job"}
+                            {"id":"slotsPerJob", "type": "bar", "values" : slotsPerJob, "title" : "Slots par job (répartition)"}
                         )})
   
         return charts, recall, error
