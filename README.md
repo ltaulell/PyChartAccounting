@@ -1,8 +1,8 @@
 # PyChartAccounting
 
-Status : Draft. Early Work in Progress.
+Status : Prototype. Work in Progress. It display charts! (thank to Fleura29)
 
-TL;DR: Cold analysis (disconnected) of HPC Scheduler accounting file (currently SGE).
+TL;DR: Cold analysis (disconnected) of HPC Scheduler accounting file (currently SGE only).
 
 
 ## Cahier des charges
@@ -20,14 +20,14 @@ sens devient pertinent.
 
 ### Frontend
 
-* Web (python3? R-shiny?),
+* Web (python3? R-shiny? -> Flask),
 * At first: "No authentication", at least, not related to accounting: Un DR peut regarder l'accounting de ses thésards ou de son groupe, un Correspondant doit pouvoir regarder l'accounting du/des labo(s) dont il a la charge, etc.
 * Easy to use : Select, display, Boom!.
 * As fast as possible...
 
 **Choix final** :
 
-* frontend : python3/html/js
+* frontend : python3/html/js (Flask)
 
 ### Charts
 
