@@ -5,7 +5,8 @@ class Config(object):
     PERMANENT_SESSION_LIFETIME = 1800
     
 class ProductionConfig(Config):
-    pass
+    DEBUG= False
+    TESTING = False
 
 class DevelopmentConfig(Config):
     DEBUG = True

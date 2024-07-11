@@ -18,9 +18,11 @@ defaultCharts = defaultCharts(bdd) #Initialisation des graphiques
 users = [t for t in bdd.listUser()["login"]] #Chargement des utilisateurs
 
 app = Flask(__name__)
-app.config.from_object("config.DevelopmentConfig")
+#app.config.from_object("config.DevelopmentConfig")
+app.config.from_object("config.ProductionConfig")
 
 
 from app import views
 from app import viewsBack
 from app import errors_handlers
+
