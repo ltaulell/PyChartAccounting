@@ -1,27 +1,28 @@
 # PyChartAccounting
 
-Status : Prototype. Work in Progress. It display charts! (thank to Fleura29)
-
 TL;DR: Cold analysis (disconnected) of HPC Scheduler accounting file (currently SGE only).
 
+Status : Prototype. Work in Progress. It display charts! (thanks to Fleura29)
 
-## Cahier des charges
+Usable with Flask directly, or mod_wsgi-express, for now.
 
-Proposer un outil d'analyse 'graphique' (charts) aux admins et utilisateurs de 
-nos clusters. Multiples possibilités de filtres (voir § Charts). Inspiré de 
+
+## Specifications
+
+Offer a 'graphical' analysis tool (charts) to admins and users of
+our clusters. Multiple filter possibilities (see § Charts). Inspired by 
 [S-GAE2](https://rdlab.cs.upc.edu/s-gae/) (from rdlab, Barcelona University).
 
-Les fichiers d'accounting, sur plusieurs années, deviennent (trés) lourds, et 
-difficile a interroger (4.4Go 2011-2017, déjà 4.8Go pour 2018-2020).
+Accounting files, over several years, become (very) heavy, and
+difficult to query (4.4GiB 2011-2017, already 4.8GiB for 2018-2020).
 
-Injecter leur contenu dans un `middleware/datawarehouse` pour triturer les data dans tous les 
-sens devient pertinent.
+Injecting their content into a `middleware/datawarehouse` to crush the data in all directions becomes relevant.
 
 
 ### Frontend
 
 * Web (python3? R-shiny? -> Flask),
-* At first: "No authentication", at least, not related to accounting: Un DR peut regarder l'accounting de ses thésards ou de son groupe, un Correspondant doit pouvoir regarder l'accounting du/des labo(s) dont il a la charge, etc.
+* At first: "No authentication", at least, not related to accounting: A DR can look at the accounting of his doctoral students or his group, a Correspondent must be able to look at the accounting of the lab(s) for which he is responsible, etc.
 * Easy to use : Select, display, Boom!.
 * As fast as possible...
 
@@ -33,53 +34,54 @@ sens devient pertinent.
 
 Piecharts, plotted dots, barcharts...
 
-* Par année civile, ou par période (date de début, date de fin), sur la totalité :
+* By calendar year, or by period (start date, end date), over the entire available data:
     * total executed jobs
     * total executed hours
     * average job memory usage
     * average job execution time
     * average job queued time (wait, start - submission)
 
-    * par utilisateur, groupe, métagroupe (groupe de groupes ou d'utilisateurs) :
+    * by user, group, metagroup (group of groups or users):
         * total executed jobs
         * total executed hours
         * average job memory usage
         * average job execution time
         * average job queued time (wait, start - submission)
-        * durées (min, max, med, avg) des jobs
-        * cpu vs système (I/O ? ratio % ?)
+        * duration (min, max, med, avg) of jobs
+        * cpu vs system? (I/O ? ratio % ?)
         * ram (avg, max)
 
-On a compris le principe, mais dans le doute, et pour ne pas en oublier (toujours sur la base d'une période de temps) :
+We understood the principle, but in doubt, and so as not to forget (always on the basis of a period of time):
 
-* par cluster(s), file(s) d'attentes, nodes :
+* by cluster(s), waiting queue(s), nodes :
     * total executed jobs
     * total executed hours
     * average job memory usage
     * average job execution time
     * average job queued time
-    * durées (min, max, med, avg) des jobs
-    * cpu vs système (I/O ? ratio % ?)
+    * duration (min, max, med, avg) of jobs
+    * cpu vs system? (I/O ? ratio % ?)
     * ram (avg, max)
 
-* Top 10 : (les + gros/utilisés)
-    * utilisateurs
-    * métagroups
+* Top 10:
+    * users
+    * group(s)
+    * métagroup(s)?
 
-* Inverted Top 10 : (les - utilisés)
+* Inverted Top 10: (least used)?
     * queue(s)
     * node(s)
 
-* Autres :
-    * par projets (SGE projects ou groupes):
+* Others: (TODO)
+    * by projets (SGE projects or groups):
         * total executed jobs
         * total executed hours
         * average job memory usage
         * average job execution time
         * average job queued time
         * etc.
-    * slots-per-job usage (nb de slots/job : séquentiel, // mononode, // multinode)
-    * laisser la porte ouverte à d'effroyables possibilités de mélanges...
+    * slots-per-job usage (nb of slots/job : sequential, // mononode (as OpenMP), // multinode (as openMPI))
+    * leave the door open to frightening possibilities of mixtures...
 
 
 ### BackOffice / Middleware / Workflow
@@ -98,11 +100,11 @@ Schéma(s) -> voir PyChartAccounting.mm (mindmap, freeplane) et model.gaphor (ga
 
 accounting -> python3 -> format intermédiaire -> query -> présentation (graphs)
 
-**Choix final** :
+**Final Choice**:
 
-* backoffice : flask (python3) + psycopg2
+* backoffice : flask (python3) + psycopg2 (SQL)
 
-requirements: flask flask_wtf wtforms pandas psycopg2
+requirements: flask flask_wtf wtforms pandas psycopg2 (see requirements.txt)
 
 * datawarehouse : SQL (postgresql)
 
