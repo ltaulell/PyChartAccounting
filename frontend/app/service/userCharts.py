@@ -41,8 +41,7 @@ class userCharts(Charts):
         sql = """
            SELECT COUNT(job_.id_job_) AS nb_job, SUM(job_.cpu)/3600 AS sum_cpu
             FROM job_, groupes, users
-            WHERE job_.id_groupe = groupes.id_groupe
-                AND groupes.group_name = '{groupName}'
+            WHERE groupes.group_name = '{groupName}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
                 AND users.login != '{user}' 
@@ -66,13 +65,13 @@ class userCharts(Charts):
 
         jobSuccessHours = self.e.fetch(command=sql.format(  select=', SUM(job_.cpu)/3600 AS sum_cpu',
                                                             date=date,
-                                                            test = 'AND (job_.failed = 0 OR job_.exit_status = 0)',
+                                                            test = " AND (job_.failed = 0 OR job_.exit_status = 0) ",
                                                             group = multiGroup,
                                                             user=user))
 
         jobsFailed = self.e.fetch(command=sql.format(   select = '',
                                                         date=date,
-                                                        test = 'AND job_.failed != 0 AND job_.exit_status != 0',
+                                                        test = " AND job_.failed != 0 AND job_.exit_status != 0 ",
                                                         group = multiGroup,
                                                         user=user))
 
@@ -326,7 +325,7 @@ class userCharts(Charts):
                 -- avg donné par requête imbriquée
                 AND job_.slots  {test} (
                     SELECT AVG(job_.slots)
-                    FROM job_, users
+                    FROM job_, users, groupes
                     WHERE job_.id_user = users.id_user
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
@@ -458,7 +457,7 @@ class userCharts(Charts):
                 -- avg donné par requête imbriquée
                 AND (job_.start_time - job_.submit_time) {test} (
                     SELECT AVG(job_.start_time - job_.submit_time)
-                    FROM job_, users
+                    FROM job_, users, groupes
                     WHERE job_.id_user = users.id_user
                         AND users.login = '{user}'
                         AND (job_.failed = 0 OR job_.exit_status = 0)
@@ -552,13 +551,13 @@ class userCharts(Charts):
             ORDER BY sum_ DESC LIMIT 10 ;
         """
 
-        topTenUsedQueues = self.e.fetch(command=sql.format(     date=date, 
-                                                                select = 'sum(job_.cpu)/3600',
+        topTenUsedQueues = self.e.fetch(command=sql.format(     select = 'sum(job_.cpu)/3600',
+																date=date, 
                                                                 group = multiGroup,
                                                                 user=user))
 
-        topTenUsedNodes = self.e.fetch(command=sql.format(      date=date, 
-                                                                select = 'count(job_.id_job_)',
+        topTenUsedNodes = self.e.fetch(command=sql.format(      select = 'count(job_.id_job_)',
+																date=date,     
                                                                 group = multiGroup,
                                                                 user=user))
         topTenUsedQueues = super().multiDict(topTenUsedQueues, ['queue_name', 'sum_'])
@@ -599,7 +598,7 @@ class userCharts(Charts):
 
         charts.append(  {"id": "chart2", "name" : "Temps d'éxecution", "charts": (
                             {"id":"execTimeMAM", "type": "bar", "values" : execTimeMAM, "title" : "Temps d'exécution (heures)"},
-                            {"id":"execTimeComparaison", "type": "PieChart", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
+                            {"id":"execTimeComparaison", "type": "pie", "values" : execTimeComparaison, "title" : "Temps d'exécution moyen (heures)"},
                             {"id":"execTime", "type": "bar", "values" : execTime, "title" : "Temps d'exécution (heures)"}
                         )})
 
@@ -622,10 +621,10 @@ class userCharts(Charts):
                         )})
         
         charts.append(  {"id": "chart6", "name" : "Top 10", "charts": (
-                            {"id":"topTenUsedQueues", "type": "BarChart", "values" : topTenUsedQueues, "title" : "Top 10 des queues utilisées (heures)"},
-                            {"id":"topTenUsedNodes", "type": "BarChart", "values" : topTenUsedNodes, "title" : "Top 10 des nodes utilisés (nombre de jobs)"},
-                            {"id":"topTenHostnameHours", "type": "BarChart", "values" : topTenHostnameHours, "title" : "Top 10 Hostnames (heures)"},
-                            {"id":"topTenHostnameNbJobs", "type": "BarChart", "values" : topTenHostnameNbJobs, "title" : "Top 10 Hostnames (nombre de jobs)"}
+                            {"id":"topTenUsedQueues", "type": "bar", "values" : topTenUsedQueues, "title" : "Top 10 des queues utilisées (heures)"},
+                            {"id":"topTenUsedNodes", "type": "bar", "values" : topTenUsedNodes, "title" : "Top 10 des nodes utilisés (nombre de jobs)"},
+                            {"id":"topTenHostnameHours", "type": "bar", "values" : topTenHostnameHours, "title" : "Top 10 Hostnames (heures)"},
+                            {"id":"topTenHostnameNbJobs", "type": "bar", "values" : topTenHostnameNbJobs, "title" : "Top 10 Hostnames (nombre de jobs)"}
                         )})
   
         return charts, recall, error

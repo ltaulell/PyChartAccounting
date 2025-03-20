@@ -202,7 +202,7 @@ class groupsCharts(Charts):
                 AND groupes.group_name = '{groupName}'
                 AND (job_.failed = 0 OR job_.exit_status = 0)
                 {date}
-                {test}
+                AND job_.maxvmem {test}
             GROUP BY groupes.group_name ;
             """
         

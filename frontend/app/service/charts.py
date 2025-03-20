@@ -40,7 +40,7 @@ class Charts(object):
     def pickGroup(form):
 
         if(form.groups.data != "Tout"):
-            group = "AND job_.id_groupe = groupes.id_groupe AND groupes.group_name = '%s'"%form.groups.data
+            group = "AND groupes.group_name = '%s'"%form.groups.data
         else:
             group = "AND job_.id_groupe = groupes.id_groupe"
 
