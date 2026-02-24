@@ -44,6 +44,13 @@ ALTER TABLE job_ ALTER COLUMN maxvmem DROP NOT NULL;
 -- # https://sql.sh/cours/jointures
 -- # https://www.postgresqltutorial.com/postgresql-count-function/
 
+-- liste des users par groupe
+SELECT users.login AS u_login, groupes.group_name AS g_lab
+FROM users,groupes,users_in_groupes
+WHERE users.id_user = users_in_groupes.id_user
+    and groupes.id_groupe = users_in_groupes.id_groupe 
+ORDER BY g_lab DESC ;
+
 -- total cpu d'un user (cmichel)
 SELECT users.login, sum(job_.cpu)
 FROM job_, users
